@@ -1,9 +1,0 @@
-D:\workCore3\PalangPanyaDB\PalangPanyaDB\bin\Debug\PalangPanyaDB.dacpac
-D:\workCore3\PalangPanyaDB\PalangPanyaDB\bin\Debug\PalangPanyaDB.dll
-D:\workCore3\PalangPanyaDB\PalangPanyaDB\bin\Debug\PalangPanyaDB.pdb
-D:\workCore3\PalangPanyaDB\PalangPanyaDB\obj\Debug\Model.xml
-D:\workCore3\PalangPanyaDB\PalangPanyaDB\obj\Debug\refactor.xml
-D:\workCore3\PalangPanyaDB\PalangPanyaDB\obj\Debug\postdeploy.sql
-D:\workCore3\PalangPanyaDB\PalangPanyaDB\obj\Debug\predeploy.sql
-D:\workCore3\PalangPanyaDB\PalangPanyaDB\obj\Debug\PalangPanyaDB.dll
-D:\workCore3\PalangPanyaDB\PalangPanyaDB\obj\Debug\PalangPanyaDB.pdb
