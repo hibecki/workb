@@ -34,7 +34,7 @@ namespace PPcore.Controllers
             string password = cid_card.Substring(cid_card.Length - 4);
             try
             {
-                _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,password) VALUES ('"+ cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','"+mobile+"','"+email+"','Y','"+password+"')");
+                _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_password) VALUES ('"+ cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','"+mobile+"','"+email+"','Y','"+password+"')");
                 _emailSender.SendEmailAsync(email, "username and password", "Username: " + cid_card + "\nPassword: " + password);
             }
             catch (SqlException ex)
