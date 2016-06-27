@@ -24,7 +24,7 @@ namespace PPcore.Services
                 //SmtpServer.Port = 465;
                 //SmtpServer.Port = 587;
                 SmtpServer.Credentials = new System.Net.NetworkCredential("info@palangpanya.com", "mfmHD9A2Ws");
-                SmtpServer.EnableSsl = true;
+                SmtpServer.EnableSsl = false;
 
                 SmtpServer.Send(mail);
                 res = 0;
