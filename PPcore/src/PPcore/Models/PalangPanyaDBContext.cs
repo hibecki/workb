@@ -758,6 +758,8 @@ namespace PPcore.Models
 
             modelBuilder.Entity<member>(entity =>
             {
+                entity.Property(e => e.mem_password).HasColumnType("varchar(40)");
+
                 entity.HasKey(e => e.member_code)
                     .HasName("pk_member");
 

@@ -6,6 +6,9 @@ namespace PPcore.Models
 {
     public partial class member
     {
+        [HiddenInput]
+        public string mem_password { get; set; }
+
         [Display(Name = "รหัสสมาชิก")]
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         //[StringLength(13, MinimumLength = 13, ErrorMessage = "กรุณากรอกหมายเลข 13 หลัก")]
