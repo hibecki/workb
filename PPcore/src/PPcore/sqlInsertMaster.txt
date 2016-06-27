@@ -1,6 +1,30 @@
-﻿INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'ไทย', NULL, NULL, NULL, NULL, N'865c24b0-0b06-4b4a-a9cf-aeb6053a456e')
+﻿INSERT INTO project_course (course_code,project_code,course_desc,id,x_status) VALUES ('1','ASP5','ASP.Net 5',newid(),'Y');
+INSERT INTO project_course (course_code,project_code,course_desc,id,x_status) VALUES ('2','MVC6','MVC 6',newid(),'Y');
+INSERT INTO project_course (course_code,project_code,course_desc,id,x_status) VALUES ('3','EF7','Entity Framework 7',newid(),'Y');
+
+INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('A','Good',newid(),'Y');
+INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('B','Pass',newid(),'Y');
+INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('F','Fail',newid(),'Y');
+
+INSERT INTO mem_group (mem_group_code,mem_group_desc,id,x_status) VALUES ('1',N'สุขสวัสดิ์',newid(),'Y');
+INSERT INTO mem_group (mem_group_code,mem_group_desc,id,x_status) VALUES ('2',N'เมืองทอง',newid(),'Y');
+
+INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','1',N'ผู้บริหาร',newid(),'Y');
+INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','2',N'ผู้บริหารกลุ่ม',newid(),'Y');
+INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','3',N'สมาชิก',newid(),'Y');
+
+INSERT INTO mem_level (mlevel_code,mlevel_desc,id,x_status) VALUES ('1',N'เพชร',newid(),'Y');
+INSERT INTO mem_level (mlevel_code,mlevel_desc,id,x_status) VALUES ('2',N'ทอง',newid(),'Y');
+INSERT INTO mem_level (mlevel_code,mlevel_desc,id,x_status) VALUES ('3',N'เงิน',newid(),'Y');
+
+INSERT INTO mem_status (mstatus_code,mstatus_desc,id,x_status) VALUES ('1',N'สมาชิก',newid(),'Y');
+INSERT INTO mem_status (mstatus_code,mstatus_desc,id,x_status) VALUES ('2',N'หมดอายุ',newid(),'Y');
+INSERT INTO mem_status (mstatus_code,mstatus_desc,id,x_status) VALUES ('3',N'กำลังดำเนินการต่ออายุ',newid(),'Y');
+
+INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'ไทย', NULL, NULL, NULL, NULL, N'865c24b0-0b06-4b4a-a9cf-aeb6053a456e')
 INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (84, N'เวียดนาม', NULL, NULL, NULL, NULL, N'746e95e2-abc3-4d39-99e7-61e319524b1d')
 INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (856, N'ลาว', NULL, NULL, NULL, NULL, N'fbc45ae4-8134-4f58-a6b1-de8967d6a3b7')
+
 INSERT [ini_district] ([country_code], [province_code], [district_code], [dist_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'10000000', N'10010000', N'เขตพระนคร', NULL, NULL, NULL, NULL, N'3938f103-6547-4547-adba-616879575752')
 INSERT [ini_district] ([country_code], [province_code], [district_code], [dist_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'10000000', N'10020000', N'เขตดุสิต', NULL, NULL, NULL, NULL, N'83bedf53-17a3-4f0d-b78a-e38c915ab86a')
 INSERT [ini_district] ([country_code], [province_code], [district_code], [dist_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'10000000', N'10030000', N'เขตหนองจอก', NULL, NULL, NULL, NULL, N'19c13ec7-c965-4750-8a2e-46194b1e4182')

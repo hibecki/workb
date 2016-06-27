@@ -1,3 +1,0 @@
-﻿-- member
-
-ALTER TABLE member ADD password NVARCHAR(30) NULL;
