@@ -12,7 +12,7 @@ gmail
                 SmtpServer.Credentials = new System.Net.NetworkCredential("nokflyingtest@gmail.com", "N1994okok");
                 SmtpServer.EnableSsl = true;
 
-                SmtpServer.Send(mail);
+                SmtpServer.Send(mail); //for async use this SmtpServer.SendMailAsync(mail);
 
 1. Visit this page https://accounts.google.com/DisplayUnlockCaptcha and click on button to allow access.
 2. Visit this page https://www.google.com/settings/security/lesssecureapps and enable access for less secure apps.
@@ -35,6 +35,6 @@ outlook.com
                 SmtpServer.Credentials = new System.Net.NetworkCredential("b170320162016@outlook.com", "pp27062016");
                 SmtpServer.EnableSsl = true;
 
-                SmtpServer.Send(mail);
+                SmtpServer.Send(mail); //for async use this SmtpServer.SendMailAsync(mail);
 
 1. May need to verify account before can send mail

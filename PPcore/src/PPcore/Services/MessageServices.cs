@@ -29,15 +29,13 @@ namespace PPcore.Services
                 mail.To.Add(email);
                 mail.Subject = subject;
                 mail.Body = message;
-                //SmtpServer.Port = 25;
-                //SmtpServer.Port = 465;
                 SmtpServer.Port = 587;
                 SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                 SmtpServer.UseDefaultCredentials = false;
                 SmtpServer.Credentials = new System.Net.NetworkCredential("b170320162016@outlook.com", "pp27062016");
                 SmtpServer.EnableSsl = true;
 
-                SmtpServer.Send(mail);
+                SmtpServer.SendMailAsync(mail);
                 res = 0;
 
 

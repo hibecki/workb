@@ -205,6 +205,7 @@
 -resource:"O:\workb\PPcore\src\PPcore\obj\Debug\net461\PPcoredotnet-compile.deps.json",PPcore.deps.json
 "O:\workb\PPcore\src\PPcore\Program.cs"
 "O:\workb\PPcore\src\PPcore\Startup.cs"
+"O:\workb\PPcore\src\PPcore\Controllers\AccountController.cs"
 "O:\workb\PPcore\src\PPcore\Controllers\albumsController.cs"
 "O:\workb\PPcore\src\PPcore\Controllers\HomeController.cs"
 "O:\workb\PPcore\src\PPcore\Controllers\initialController.cs"
@@ -223,7 +224,6 @@
 "O:\workb\PPcore\src\PPcore\Controllers\mem_worklistController.cs"
 "O:\workb\PPcore\src\PPcore\Controllers\productsController.cs"
 "O:\workb\PPcore\src\PPcore\Controllers\product_typeController.cs"
-"O:\workb\PPcore\src\PPcore\Controllers\registersController.cs"
 "O:\workb\PPcore\src\PPcore\Models\album.cs"
 "O:\workb\PPcore\src\PPcore\Models\album_image.cs"
 "O:\workb\PPcore\src\PPcore\Models\course_grade.cs"

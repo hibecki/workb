@@ -112,7 +112,7 @@
         if ((cid_card != '') && (fname != '') && (lname != '') && (birthdate != '') && (mobile != '') && (email != '')) {
             $.ajax({
                 type: 'post',
-                url: '@Url.Action("Create", "registers")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email,
+                url: '@Url.Action("Create", "Account")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email,
             }).done(function (resp) {
                 if (resp.result == "success") {
                     window.location.replace("@Url.Action("Index","Home")");
