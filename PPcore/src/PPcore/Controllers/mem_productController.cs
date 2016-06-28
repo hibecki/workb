@@ -70,5 +70,33 @@ namespace PPcore.Controllers
                 return Json(new { result = "duplicate" });
             }
         }
+
+        //Edit Product
+        [HttpGet]
+        public IActionResult Edit(string memberId, string productId, string mem_productId)
+        {
+            var m = _context.member.SingleOrDefault(mb => mb.id == new Guid(memberId));
+            var pd = _context.product.SingleOrDefault(pr => pr.id == new Guid(productId));
+
+            var mproCheck = _context.mem_product.Where(mpr => (mpr.member_code == m.member_code) && (mpr.product_code == pd.product_code)).Count();
+            if (mproCheck == 0)
+            {
+                mem_product mp = new mem_product();
+                mp.member_code = m.member_code;
+                mp.product_code = pd.product_code;
+                mp.x_status = "Y";
+                _context.Add(mp);
+
+                var mpro = _context.mem_product.SingleOrDefault(mpr => (mpr.member_code == m.member_code) && (mpr.id == new Guid(mem_productId)));
+                _context.Remove(mpro);
+
+                _context.SaveChanges();
+                return Json(new { result = "success" });
+            }
+            else
+            {
+                return Json(new { result = "duplicate" });
+            }
+        }
     }
 }

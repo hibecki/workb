@@ -83,16 +83,6 @@ create table album (
 )
 go
 
-create table album_image (
-   album_code           varchar(30)          not null,
-   image_code           varchar(30)          not null,
-   x_status             char(1)              null,
-   x_note               nvarchar(50)         null,
-   x_log                nvarchar(500)        null,
-   constraint pk_album_image primary key (album_code,image_code)
-)
-go
-
 /*==============================================================*/
 /* Table: course_grade                                          */
 /*==============================================================*/

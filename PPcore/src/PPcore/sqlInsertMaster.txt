@@ -25,6 +25,15 @@ INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [
 INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (84, N'เวียดนาม', NULL, NULL, NULL, NULL, N'746e95e2-abc3-4d39-99e7-61e319524b1d')
 INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (856, N'ลาว', NULL, NULL, NULL, NULL, N'fbc45ae4-8134-4f58-a6b1-de8967d6a3b7')
 
+INSERT INTO[dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES('1', N'ปลูกพืช', N'Y', NULL, NULL, N'8a20710a-2152-48fb-93ae-218347593386');
+INSERT INTO[dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES('2', N'เลี้ยงสัตว์', N'Y', NULL, NULL, N'82583c56-71c8-4caa-a1b5-aad4c067ff63');
+
+INSERT INTO[dbo].[product_type] ([product_group_code], [product_type_code], [product_type_desc], [x_status], [x_note], [x_log], [id]) VALUES('1', '1', N'ปลูกข้าว', N'Y', NULL, NULL, N'7b424762-fb7f-4d1a-8c74-74404ddc5106');
+INSERT INTO[dbo].[product_type] ([product_group_code], [product_type_code], [product_type_desc], [x_status], [x_note], [x_log], [id]) VALUES('2', '1', N'เลี้ยงปลา', N'Y', NULL, NULL, N'ff208832-e813-4888-8c9d-3a3f94716047');
+INSERT INTO[dbo].[product_type] ([product_group_code], [product_type_code], [product_type_desc], [x_status], [x_note], [x_log], [id]) VALUES('1', '2', N'ปลูกผัก', N'Y', NULL, NULL, N'93792b14-51f0-4eff-ac4c-f2f03c4f8eb3');
+INSERT INTO[dbo].[product_type] ([product_group_code], [product_type_code], [product_type_desc], [x_status], [x_note], [x_log], [id]) VALUES('2', '2', N'เลี้ยงวัว', N'Y', NULL, NULL, N'201928ea-5f53-4aca-bbc6-f05f6c453bd9');
+
+
 INSERT [ini_district] ([country_code], [province_code], [district_code], [dist_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'10000000', N'10010000', N'เขตพระนคร', NULL, NULL, NULL, NULL, N'3938f103-6547-4547-adba-616879575752')
 INSERT [ini_district] ([country_code], [province_code], [district_code], [dist_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'10000000', N'10020000', N'เขตดุสิต', NULL, NULL, NULL, NULL, N'83bedf53-17a3-4f0d-b78a-e38c915ab86a')
 INSERT [ini_district] ([country_code], [province_code], [district_code], [dist_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'10000000', N'10030000', N'เขตหนองจอก', NULL, NULL, NULL, NULL, N'19c13ec7-c965-4750-8a2e-46194b1e4182')

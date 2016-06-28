@@ -116,6 +116,43 @@ namespace PPcore.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult Edit(string product_code)
+        {
+            product p = _context.product.SingleOrDefault(pr => (pr.product_code == product_code));
+            return View(p);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string product_code, string product_desc)
+        {
+            product p = _context.product.SingleOrDefault(pr => (pr.product_code == product_code));
+            p.product_desc = product_desc.Trim();
+            _context.Update(p);
+            try
+            {
+                _context.SaveChanges();
+                return Json(new { result = "success" });
+            }
+            catch (SqlException ex)
+            {
+                var errno = ex.Number; var msg = "";
+                if (errno == 2627) //Violation of primary key. Handle Exception
+                {
+                    msg = "รหัสผลิตผลซ้ำ";
+                }
+                return Json(new { result = "fail", error_code = errno, error_message = msg });
+            }
+            catch (Exception ex)
+            {
+                var errno = ex.HResult; var msg = "";
+                if (ex.InnerException.Message.IndexOf("PRIMARY KEY") != -1)
+                {
+                    msg = "รหัสผลิตผลซ้ำ";
+                }
+                return Json(new { result = "fail", error_code = errno, error_message = msg });
+            }
+        }
         private class productItem
         {
             public int rec_no;
