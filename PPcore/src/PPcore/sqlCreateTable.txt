@@ -72,6 +72,7 @@ create table album (
    album_code           varchar(30)			 not null,
    album_name           nvarchar(100)        not null,
    album_desc           nvarchar(200)        null,
+   album_type           char(1)				 null,
    created_by			varchar(30)			 not null,
    album_date			datetime 			 not null default CURRENT_TIMESTAMP,
    x_status             char(1)              null,
