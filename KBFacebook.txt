@@ -21,7 +21,7 @@ Access Token
 ---------------------
 follow this https://www.rocketmarketinginc.com/blog/get-never-expiring-facebook-page-access-token/
 
-1. Login to facebook with app owner and then goto https://developers.facebook.com/tools/explorer
+1. Login to facebook with app owner and then goto https://developers.facebook.com/tools/explorer (app owner must be admin page too)
 	- Find dropdown Graph API Explorer and select App Name
 	- Get Token (in case of Page select get Page Token instead)
 	- Check this scope public_profile, publish_actions, user_photos, user_videos, manage_pages, pages_show_list, publish_pages 
