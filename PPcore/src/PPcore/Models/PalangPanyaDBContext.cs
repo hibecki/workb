@@ -124,6 +124,8 @@ namespace PPcore.Models
 
                 entity.Property(e => e.album_desc).HasColumnType("nvarchar(200)");
 
+                entity.Property(e => e.album_type).HasColumnType("char(1)");
+
                 entity.Property(e => e.created_by).IsRequired().HasColumnType("varchar(30)");
 
                 entity.Property(e => e.album_date)
@@ -135,21 +137,6 @@ namespace PPcore.Models
                 entity.Property(e => e.rowversion)
                     .HasColumnType("timestamp")
                     .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
-
-                entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
-
-                entity.Property(e => e.x_note).HasColumnType("nvarchar(50)");
-
-                entity.Property(e => e.x_status).HasColumnType("char(1)");
-            });
-            modelBuilder.Entity<album_image>(entity =>
-            {
-                entity.HasKey(e => new { e.album_code, e.image_code })
-                    .HasName("pk_album_image");
-
-                entity.Property(e => e.album_code).HasColumnType("varchar(30)");
-
-                entity.Property(e => e.image_code).HasColumnType("varchar(30)");
 
                 entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
 

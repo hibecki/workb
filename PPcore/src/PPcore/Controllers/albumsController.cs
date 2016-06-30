@@ -34,7 +34,7 @@ namespace PPcore.Controllers
         // GET: albums
         public async Task<IActionResult> Index()
         {
-            var album = _context.album;
+            var album = _context.album.Where(a => a.album_type == "P");
             ViewBag.countRecords = album.Count();
             return View(await album.OrderByDescending(m => m.album_date).ToListAsync());
         }
@@ -72,6 +72,7 @@ namespace PPcore.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("album_code,album_desc,album_name,created_by,album_date,rowversion")] album album)
         {
+            album.album_type = "P"; //pictures
             album.x_status = "Y";
             album.created_by = "Administrator";
 
@@ -128,7 +129,7 @@ namespace PPcore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("album_code,album_desc,album_name,created_by,album_date,id,rowversion,x_log,x_note,x_status")] album album)
+        public IActionResult Edit(string id, [Bind("album_code,album_desc,album_name,album_type,created_by,album_date,id,rowversion,x_log,x_note,x_status")] album album)
         {
             try
             {

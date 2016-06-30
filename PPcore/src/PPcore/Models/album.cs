@@ -17,6 +17,9 @@ namespace PPcore.Models
         [Display(Name = "คำอธิบาย")]
         public string album_desc { get; set; }
 
+        [HiddenInput]
+        public string album_type { get; set; }
+
         [Display(Name = "สร้างโดย")]
         [HiddenInput]
         public string created_by { get; set; }
