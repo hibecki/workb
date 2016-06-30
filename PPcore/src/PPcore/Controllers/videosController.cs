@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using PPcore.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace PPcore.Controllers
 {
@@ -32,7 +35,7 @@ namespace PPcore.Controllers
             return View(await album.OrderByDescending(m => m.album_date).ToListAsync());
         }
 
-        // GET: videos/Details/5
+        // GET: albums/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -40,35 +43,59 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var album = await _context.album.SingleOrDefaultAsync(m => m.album_code == id);
+            var album = await _context.album.SingleOrDefaultAsync(m => m.id == new Guid(id));
             if (album == null)
             {
                 return NotFound();
             }
-
+            var appId = _configuration.GetSection("facebook").GetSection("AppId").Value;
+            ViewBag.FormAction = "Details";
+            ViewBag.album_code = album.album_code;
+            ViewBag.appId = appId;
             return View(album);
         }
 
         // GET: videos/Create
         public IActionResult Create()
         {
+            ViewBag.FormAction = "Create";
+            ViewBag.album_code = DateTime.Now.ToString("yyMMddhhmmss");
             return View();
         }
 
-        // POST: videos/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("album_code,album_date,album_desc,album_name,created_by,id,rowversion,x_log,x_note,x_status")] album album)
+        public IActionResult Create([Bind("album_code,album_date,album_desc,album_name,created_by,id,rowversion,x_log,x_note,x_status")] album album)
         {
-            if (ModelState.IsValid)
+            album.album_type = "V"; //video
+            album.x_status = "Y";
+            album.created_by = "Administrator";
+
+            _context.Add(album);
+            _context.SaveChanges();
+
+            var pImages = _context.pic_image.Where(p => (p.ref_doc_code == album.album_code) && (p.x_status == "N")).ToList();
+            if (pImages != null)
             {
-                _context.Add(album);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                foreach (var pImage in pImages)
+                {
+                    pImage.x_status = "Y";
+                    _context.Update(pImage);
+                }
+                _context.SaveChanges();
+
+                var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);
+                uploads = Path.Combine(uploads, album.album_code);
+
+                DirectoryInfo di = new DirectoryInfo(uploads);
+                if (di.Exists)
+                {
+                    var dest = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_album").Value);
+                    dest = Path.Combine(dest, album.album_code);
+                    Directory.Move(uploads, dest);
+                }
             }
-            return View(album);
+            return RedirectToAction("Index");
         }
 
         // GET: videos/Edit/5
@@ -79,64 +106,79 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var album = await _context.album.SingleOrDefaultAsync(m => m.album_code == id);
+            var album = await _context.album.SingleOrDefaultAsync(m => m.id == new Guid(id));
             if (album == null)
             {
                 return NotFound();
             }
+
+            clearImageUpload(album.album_code);
+
+            ViewBag.FormAction = "Edit";
+            ViewBag.album_code = album.album_code;
             return View(album);
         }
 
-        // POST: videos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("album_code,album_date,album_desc,album_name,created_by,id,rowversion,x_log,x_note,x_status")] album album)
+        public IActionResult Edit(string id, [Bind("album_code,album_date,album_desc,album_name,album_type,created_by,id,rowversion,x_log,x_note,x_status")] album album)
         {
-            if (id != album.album_code)
+            try
             {
-                return NotFound();
-            }
+                _context.Update(album);
+                _context.SaveChanges();
 
-            if (ModelState.IsValid)
-            {
-                try
+                var pImages = _context.pic_image.Where(p => (p.ref_doc_code == album.album_code) && (p.x_status == "N")).ToList();
+                if (pImages != null)
                 {
-                    _context.Update(album);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!albumExists(album.album_code))
+                    foreach (var pImage in pImages)
                     {
-                        return NotFound();
+                        pImage.x_status = "Y";
+                        _context.Update(pImage);
                     }
-                    else
+                    _context.SaveChanges();
+
+                    var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);
+                    uploads = Path.Combine(uploads, album.album_code);
+
+                    DirectoryInfo di = new DirectoryInfo(uploads);
+                    if (di.Exists)
                     {
-                        throw;
+                        var dest = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_album").Value);
+                        dest = Path.Combine(dest, album.album_code);
+                        Directory.CreateDirectory(dest);
+                        foreach (FileInfo file in di.GetFiles()) file.CopyTo(Path.Combine(dest, file.Name));
+                        di.Delete(true);
                     }
                 }
-                return RedirectToAction("Index");
             }
-            return View(album);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!albumExists(album.album_code))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
         }
 
-        // GET: videos/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        [HttpGet]
+        public IActionResult DeleteVideo(string albumCode, string imageCode)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            pic_image pi = _context.pic_image.SingleOrDefault(p => p.image_code == imageCode);
+            _context.Remove(pi);
+            _context.SaveChanges();
 
-            var album = await _context.album.SingleOrDefaultAsync(m => m.album_code == id);
-            if (album == null)
-            {
-                return NotFound();
-            }
+            var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_album").Value);
+            uploads = Path.Combine(uploads, albumCode);
+            uploads = Path.Combine(uploads, imageCode);
+            System.IO.File.Delete(uploads);
 
-            return View(album);
+            return Json(new { result = "success", imageCode = imageCode });
         }
 
         // POST: videos/Delete/5
@@ -150,9 +192,115 @@ namespace PPcore.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var album = await _context.album.SingleOrDefaultAsync(m => m.id == new Guid(id));
+            //var albumImage = await _context.album_image
+            _context.album.Remove(album);
+            await _context.SaveChangesAsync();
+            return Json(new { result = "success" });
+        }
+
         private bool albumExists(string id)
         {
             return _context.album.Any(e => e.album_code == id);
+        }
+
+        [HttpPost]
+        public IActionResult UploadAlbumVideo(ICollection<IFormFile> file, string albumCode)
+        {
+            var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);
+            uploads = Path.Combine(uploads, albumCode);
+            Directory.CreateDirectory(uploads);
+
+            var fileName = ""; var fileExt = ""; var imageCode = "";
+            foreach (var fi in file)
+            {
+                if (fi.Length > 0)
+                {
+                    fileName += Microsoft.Net.Http.Headers.ContentDispositionHeaderValue.Parse(fi.ContentDisposition).FileName.Trim('"');
+                    fileExt = Path.GetExtension(fileName);
+                    fileName = Path.GetFileNameWithoutExtension(fileName);
+                    fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length))) + fileExt;
+
+                    imageCode = "A" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
+                    using (var SourceStream = fi.OpenReadStream())
+                    {
+                        using (var fileStream = new FileStream(Path.Combine(uploads, imageCode), FileMode.Create))
+                        {
+                            SourceStream.CopyTo(fileStream);
+
+                            pic_image pic_image = new pic_image();
+                            pic_image.image_code = imageCode;
+                            pic_image.x_status = "N";
+                            pic_image.image_name = fileName;
+                            pic_image.image_desc = fileName;
+                            pic_image.ref_doc_type = "album";
+                            pic_image.ref_doc_code = albumCode;
+                            _context.pic_image.Add(pic_image);
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+            }
+            return Json(new { result = "success", uploads = uploads, fileName = fileName });
+        }
+
+        [HttpGet]
+        public IActionResult ListAlbumVideo(string albumCode)
+        {
+            album album = _context.album.SingleOrDefault(m => m.album_code == albumCode);
+            var abName = album.album_name;
+            var abDesc = album.album_desc;
+
+            var fiN = ""; var fiP = "";
+            List<photo> ph = new List<photo>();
+            var pImages = _context.pic_image.Where(p => (p.ref_doc_code == albumCode) && (p.x_status == "Y")).ToList();
+            if (pImages != null)
+            {
+                foreach (var pImage in pImages)
+                {
+                    fiN = pImage.image_code;
+                    fiP = Path.Combine(albumCode, fiN);
+                    fiP = Path.Combine(_configuration.GetSection("Paths").GetSection("images_album").Value, fiP);
+                    if (pImage.image_desc == null) { pImage.image_desc = ""; }
+                    ph.Add(new photo { albumCode = albumCode, image_code = pImage.image_code, image_desc = pImage.image_desc, fileName = fiN, filePath = fiP, albumName = abName, albumDesc = abDesc });
+                }
+                string pjson = JsonConvert.SerializeObject(ph);
+                return Json(pjson);
+            }
+            else
+            {
+                return Json("");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ChangeVideoDesc(string imageCode, string imageDesc)
+        {
+            pic_image pi = _context.pic_image.SingleOrDefault(p => p.image_code == imageCode);
+
+            pi.image_desc = imageDesc;
+            _context.Update(pi);
+
+            _context.SaveChanges();
+            return Json(new { result = "success", imageDesc = imageDesc });
+        }
+
+        private void clearImageUpload(string albumCode)
+        {
+            var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);
+            uploads = Path.Combine(uploads, albumCode);
+            DirectoryInfo di = new DirectoryInfo(uploads);
+            if (di.Exists) { di.Delete(true); }
+
+            var pic_images = _context.pic_image.Where(p => (p.ref_doc_code == albumCode) && (p.x_status == "N")).ToList();
+            foreach (var p in pic_images)
+            {
+                _context.pic_image.Remove(p);
+                _context.SaveChanges();
+            }
         }
     }
 }

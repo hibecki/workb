@@ -437,7 +437,30 @@ textarea[data-val-required] {
 .album-photo-wrapper a:-webkit-any-link {
   	text-decoration: none;
 }
-
+.album-video-wrapper {
+	width: 300px;
+	height: 240px;
+	border: 0.1em solid #ccc;
+	border-radius: 0.4em;
+	background-color: #f3f3f3;
+	box-shadow: 0.1em 0.1em 0.5em -0.2em #777;
+	margin: 1em 1em;
+}
+.album-video-wrapper img{
+  width:90%; margin:2%; float:left;
+}
+.album-video-fade {
+   opacity: 0.8;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+.album-video-fade:hover {
+      opacity: 1;
+}
+.album-video-wrapper a:-webkit-any-link {
+  	text-decoration: none;
+}
 
 .fa-fbmod-square:before {
   content: "\f082";
@@ -474,6 +497,56 @@ textarea[data-val-required] {
     color:#FFC000;
 }
 .photo-wait {
+ position: absolute;
+ left: 0;
+ right: 0;
+ top: 0;
+ bottom: 0;
+ width:100%;
+ height:100%;
+ color:white;
+ background-color: black;
+ text-align:center;
+ vertical-align:middle;
+ padding-top:60px;
+ font-size:100px;
+ -moz-opacity:.30;
+ filter:alpha(opacity=30);
+ opacity:.30;
+ z-index: 100;
+}
+.btn-video-blue {
+  color:white;
+  background-color: #093D6A;
+  border-color: #093D6A;
+}
+.btn-video-blue:focus,
+.btn-video-blue.focus {
+  background-color: #FFC000;
+  border-color: #FFC000;
+}
+.btn-video-blue:hover {
+  color:#FFC000;
+  background-color: #093D6A;
+  border-color: #093D6A;
+}
+.video-delete {
+    color:grey;
+    cursor: pointer;
+    cursor: hand;
+}
+.video-delete:hover {
+    color:#FFC000;
+}
+.video-mark {
+    color:grey;
+    cursor: pointer;
+    cursor: hand;
+}
+.video-mark:hover {
+    color:#FFC000;
+}
+.video-wait {
  position: absolute;
  left: 0;
  right: 0;

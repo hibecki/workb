@@ -15,7 +15,7 @@
                         <button id="btnCreate" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Create", "videos")'">&nbsp;<i class="fa fa-file" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;สร้างอัลบั้ม&nbsp;&nbsp;&nbsp;</button>
                         <button id="btnEdit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;แก้ไขอัลบั้ม&nbsp;&nbsp;&nbsp;</button>
                         <button id="btnDelete" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-eraser" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ลบอัลบั้ม&nbsp;&nbsp;&nbsp;</button>
-                        <button id="btnDetails" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูลและแชร์ภาพ</button>
+                        <button id="btnDetails" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูลและแชร์วีดีโอ</button>
                     </div>
                 </div>
 
@@ -27,7 +27,7 @@
                             <thead>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.album_name)</th>
-                                    <th>@Html.DisplayNameFor(model => model.id)</th>
+                                    <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
                                     <th>@Html.DisplayNameFor(model => model.album_desc)</th>
                                     <th>@Html.DisplayNameFor(model => model.album_date)</th>
                                     <th>@Html.DisplayNameFor(model => model.created_by)</th>
@@ -38,7 +38,7 @@
                                 {
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.album_name)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.id)</td>
+                                        <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
                                         <td>@Html.DisplayFor(modelItem => item.album_desc)</td>
                                         <!-- <td>@Html.DisplayFor(modelItem => item.album_date)</td> -->
                                         <td>@String.Format("{0:dd MMMM yyyy}", item.album_date)</td>
@@ -104,7 +104,7 @@
 
             $('#btnEdit').on('click', function () {
                 var data = tableMember.row('.selected').data();
-                var url = '@Url.Action("Edit", "albums", new { id = "__id__" })';
+                var url = '@Url.Action("Edit", "videos", new { id = "__id__" })';
                 window.location.href = url.replace('__id__', data[1]);
             });
 
@@ -119,17 +119,17 @@
                 var datarow = tableMember.row('.selected').data();
                 $.ajax({
                     type: "GET",
-                    url: "@Url.Action("Delete", "albums")" + "/" + datarow[1],
+                    url: "@Url.Action("Delete", "videos")" + "/" + datarow[1],
                     success: function (data) {
                         $('#albumDeleteModal').modal('hide');
-                        window.location.href = '@Url.Action("Index", "albums")';
+                        window.location.href = '@Url.Action("Index", "videos")';
                     },
                     error: function (xhr, textStatus, error) {
                         console.log(xhr.statusText);
                         console.log(textStatus);
                         console.log(error);
                         $('#albumDeleteModal').modal('hide');
-                        window.location.href = '@Url.Action("Index", "albums")';
+                        window.location.href = '@Url.Action("Index", "videos")';
                     }
 
                 });
@@ -137,7 +137,7 @@
 
             $('#btnDetails').on('click', function () {
                 var data = tableMember.row('.selected').data();
-                var url = '@Url.Action("Details", "albums", new { id = "__id__" })';
+                var url = '@Url.Action("Details", "videos", new { id = "__id__" })';
                 window.location.href = url.replace('__id__', data[1]);
             });
         });

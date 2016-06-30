@@ -1,84 +1,58 @@
-@model PPcore.Models.album
-
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h2>Create</h2>
-
-<form asp-action="Create">
-    <div class="form-horizontal">
-        <h4>album</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="album_date" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="album_date" class="form-control" />
-                <span asp-validation-for="album_date" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="album_desc" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="album_desc" class="form-control" />
-                <span asp-validation-for="album_desc" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="album_name" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="album_name" class="form-control" />
-                <span asp-validation-for="album_name" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="created_by" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="created_by" class="form-control" />
-                <span asp-validation-for="created_by" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="id" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="id" class="form-control" />
-                <span asp-validation-for="id" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="x_log" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="x_log" class="form-control" />
-                <span asp-validation-for="x_log" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="x_note" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="x_note" class="form-control" />
-                <span asp-validation-for="x_note" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="x_status" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="x_status" class="form-control" />
-                <span asp-validation-for="x_status" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+﻿<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">คลิปกิจกรรม</h4></td></tr></table>
         </div>
     </div>
-</form>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">คลิปกิจกรรม</div>
+                    <div class="pull-right" style="margin-top:-2px;">
+                        <button id="btnBack" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "videos")'">&nbsp;<i class="fa fa-reply" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;กลับ&nbsp;&nbsp;</button>
+                    </div>
+                </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+                <!-- /.panel-heading -->
+
+                <div class="panel-body">
+                    @{ await Html.RenderPartialAsync("ViewInput"); }
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-8 -->
+
+
+
+    </div>
 </div>
 
+
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.datepicker.regional['th'] = {
+                dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
+                yearRange: "-100:+0", yearOffSet: 543,beforeShow:dateDefault
+            };
+            $.datepicker.setDefaults($.datepicker.regional['th']);
+            $("#album_date").datepicker($.datepicker.regional["th"]);
+
+            if ("@ViewBag.FormAction" == "Create") {
+                $("#album_code").val('@ViewBag.album_code');
+            }
+        });
+        $('#album_dateButton').click(function () {
+            $('#album_date').datepicker("show");
+        });
+        function dateDefault() {
+            if ($("#album_date").val() == "") { $("#album_date").datepicker("setDate", new Date()); }
+        }
+    </script>
 }

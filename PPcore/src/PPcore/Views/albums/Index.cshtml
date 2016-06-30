@@ -27,7 +27,7 @@
                             <thead>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.album_name)</th>
-                                    <th>@Html.DisplayNameFor(model => model.id)</th>
+                                    <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
                                     <th>@Html.DisplayNameFor(model => model.album_desc)</th>
                                     <th>@Html.DisplayNameFor(model => model.album_date)</th>
                                     <th>@Html.DisplayNameFor(model => model.created_by)</th>
@@ -38,7 +38,7 @@
                                 {
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.album_name)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.id)</td>
+                                        <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
                                         <td>@Html.DisplayFor(modelItem => item.album_desc)</td>
                                         <!-- <td>@Html.DisplayFor(modelItem => item.album_date)</td> -->
                                         <td>@String.Format("{0:dd MMMM yyyy}",item.album_date)</td>
