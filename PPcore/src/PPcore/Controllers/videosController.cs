@@ -351,55 +351,9 @@ namespace PPcore.Controllers
                 resp = result.Content.ReadAsStringAsync().Result;
             }
             return Content(resp);
-
-            /**
-            List<photo> p = new List<photo>();
-            if (!String.IsNullOrEmpty(resp))
-            {
-                dynamic respJson = JsonConvert.DeserializeObject(resp);
-                var albumId = respJson.id;
-
-
-                album album = _context.album.SingleOrDefault(m => m.album_code == albumCode);
-                var abName = album.album_name;
-                var abDesc = album.album_desc;
-
-                var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_album").Value);
-                uploads = Path.Combine(uploads, albumCode);
-
-                string[] fileEntries = Directory.GetFiles(uploads);
-                string fiN; string fiP;
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("https://graph.facebook.com");
-                    foreach (string fileName in fileEntries)
-                    {
-                        fiN = Path.GetFileName(fileName);
-                        fiP = Path.Combine(uploads, fiN);
-
-                        var form = new MultipartFormDataContent();
-                        form.Add(new StringContent(fileName), "message");
-                        var fileContent = new ByteArrayContent(System.IO.File.ReadAllBytes(fiP));
-                        fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("source")
-                        {
-                            FileName = fileName
-                        };
-                        form.Add(fileContent);
-                        var result = client.PostAsync("/v2.6/" + albumId + "/photos?access_token=" + accessToken, form).Result;
-                        resp2 = result.Content.ReadAsStringAsync().Result;
-
-
-                        p.Add(new photo { albumCode = albumCode, image_code = "", fileName = fiN, filePath = fiP, albumName = abName, albumDesc = abDesc });
-                    }
-                }
-            }
-            string pjson = JsonConvert.SerializeObject(p);
-            return Json(pjson);
-            **/
-
         }
         [HttpGet]
-        public IActionResult SharePhotoToAlbum(string albumId, string albumCode, string imageCode, string imageDesc)
+        public IActionResult ShareVideosToAlbum(string albumId, string albumCode, string imageCode, string imageDesc)
         {
             var appId = _configuration.GetSection("facebook").GetSection("AppId").Value;
             var appSecret = _configuration.GetSection("facebook").GetSection("AppSecret").Value;
@@ -428,7 +382,7 @@ namespace PPcore.Controllers
                     FileName = imageCode
                 };
                 form.Add(fileContent);
-                var result = client.PostAsync("/v2.6/" + albumId + "/photos?access_token=" + accessToken, form).Result;
+                var result = client.PostAsync("/v2.6/" + albumId + "/videos?access_token=" + accessToken, form).Result;
                 resp = result.Content.ReadAsStringAsync().Result;
             }
             return Json(new { albumCode = albumCode, imageCode = imageCode });

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace PPcore.Models
@@ -11,6 +12,8 @@ namespace PPcore.Models
         public string x_note { get; set; }
         public string x_log { get; set; }
         public Guid id { get; set; }
+
+        [HiddenInput]
         public byte[] rowversion { get; set; }
     }
 }

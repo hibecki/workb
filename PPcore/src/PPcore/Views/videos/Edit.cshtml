@@ -125,7 +125,7 @@
                                 imgblock += '<div class="col-xs-6" style="position:absolute;top:0px;left:10px;"><div class="video-mark" id="' + idMark + '" aria-hidden="true" style="font-size:25px;" onclick="markVideo(\'' + resp[i].image_code + '\');"><i class="fa fa-square-o" aria-hidden="true"></i></div></div>';
                                 imgblock += '<div class="col-xs-6" style="position:absolute;top:-2px;left:210px;"><div class="video-delete" aria-hidden="true" style="font-size:25px;" onclick="deleteVideo(\'' + resp[i].albumCode + '\',\'' + resp[i].image_code + '\');"><i class="fa fa-times" aria-hidden="true"></i></div></div>';
                                 imgblock += '</div>';
-                                imgblock += '<video width="320" height="240" controls><source class="img-responsive center-block" style="height:210px" src="/' + resp[i].filePath + '" />Your browser does not support the video tag.</video>';
+                                imgblock += '<video height="135px" class="img-responsive center-block" style="top:-50px;height:210px" controls><source  src="/' + resp[i].filePath + '" />Your browser does not support the video tag.</video>'; //class="img-responsive center-block" style="height:250px"
                                 var desc = "";
                                 if (resp[i].image_desc != "") {
                                     if (resp[i].image_desc.length > 25) {

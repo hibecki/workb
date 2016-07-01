@@ -174,7 +174,7 @@ namespace PPcore.Models
                 entity.HasKey(e => e.cgroup_code)
                     .HasName("pk_course_group");
 
-                entity.Property(e => e.cgroup_code).HasColumnType("char(3)");
+                entity.Property(e => e.cgroup_code).HasColumnType("varchar(30)");
 
                 entity.Property(e => e.cgroup_desc)
                     .IsRequired()
@@ -184,7 +184,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.rowversion)
                     .HasColumnType("timestamp")
-                    .ValueGeneratedOnAddOrUpdate();
+                    .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
 
                 entity.Property(e => e.x_log).HasMaxLength(500);
 
@@ -907,9 +907,9 @@ namespace PPcore.Models
 
                 entity.Property(e => e.budget).HasColumnType("money");
 
-                entity.Property(e => e.cgroup_code).HasColumnType("char(3)");
+                entity.Property(e => e.cgroup_code).HasColumnType("varchar(30)");
 
-                entity.Property(e => e.charge_head).HasColumnType("char(10)");
+                entity.Property(e => e.charge_head).HasColumnType("money");
 
                 entity.Property(e => e.course_approve_date).HasColumnType("datetime");
 
@@ -923,7 +923,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.course_end).HasColumnType("datetime");
 
-                entity.Property(e => e.ctype_code).HasColumnType("char(3)");
+                entity.Property(e => e.ctype_code).HasColumnType("varchar(30)");
 
                 entity.Property(e => e.id).HasDefaultValueSql("newid()");
 
@@ -933,7 +933,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.ref_doc).HasColumnType("varchar(30)");
 
-                entity.Property(e => e.support_head).HasColumnType("char(10)");
+                entity.Property(e => e.support_head).HasColumnType("money");
 
                 entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
 
