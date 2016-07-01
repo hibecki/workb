@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace PPcore.Controllers
 {
@@ -286,6 +287,151 @@ namespace PPcore.Controllers
 
             _context.SaveChanges();
             return Json(new { result = "success", imageDesc = imageDesc });
+        }
+
+        [HttpGet]
+        //public async Task<IActionResult> ShareVideo(string albumCode, string imageCode, string imageDesc, string fileName)
+        public IActionResult ShareVideo(string albumCode, string imageCode, string imageDesc, string fileName)
+        {
+            var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_album").Value);
+            uploads = Path.Combine(uploads, albumCode);
+            uploads = Path.Combine(uploads, fileName);
+
+            var appId = _configuration.GetSection("facebook").GetSection("AppId").Value;
+            var appSecret = _configuration.GetSection("facebook").GetSection("AppSecret").Value;
+            var accessToken = _configuration.GetSection("facebook").GetSection("AccessToken").Value;
+            var pageId = _configuration.GetSection("facebook").GetSection("PageID").Value;
+
+            //string resp = "";
+            string resp2 = "";
+
+            //using (HttpClient client = new HttpClient())
+            //using (HttpResponseMessage response = await client.GetAsync("https://graph.facebook.com/v2.6/me?access_token=" + accessToken))
+            //using (HttpContent content = response.Content)
+            //{
+            //    resp = await content.ReadAsStringAsync();
+            //}
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://graph.facebook.com");
+                var form = new MultipartFormDataContent();
+                form.Add(new StringContent(imageDesc), "message");
+                var fileContent = new ByteArrayContent(System.IO.File.ReadAllBytes(uploads));
+                fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("source")
+                {
+                    FileName = fileName
+                };
+                form.Add(fileContent);
+                var result = client.PostAsync("/v2.6/" + pageId + "/videos?access_token=" + accessToken, form).Result;
+                resp2 = result.Content.ReadAsStringAsync().Result;
+            }
+            return Json(resp2);
+        }
+
+        [HttpGet]
+        public IActionResult ShareAlbum(string albumCode, string albumName)
+        {
+            var appId = _configuration.GetSection("facebook").GetSection("AppId").Value;
+            var appSecret = _configuration.GetSection("facebook").GetSection("AppSecret").Value;
+            var accessToken = _configuration.GetSection("facebook").GetSection("AccessToken").Value;
+            var pageId = _configuration.GetSection("facebook").GetSection("PageID").Value;
+
+            string resp = "";
+            //string resp2 = "";
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://graph.facebook.com");
+                var content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("name", albumName),
+                });
+                var result = client.PostAsync("/v2.6/" + pageId + "/albums?access_token=" + accessToken, content).Result;
+                resp = result.Content.ReadAsStringAsync().Result;
+            }
+            return Content(resp);
+
+            /**
+            List<photo> p = new List<photo>();
+            if (!String.IsNullOrEmpty(resp))
+            {
+                dynamic respJson = JsonConvert.DeserializeObject(resp);
+                var albumId = respJson.id;
+
+
+                album album = _context.album.SingleOrDefault(m => m.album_code == albumCode);
+                var abName = album.album_name;
+                var abDesc = album.album_desc;
+
+                var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_album").Value);
+                uploads = Path.Combine(uploads, albumCode);
+
+                string[] fileEntries = Directory.GetFiles(uploads);
+                string fiN; string fiP;
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("https://graph.facebook.com");
+                    foreach (string fileName in fileEntries)
+                    {
+                        fiN = Path.GetFileName(fileName);
+                        fiP = Path.Combine(uploads, fiN);
+
+                        var form = new MultipartFormDataContent();
+                        form.Add(new StringContent(fileName), "message");
+                        var fileContent = new ByteArrayContent(System.IO.File.ReadAllBytes(fiP));
+                        fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("source")
+                        {
+                            FileName = fileName
+                        };
+                        form.Add(fileContent);
+                        var result = client.PostAsync("/v2.6/" + albumId + "/photos?access_token=" + accessToken, form).Result;
+                        resp2 = result.Content.ReadAsStringAsync().Result;
+
+
+                        p.Add(new photo { albumCode = albumCode, image_code = "", fileName = fiN, filePath = fiP, albumName = abName, albumDesc = abDesc });
+                    }
+                }
+            }
+            string pjson = JsonConvert.SerializeObject(p);
+            return Json(pjson);
+            **/
+
+        }
+        [HttpGet]
+        public IActionResult SharePhotoToAlbum(string albumId, string albumCode, string imageCode, string imageDesc)
+        {
+            var appId = _configuration.GetSection("facebook").GetSection("AppId").Value;
+            var appSecret = _configuration.GetSection("facebook").GetSection("AppSecret").Value;
+            var accessToken = _configuration.GetSection("facebook").GetSection("AccessToken").Value;
+            var pageId = _configuration.GetSection("facebook").GetSection("PageID").Value;
+
+            string resp = "";
+
+            var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_album").Value);
+            uploads = Path.Combine(uploads, albumCode);
+            uploads = Path.Combine(uploads, imageCode);
+
+            string fiN; string fiP;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://graph.facebook.com");
+
+                fiN = imageCode;
+                fiP = uploads;
+
+                var form = new MultipartFormDataContent();
+                form.Add(new StringContent(imageDesc), "message");
+                var fileContent = new ByteArrayContent(System.IO.File.ReadAllBytes(fiP));
+                fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("source")
+                {
+                    FileName = imageCode
+                };
+                form.Add(fileContent);
+                var result = client.PostAsync("/v2.6/" + albumId + "/photos?access_token=" + accessToken, form).Result;
+                resp = result.Content.ReadAsStringAsync().Result;
+            }
+            return Json(new { albumCode = albumCode, imageCode = imageCode });
         }
 
         private void clearImageUpload(string albumCode)
