@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,6 +46,7 @@ namespace PPcore.Controllers
         // GET: course_group/Create
         public IActionResult Create()
         {
+            ViewBag.x_status = new SelectList(new[] { new { Value = "N", Text = "เตรียมการ" }, new { Value = "Y", Text = "เปิด" } }, "Value", "Text");
             return View();
         }
 

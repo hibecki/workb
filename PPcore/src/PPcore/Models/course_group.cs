@@ -18,6 +18,8 @@ namespace PPcore.Models
         public string x_status { get; set; }
         public string x_note { get; set; }
         public string x_log { get; set; }
+
+        [HiddenInput]
         public Guid id { get; set; }
 
         [HiddenInput]
