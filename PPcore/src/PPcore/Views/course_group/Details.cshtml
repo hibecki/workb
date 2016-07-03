@@ -1,0 +1,54 @@
+@model PPcore.Models.course_group
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>course_group</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.cgroup_desc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.cgroup_desc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.rowversion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.rowversion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.x_log)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x_log)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.x_note)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x_note)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.x_status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x_status)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.cgroup_code">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
