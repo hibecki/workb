@@ -230,8 +230,7 @@ function setTable_course_group(tableId) {
         "columnDefs": [
             { "targets": [0], "width": "15", "className": "dt-center" },
             { "targets": [1], "visible": false, "searchable": false },
-            { "targets": [2], "width": "50", "className": "dt-center" },
-            { "targets": [3], "width": "150" },
+            { "targets": [2], "width": "150", "className": "dt-center" },
             { "targets": [4], "width": "50", "className": "dt-center" },
         ], fixedColumns: true,
         preDrawCallback: function (settings) {

@@ -13,11 +13,12 @@
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
-            <form>
+            <form asp-action="Create">
                 <div class="form-horizontal">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div style="position:relative;top:-57px;margin-right:.5em;float:right">
-                        <div id="btnSave" type="submit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</div>
+                        <button id="btnSave" type="submit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</button>
+                        <div id="btnDetails" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "course_group")'">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูลทั้งหมด</div>
                     </div>
                     <input asp-for="rowversion" /><input asp-for="id" />
                     <br />
@@ -81,38 +82,3 @@
 </div>
 
 
-    <br />
-
-    @section Scripts {
-
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-        <script src="~/lib/bootstrap/js/modal.js"></script>
-
-        <script>
-            $(document).ready(function () {
-                $('#btnSave').off('click').on('click', function (e) {
-                    console.log('asdasd');
-                    e.preventDefault();
-                    $.ajax({
-                        async: false,
-                        type: "POST",
-                        url: "@Url.Action("Edit", "mem_health")",
-                        data: {
-                            memberId: "@ViewBag.memberId",
-                            member_code: $("#member_code").val(),
-                            medical_history: $("#medical_history").val(),
-                            blood_group: $("#blood_group").val(),
-                            hobby: $("#hobby").val(),
-                            restrict_food: $("#restrict_food").val(),
-                            special_skill: $("#special_skill").val()
-                        },
-                        success: function (data) {
-                            window.location.href = "@Url.Action("Index", "mem_health", new {memberId = ViewBag.memberId})";
-                        }
-                    });
-                });
-            });
-        </script>
-    }

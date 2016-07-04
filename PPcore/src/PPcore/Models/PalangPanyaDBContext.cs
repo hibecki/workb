@@ -160,7 +160,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.rowversion)
                     .HasColumnType("timestamp")
-                    .ValueGeneratedOnAddOrUpdate();
+                    .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
 
                 entity.Property(e => e.x_log).HasMaxLength(500);
 
@@ -171,14 +171,13 @@ namespace PPcore.Models
 
             modelBuilder.Entity<course_group>(entity =>
             {
-                entity.HasKey(e => e.cgroup_code)
-                    .HasName("pk_course_group");
+                //entity.HasKey(e => e.cgroup_code).HasName("pk_course_group");
 
-                entity.Property(e => e.cgroup_code).HasColumnType("varchar(30)");
+                entity.Property(e => e.cgroup_code).IsRequired().HasColumnType("varchar(30)");
 
                 entity.Property(e => e.cgroup_desc)
                     .IsRequired()
-                    .HasMaxLength(100);
+                    .HasColumnType("nvarchar(100)");
 
                 entity.Property(e => e.id).HasDefaultValueSql("newid()");
 

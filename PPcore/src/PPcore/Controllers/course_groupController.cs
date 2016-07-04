@@ -50,12 +50,9 @@ namespace PPcore.Controllers
             return View();
         }
 
-        // POST: course_group/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("cgroup_code,cgroup_desc,id,rowversion,x_log,x_note,x_status")] course_group course_group)
+        public async Task<IActionResult> Create([Bind("cgroup_code,cgroup_desc,x_status")] course_group course_group)
         {
             if (ModelState.IsValid)
             {
@@ -74,22 +71,20 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var course_group = await _context.course_group.SingleOrDefaultAsync(m => m.cgroup_code == id);
+            var course_group = await _context.course_group.SingleOrDefaultAsync(m => m.id == new Guid(id));
             if (course_group == null)
             {
                 return NotFound();
             }
+            ViewBag.x_status = new SelectList(new[] { new { Value = "N", Text = "เตรียมการ" }, new { Value = "Y", Text = "เปิด" } }, "Value", "Text");
             return View(course_group);
         }
 
-        // POST: course_group/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("cgroup_code,cgroup_desc,id,rowversion,x_log,x_note,x_status")] course_group course_group)
+        public async Task<IActionResult> Edit(string id, [Bind("cgroup_code,cgroup_desc,id,x_status")] course_group course_group)
         {
-            if (id != course_group.cgroup_code)
+            if (course_group.id != new Guid(id))
             {
                 return NotFound();
             }
@@ -98,12 +93,18 @@ namespace PPcore.Controllers
             {
                 try
                 {
-                    _context.Update(course_group);
+                    course_group cg = _context.course_group.SingleOrDefault(c => (c.id == new Guid(id)));
+                    cg.cgroup_code = course_group.cgroup_code.Trim();
+                    cg.cgroup_desc = course_group.cgroup_desc.Trim();
+                    cg.x_status = course_group.x_status;
+                    _context.Update(cg);
+
+                    //_context.Update(course_group);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!course_groupExists(course_group.cgroup_code))
+                    if (!course_groupExists(course_group.id.ToString()))
                     {
                         return NotFound();
                     }
@@ -147,7 +148,7 @@ namespace PPcore.Controllers
 
         private bool course_groupExists(string id)
         {
-            return _context.course_group.Any(e => e.cgroup_code == id);
+            return _context.course_group.Any(e => e.id == new Guid(id));
         }
     }
 }
