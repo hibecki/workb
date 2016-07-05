@@ -29,6 +29,7 @@ namespace PPcore.Controllers
 
             //ViewBag.sex = new SelectList(new[] { new { Value = "F", Text = "Female" }, new { Value = "M", Text = "Male" }, new { Value = "A", Text = "Alternative" } }, "Value", "Text", "F");
             ViewBag.sex = new SelectList(new[] { new { Value = "F", Text = "หญิง" }, new { Value = "M", Text = "ชาย" } }, "Value", "Text", "F");
+            ViewBag.title = new SelectList(new[] { new { Value = "นาย", Text = "นาย" }, new { Value = "นาง", Text = "นาง" }, new { Value = "นางสาว", Text = "นางสาว" } }, "Value", "Text", "นาย");
 
             //ViewBag.cid_type = new SelectList(new[] { new { Value = "C", Text = "บัตรประชาชน" }, new { Value = "H", Text = "สำเนาทะเบียนบ้าน" }, new { Value = "P", Text = "Passport" } }, "Value", "Text", "F");
             ViewBag.cid_type = new SelectList(new[] { new { Value = "C", Text = "บัตรประชาชน" }, new { Value = "P", Text = "Passport" } }, "Value", "Text", "F");
@@ -156,7 +157,8 @@ namespace PPcore.Controllers
             var mobile = formatTelNumber(m.mobile);
             var fax = formatTelNumber(m.fax);
             var email = m.email;
-            var social_app_data = m.social_app_data;
+            var facebook = m.facebook;
+            var lineId = m.line;
             var text_address = m.texta_address + " " + m.textb_address + " " + m.textc_address;
 
             var count = 0;
@@ -382,7 +384,7 @@ namespace PPcore.Controllers
             memberInfoRow6.DefaultCell.VerticalAlignment = 1;
             memberInfoRow6.SetWidths(new float[] { 30f, 285f });
             memberInfoRow6.AddCell(new PdfPCell(new Phrase("Social", cnb)) { Border = Rectangle.NO_BORDER });
-            memberInfoRow6.AddCell(new PdfPCell(new Phrase(social_app_data, cni)) { Border = Rectangle.NO_BORDER });
+            memberInfoRow6.AddCell(new PdfPCell(new Phrase("Line ID: " + lineId + " Facebook: " + facebook, cni)) { Border = Rectangle.NO_BORDER });
             cell = new PdfPCell(memberInfoRow6); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
             table.AddCell(cell);
             //Member Info Row 7

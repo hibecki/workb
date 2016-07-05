@@ -33,17 +33,17 @@
                                     <th>ลำดับ</th>
                                     <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
                                     <th style="width:50px;">@Html.DisplayNameFor(model => model.member_code)</th>
-                                    <th style="width:50px;">@Html.DisplayNameFor(model => model.title)</th>
+                                    <th style="width:30px;">@Html.DisplayNameFor(model => model.title)</th>
                                     <th style="width:150px;">@Html.DisplayNameFor(model => model.fname)</th>
-                                    <th style="width:50px;">@Html.DisplayNameFor(model => model.birthdate)</th>
-                                    <th style="width:50px;">@Html.DisplayNameFor(model => model.current_age)</th>
+                                    <th style="width:70px;">@Html.DisplayNameFor(model => model.birthdate)</th>
+                                    <th style="width:15px;">@Html.DisplayNameFor(model => model.current_age)</th>
                                     <th style="width:50px;">@Html.DisplayNameFor(model => model.cid_card)</th>
                                     <th>ที่อยู่</th>
                                     <th style="width:50px;">@Html.DisplayNameFor(model => model.mobile)</th>
                                     <th style="width:50px;">@Html.DisplayNameFor(model => model.tel)</th>
-                                    <th style="width:50px;">@Html.DisplayNameFor(model => model.email)</th>
-                                    <th style="width:50px;">@Html.DisplayNameFor(model => model.facebook)</th>
-                                    <th style="width:50px;">@Html.DisplayNameFor(model => model.line)</th>
+                                    <th style="width:50px;text-align:center">@Html.DisplayNameFor(model => model.email)</th>
+                                    <th style="width:50px;text-align:center">@Html.DisplayNameFor(model => model.facebook)</th>
+                                    <th style="width:50px;text-align:center">@Html.DisplayNameFor(model => model.line)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,7 +69,7 @@
                                             @Html.DisplayFor(modelItem => item.birthdate)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.current_age)
+                                            @Html.DisplayFor(modelItem => item.age)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.cid_card)

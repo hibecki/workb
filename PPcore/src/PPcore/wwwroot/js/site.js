@@ -21,11 +21,11 @@ function setTableMembers(tableId) {
         "columnDefs": [
             { "targets": [0], "width": "15", "className": "dt-center" },
             { "targets": [1], "visible": false, "searchable": false },
-            { "targets": [2], "width": "50", "className": "dt-center" },
+            { "targets": [2], "width": "30", "className": "dt-center" },
             { "targets": [3], "width": "50", "className": "dt-center" },
             { "targets": [4], "width": "150" },
-            { "targets": [5], "width": "50", "className": "dt-center" },
-            { "targets": [6], "width": "50", "className": "dt-center" },
+            { "targets": [5], "width": "70", "className": "dt-center" },
+            { "targets": [6], "width": "15", "className": "dt-center" },
             { "targets": [7], "width": "50", "className": "dt-center" },
 
             { "targets": [9], "width": "50", "className": "dt-center" },

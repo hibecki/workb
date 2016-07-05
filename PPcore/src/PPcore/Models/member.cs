@@ -48,6 +48,17 @@ namespace PPcore.Models
 
         [Display(Name = "อายุปัจจุบัน")]
         public short? current_age { get; set; }
+        [Display(Name = "อายุปัจจุบัน")]
+        public int age { get
+            {
+                DateTime now = DateTime.Today;
+                int year = 0;
+                Int32.TryParse(String.Format("{0:yyyy}", birthdate), out year);
+                int a = now.Year - year + 543;
+                if (birthdate > now.AddYears(-a)) a--;
+                return a;
+            }
+        }
 
         [Display(Name = "สถานภาพ")]
         public string marry_status { get; set; }
