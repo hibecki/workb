@@ -772,6 +772,7 @@ namespace PPcore.Models
                 entity.Property(e => e.title).HasColumnType("nvarchar(100)");
                 entity.Property(e => e.fname).HasColumnType("nvarchar(100)");
                 entity.Property(e => e.lname).HasColumnType("nvarchar(100)");
+                entity.Property(e => e.occupation).HasColumnType("nvarchar(500)");
 
                 entity.Property(e => e.h_no).HasColumnType("nvarchar(20)");
 
@@ -818,7 +819,7 @@ namespace PPcore.Models
                     .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
 
                 entity.Property(e => e.sex).HasColumnType("char(1)");
-
+                
                 entity.Property(e => e.facebook).HasColumnType("nvarchar(500)");
                 entity.Property(e => e.line).HasColumnType("nvarchar(500)");
 

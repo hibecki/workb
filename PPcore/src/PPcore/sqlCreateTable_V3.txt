@@ -480,6 +480,7 @@ create table member (
    title                nvarchar(100)        null,
    fname                nvarchar(100)        null,
    lname                nvarchar(100)        null,
+   occupation			nvarchar(100)        null,
    sex                  char(1)              null,
    nationality          nvarchar(30)              null,
    mem_photo            varchar(30)          null,

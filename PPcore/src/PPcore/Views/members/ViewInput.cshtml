@@ -59,11 +59,12 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-2 text-right"><label asp-for="title" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <select asp-for="title" class="form-control" asp-items="@ViewBag.title"></select>
+                                    <select asp-for="title" class="form-control" asp-items="@ViewBag.mem_title"></select>
                                 </div>
                             </div>
                         </div>
@@ -145,6 +146,17 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 text-right"><label asp-for="occupation" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="occupation" class="form-control" />
+                                    <span asp-validation-for="occupation" class="text-danger" />
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

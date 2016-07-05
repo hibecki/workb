@@ -38,6 +38,9 @@ namespace PPcore.Models
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         public string lname { get; set; }
 
+        [Display(Name = "อาชีพ")]
+        public string occupation { get; set; }
+
         [Display(Name = "เพศ")]
         public string sex { get; set; }
 

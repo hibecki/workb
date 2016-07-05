@@ -29,7 +29,7 @@ namespace PPcore.Controllers
 
             //ViewBag.sex = new SelectList(new[] { new { Value = "F", Text = "Female" }, new { Value = "M", Text = "Male" }, new { Value = "A", Text = "Alternative" } }, "Value", "Text", "F");
             ViewBag.sex = new SelectList(new[] { new { Value = "F", Text = "หญิง" }, new { Value = "M", Text = "ชาย" } }, "Value", "Text", "F");
-            ViewBag.title = new SelectList(new[] { new { Value = "นาย", Text = "นาย" }, new { Value = "นาง", Text = "นาง" }, new { Value = "นางสาว", Text = "นางสาว" } }, "Value", "Text", "นาย");
+            ViewBag.mem_title = new SelectList(new[] { new { Value = "นาย", Text = "นาย" }, new { Value = "นาง", Text = "นาง" }, new { Value = "นางสาว", Text = "นางสาว" } }, "Value", "Text", "นาย");
 
             //ViewBag.cid_type = new SelectList(new[] { new { Value = "C", Text = "บัตรประชาชน" }, new { Value = "H", Text = "สำเนาทะเบียนบ้าน" }, new { Value = "P", Text = "Passport" } }, "Value", "Text", "F");
             ViewBag.cid_type = new SelectList(new[] { new { Value = "C", Text = "บัตรประชาชน" }, new { Value = "P", Text = "Passport" } }, "Value", "Text", "F");
@@ -139,13 +139,14 @@ namespace PPcore.Controllers
             var sex = m.sex == "F"? "หญิง" : "ชาย";
             var nationality = m.nationality;
 
-            var birthdate = String.Format("{0:d MMMM yyyy}",m.birthdate);
-            DateTime today = DateTime.Today;
-            int year = 0;
-            Int32.TryParse(String.Format("{0:yyyy}", m.birthdate),out year);
-            int age = today.Year - year + 543;
-            if (m.birthdate > today.AddYears(-age)) age--;
-            var current_age = age.ToString();
+            //var birthdate = String.Format("{0:d MMMM yyyy}",m.birthdate);
+            //DateTime today = DateTime.Today;
+            //int year = 0;
+            //Int32.TryParse(String.Format("{0:yyyy}", m.birthdate),out year);
+            //int age = today.Year - year + 543;
+            //if (m.birthdate > today.AddYears(-age)) age--;
+            //var current_age = age.ToString();
+            var current_age = m.age;
 
             //var cid_card = m.cid_card.Substring(0,7) + "XXXXXX";
             var cid_card = m.cid_card;
@@ -989,7 +990,7 @@ namespace PPcore.Controllers
         // POST: members/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("mem_password,member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,id,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,social_app_data,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone")] member member)
+        public IActionResult Edit(string id, [Bind("title,occupation,mem_password,member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,id,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,social_app_data,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone")] member member)
         {
             if (ModelState.IsValid)
             {
