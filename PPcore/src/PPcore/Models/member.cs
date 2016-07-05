@@ -87,7 +87,8 @@ namespace PPcore.Models
         //[RegularExpression(@"^.{3,}$", ErrorMessage = "Minimum 3 characters required")]
         public string religion { get; set; }
 
-        [Display(Name = "ชื่อสถานที่")]
+        //[Display(Name = "ชื่อสถานที่")]
+        [Display(Name = "ที่อยู่ปัจจุบัน")]
         public string place_name { get; set; }
         [Display(Name = "อาคาร")]
         public string building { get; set; }

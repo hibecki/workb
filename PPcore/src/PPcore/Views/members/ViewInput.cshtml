@@ -25,7 +25,7 @@
                                     <span asp-validation-for="member_code" class="text-danger" />
                                 </div>*@
                                 <div class="col-md-4">
-                                    <input asp-for="member_code" class="form-control" maxlength="13" />
+                                    <input asp-for="member_code" class="form-control" maxlength="13" readonly />
                                     <span asp-validation-for="member_code" class="text-danger" />
                                 </div>
                                 <div class="col-md-2 text-right"><label asp-for="parent_code" class="control-label"></label></div>
@@ -37,25 +37,17 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-2 text-right"><label asp-for="mem_type_code" class="control-label"></label></div>
+                                @*<div class="col-md-2 text-right"><label asp-for="mem_type_code" class="control-label"></label></div>
                                 <div class="col-md-4">
                                     <select asp-for="mem_type_code" class="form-control" asp-items="@ViewBag.mem_type"></select>
-                                </div>
+                                </div>*@
                                 <div class="col-md-2 text-right"><label asp-for="mem_group_code" class="control-label"></label></div>
                                 <div class="col-md-4">
                                     <select asp-for="mem_group_code" class="form-control" asp-items="@ViewBag.mem_group"></select>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
                                 <div class="col-md-2 text-right"><label asp-for="mlevel_code" class="control-label"></label></div>
                                 <div class="col-md-4">
                                     <select asp-for="mlevel_code" class="form-control" asp-items="@ViewBag.mem_level"></select>
-                                </div>
-                                <div class="col-md-2 text-right"><label asp-for="mstatus_code" class="control-label"></label></div>
-                                <div class="col-md-4">
-                                    <select asp-for="mstatus_code" class="form-control" asp-items="@ViewBag.mem_status"></select>
                                 </div>
                             </div>
                         </div>
@@ -109,9 +101,14 @@
                                     </div>
                                     <span asp-validation-for="birthdate" class="text-danger" />
                                 </div>
-                                <div class="col-md-2 text-right"><label asp-for="cid_type" class="control-label"></label></div>
+                                @*<div class="col-md-2 text-right"><label asp-for="cid_type" class="control-label"></label></div>
                                 <div class="col-md-4">
                                     <select asp-for="cid_type" class="form-control" asp-items="@ViewBag.cid_type"></select>
+                                </div>*@
+                                <div class="col-md-2 text-right"><label asp-for="cid_card" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="cid_card" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="$('#member_code').val($('#cid_card').val());" maxlength="13"/>
+                                    <span asp-validation-for="cid_card" class="text-danger" />
                                 </div>
                             </div>
                         </div>
@@ -122,14 +119,10 @@
                                     <input asp-for="current_age" class="form-control" readonly />
                                     <span asp-validation-for="current_age" class="text-danger" />
                                 </div>
-                                <div class="col-md-2 text-right"><label asp-for="cid_card" class="control-label" ></label></div>
-                                @*<div class="col-md-4">
-                                    <input asp-for="cid_card" class="form-control" onkeyup="$('#member_code').val($('#cid_card').val());"/>
-                                    <span asp-validation-for="cid_card" class="text-danger" />
-                                </div>*@
+                                <div class="col-md-2 text-right"><label asp-for="religion" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <input asp-for="cid_card" class="form-control" />
-                                    <span asp-validation-for="cid_card" class="text-danger" />
+                                    <input asp-for="religion" class="form-control" />
+                                    <span asp-validation-for="religion" class="text-danger" />
                                 </div>
                             </div>
                         </div>
@@ -139,10 +132,9 @@
                                 <div class="col-md-4">
                                     <select asp-for="marry_status" class="form-control" asp-items="@ViewBag.marry_status"></select>
                                 </div>
-                                <div class="col-md-2 text-right"><label asp-for="religion" class="control-label"></label></div>
+                                <div class="col-md-2 text-right"><label asp-for="mstatus_code" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <input asp-for="religion" class="form-control" />
-                                    <span asp-validation-for="religion" class="text-danger" />
+                                    <select asp-for="mstatus_code" class="form-control" asp-items="@ViewBag.mem_status"></select>
                                 </div>
                             </div>
                         </div>
