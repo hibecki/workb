@@ -16,7 +16,7 @@
             <form asp-action="Edit">
                 <div class="form-horizontal">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div style="position:relative;top:-57px;margin-right:.5em;float:right">
+                    <div style="position:relative;top:-57px;margin-right:.5em;float:right;margin-bottom:-2em;">
                         <button id="btnSave" type="submit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</button>
                         <div id="btnDetails" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "course_group")'">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูลทั้งหมด</div>
                     </div>
@@ -82,19 +82,49 @@
 
 </div>
 
-@section scripts {
-    <script>
-        $(document).ready(function () {
-            $.ajax({
-                type: 'get', url: '@Url.Action("DetailsAsTableList", "course_type")' + '?cgroup_code=' + $('#cgroup_code').val(),
-            }).done(function (resp) {
-                $('#course_typeTable').html(resp);
+<!-- Modal -->
+<div class="modal fade modalForm1" id="course_typeModal" tabindex="-1" role="dialog" aria-labelledby="course_typeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="course_typeModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="course_typeModalLabel" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                @{ await Html.RenderPartialAsync("~/Views/course_type/ViewInput", new PPcore.Models.course_type());  }
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal -->
 
-                //$('#btnCreateProduct').hide(); $('#btnEditProduct').hide();
-                //var tableProduct = setTableProductDetailsAsTableList($('#dataTablesProductDetailsAsTableList'));
-                //tableProduct.$('tr:first').click();
+    @section scripts {
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("DetailsAsTableList", "course_type")' + '?cgroup_code=' + $('#cgroup_code').val(),
+                }).done(function (resp) {
+                    $('#course_typeTable').html(resp);
 
-                @*$('#product_type').off('change').on('change', function () {
+                    $('#btnCreateCourseType').off('click').on('click', function () {
+                        $('#course_typeModalLabel').text('เพิ่มรหัสประเภทหลักสูตร');
+                        $('#course_typeSubmit').html('บันทึก');
+                        $('#course_typeModal').modal({ backdrop: 'static', keyboard: false });
+                    });
+
+                    $('#btnEditCourseType').off('click').on('click', function () {
+                        console.log('testtttt');
+                    });
+
+                    $('#btnDeleteCourseType').off('click').on('click', function () {
+                        console.log('testtttt');
+                    });
+                    //$('#btnCreateProduct').hide(); $('#btnEditProduct').hide();
+                    //var tableProduct = setTableProductDetailsAsTableList($('#dataTablesProductDetailsAsTableList'));
+                    //tableProduct.$('tr:first').click();
+
+                    @*$('#product_type').off('change').on('change', function () {
                     var sPattern = $('#searchPattern').val().trim();
                     $.ajax({
                         type: 'get', url: '@Url.Action("DetailsAsJsonList", "products")' + '?product_type_code=' + $('#product_type').val() + '&product_group_code=' + $('#product_group').val() + '&pattern=' + sPattern,
@@ -117,7 +147,7 @@
                     });
                 });*@
 
-                @*$('#product_group').off('change').on('change', function () {
+                    @*$('#product_group').off('change').on('change', function () {
                     $.ajax({
                         type: 'get', url: '@Url.Action("SelectBy", "product_type")' + '?product_group_code=' + $('#product_group').val(),
                     }).done(function (resp) {
@@ -130,9 +160,9 @@
                         }
                     });
                 });*@
+                });
             });
-        });
-    </script>
-}
+        </script>
+    }
 
 

@@ -12,23 +12,29 @@ namespace PPcore.Services
         public Task SendEmailAsync(string email, string subject, string message)
         {
             int res = -1;
-
-            using (MailMessage m = new MailMessage("info@palangpanya.com", email))
+            try
             {
-                m.Subject = subject;
-                m.Body = message;
-                using (SmtpClient client = new SmtpClient
+                using (var msg = new MailMessage("info@palangpanya.com",email))
                 {
-                    EnableSsl = false,
-                    Host = "mail.palangpanya.com",
-                    Port = 25,
-                    Credentials = new NetworkCredential("info@palangpanya.com", "mfmHD9A2Ws")
-                })
-                {
-                    client.SendMailAsync(m);
-                    res = 0;
+                    msg.Subject = subject;
+                    msg.Body = message;
+                    using (SmtpClient client = new SmtpClient
+                    {
+                        EnableSsl = false,
+                        Host = "mail.palangpanya.com",
+                        Port = 25,
+                        Credentials = new NetworkCredential("info@palangpanya.com", "mfmHD9A2Ws")
+                    })
+                    {
+                        client.Send(msg);
+                        res = 0;
+                    }
                 }
+            } catch (Exception e)
+            {
+                res = e.HResult;
             }
+
 
             return Task.FromResult(res);
         }

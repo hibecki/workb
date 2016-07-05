@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,8 +23,8 @@ namespace PPcore.Controllers
 
         public void SendEmail(string email, string username, string password)
         {
-            var title = "username and password";
-            var body = "Username: " + username + "\nPassword: " + password;
+            var title = "พลังปัญญา";
+            var body = "ชื่อผู้ใช้งาน: " + username + "\nรหัสผ่าน: " + password;
             _emailSender.SendEmailAsync(email, title, body);
         }
 
