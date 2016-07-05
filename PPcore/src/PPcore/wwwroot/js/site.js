@@ -22,12 +22,16 @@ function setTableMembers(tableId) {
             { "targets": [0], "width": "15", "className": "dt-center" },
             { "targets": [1], "visible": false, "searchable": false },
             { "targets": [2], "width": "50", "className": "dt-center" },
+                        { "targets": [2], "width": "50", "className": "dt-center" },
             { "targets": [3], "width": "150" },
+                        { "targets": [4], "width": "50", "className": "dt-center" },
+                        { "targets": [4], "width": "50", "className": "dt-center" },
             { "targets": [4], "width": "50", "className": "dt-center" },
             { "targets": [6], "width": "50", "className": "dt-center" },
             { "targets": [7], "width": "50", "className": "dt-center" },
             { "targets": [8], "width": "50" },
             { "targets": [9], "width": "50" },
+            { "targets": [10], "width": "50" },
         ], fixedColumns: true,
         preDrawCallback: function (settings) {
             var api = new $.fn.dataTable.Api(settings);

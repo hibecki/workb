@@ -105,22 +105,23 @@ namespace PPcore.Controllers
             var result = "";
             if (tel != null)
             {
-                if ((tel.Count() == 9) && (tel.Substring(0, 2) == "02"))
-                {
-                    result = "02-" + tel.Substring(2, 3) + "-" + new String('X', tel.Substring(5).Count());
-                }
-                else if ((tel.Count() == 10) && (tel.Substring(0, 2) == "08"))
-                {
-                    result = "08-" + tel.Substring(2, 4) + "-" + new String('X', tel.Substring(6).Count());
-                }
-                else if(tel.Count() == 9)
-                {
-                    result = tel.Substring(0, 3) + "-" + tel.Substring(3, 3) + "-" + new String('X', tel.Substring(6).Count());
-                }
-                else
-                {
-                    result = tel;
-                }
+                //    if ((tel.Count() == 9) && (tel.Substring(0, 2) == "02"))
+                //    {
+                //        result = "02-" + tel.Substring(2, 3) + "-" + new String('X', tel.Substring(5).Count());
+                //    }
+                //    else if ((tel.Count() == 10) && (tel.Substring(0, 2) == "08"))
+                //    {
+                //        result = "08-" + tel.Substring(2, 4) + "-" + new String('X', tel.Substring(6).Count());
+                //    }
+                //    else if(tel.Count() == 9)
+                //    {
+                //        result = tel.Substring(0, 3) + "-" + tel.Substring(3, 3) + "-" + new String('X', tel.Substring(6).Count());
+                //    }
+                //    else
+                //    {
+                //        result = tel;
+                //    }
+                result = tel.Trim();
             }
             else
             {
@@ -145,7 +146,8 @@ namespace PPcore.Controllers
             if (m.birthdate > today.AddYears(-age)) age--;
             var current_age = age.ToString();
 
-            var cid_card = m.cid_card.Substring(0,7) + "XXXXXX";
+            //var cid_card = m.cid_card.Substring(0,7) + "XXXXXX";
+            var cid_card = m.cid_card;
 
             var marry_status = m.marry_status == "N"? "โสด" :"สมรส";
 
@@ -331,9 +333,11 @@ namespace PPcore.Controllers
             memberInfoRow3.LockedWidth = true;
             memberInfoRow3.DefaultCell.VerticalAlignment = 1;
             //memberInfoRow3.SetWidths(new float[] { 78f, 77f, 40f, 25f, 25f, 50f });
-            memberInfoRow3.SetWidths(new float[] { 85f, 70f, 40f, 25f, 25f, 50f }); 
+            //memberInfoRow3.SetWidths(new float[] { 85f, 70f, 40f, 25f, 25f, 50f });
+            memberInfoRow3.SetWidths(new float[] { 60f, 95f, 40f, 25f, 25f, 50f });
             //memberInfoRow3.AddCell(new PdfPCell(new Phrase("หมายเลขบัตรประชาชน", cnb)) { Border = Rectangle.NO_BORDER });
-            memberInfoRow3.AddCell(new PdfPCell(new Phrase("เลขบัตรประชาชน/พาสปอร์ต", cnb)) { Border = Rectangle.NO_BORDER });
+            //memberInfoRow3.AddCell(new PdfPCell(new Phrase("เลขบัตรประชาชน/พาสปอร์ต", cnb)) { Border = Rectangle.NO_BORDER });
+            memberInfoRow3.AddCell(new PdfPCell(new Phrase("เลขบัตรประชาชน", cnb)) { Border = Rectangle.NO_BORDER });
             memberInfoRow3.AddCell(new PdfPCell(new Phrase(cid_card, cni)) { Border = Rectangle.NO_BORDER });
             memberInfoRow3.AddCell(new PdfPCell(new Phrase("สถานภาพ", cnb)) { Border = Rectangle.NO_BORDER });
             memberInfoRow3.AddCell(new PdfPCell(new Phrase(marry_status, cni)) { Border = Rectangle.NO_BORDER });

@@ -27,6 +27,10 @@ namespace PPcore.Models
         [Display(Name = "สถานะสมาชิก")]
         public string mstatus_code { get; set; }
 
+        [Display(Name = "คำนำหน้า")]
+        [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
+        public string title { get; set; }
+
         [Display(Name = "ชื่อ")]
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         public string fname { get; set; }
@@ -58,7 +62,8 @@ namespace PPcore.Models
         [Display(Name = "ประเภทบัตร")]
         public string cid_type { get; set; }
         //[Display(Name = "เลขประจำตัวประชาชน")]
-        [Display(Name = "เลขบัตรประชาชน/พาสปอร์ต")]
+        //[Display(Name = "เลขบัตรประชาชน/พาสปอร์ต")]
+        [Display(Name = "เลขบัตรประชาชน")]
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         //[StringLength(13, MinimumLength = 13, ErrorMessage = "กรุณากรอกหมายเลข 13 หลัก")]
         //[RegularExpression("([1-9][0-9]*)", ErrorMessage = "กรุณากรอกเฉพาะหมายเลข")]
@@ -124,8 +129,11 @@ namespace PPcore.Models
         [Display(Name = "หมายเลขโทรศัพท์บ้าน")]
         //[RegularExpression(@"^[0-9]{0,15}$", ErrorMessage = "PhoneNumber should contain only numbers")]
         public string tel { get; set; }
-        [Display(Name = "Social")]
-        public string social_app_data { get; set; }
+
+        [Display(Name = "เฟซบุ๊ค")]
+        public string facebook { get; set; }
+        [Display(Name = "ไลน์")]
+        public string line { get; set; }
 
         [HiddenInput]
         [Display(Name = "รูปถ่ายสมาชิก")]

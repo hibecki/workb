@@ -769,7 +769,9 @@ namespace PPcore.Models
 
                 entity.Property(e => e.floor).HasColumnType("nvarchar(20)");
 
+                entity.Property(e => e.title).HasColumnType("nvarchar(100)");
                 entity.Property(e => e.fname).HasColumnType("nvarchar(100)");
+                entity.Property(e => e.lname).HasColumnType("nvarchar(100)");
 
                 entity.Property(e => e.h_no).HasColumnType("nvarchar(20)");
 
@@ -779,7 +781,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.latitude).HasColumnType("decimal");
 
-                entity.Property(e => e.lname).HasColumnType("nvarchar(100)");
+                
 
                 entity.Property(e => e.longitude).HasColumnType("decimal");
 
@@ -817,7 +819,8 @@ namespace PPcore.Models
 
                 entity.Property(e => e.sex).HasColumnType("char(1)");
 
-                entity.Property(e => e.social_app_data).HasColumnType("nvarchar(500)");
+                entity.Property(e => e.facebook).HasColumnType("nvarchar(500)");
+                entity.Property(e => e.line).HasColumnType("nvarchar(500)");
 
                 entity.Property(e => e.street).HasColumnType("nvarchar(50)");
 
