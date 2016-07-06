@@ -140,6 +140,59 @@ color: white;
 background-color: #093D6A;
 }
 
+.navbar-white {
+  background-color: white;
+  border-color: #000000;
+}
+.navbar-white .navbar-brand {
+  color: #fff;
+}
+.navbar-white .navbar-brand:hover,
+.navbar-white .navbar-brand:focus {
+  color: #fff;
+  background-color: transparent;
+}
+.navbar-white .navbar-text {
+  color: black;
+}
+.navbar-white .navbar-nav > li > a {
+  color: black;
+}
+.navbar-white .navbar-nav > li > a:hover,
+.navbar-white .navbar-nav > li > a:focus {
+  color: black;
+  background-color: transparent;
+}
+.navbar-white .navbar-nav > .active > a,
+.navbar-white .navbar-nav > .active > a:hover,
+.navbar-white .navbar-nav > .active > a:focus {
+  color: black;
+  background-color: #000000;
+}
+.navbar-white .dropdown-toggle {
+    color: black;
+}
+.navbar-white .dropdown-toggle:hover {
+    color: black;
+    background-color: #FFC000;
+}
+.navbar-white .dropdown-toggle:focus {
+    color: black;
+    background-color: #FFC000;
+}
+.navbar-white .dropdown-menu {
+color: black;
+background-color: #FFC000;
+}
+.navbar-white .dropdown-menu > li > a {
+color: black;
+background-color: #FFC000;
+}
+.navbar-white .dropdown-menu > li > a:hover,
+.navbar-white .dropdown-menu > li > a:focus {
+color: white;
+background-color: #093D6A;
+}
 
 .nav-tabs > li > a,
 .nav-tabs > li > a:hover,

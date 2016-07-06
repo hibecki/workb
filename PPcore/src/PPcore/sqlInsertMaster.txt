@@ -1,4 +1,7 @@
-﻿INSERT INTO project_course (course_code,project_code,course_desc,id,x_status) VALUES ('1','ASP5','ASP.Net 5',newid(),'Y');
+﻿EXEC sp_MSForEachTable 'DELETE FROM ?'
+GO
+
+INSERT INTO project_course (course_code,project_code,course_desc,id,x_status) VALUES ('1','ASP5','ASP.Net 5',newid(),'Y');
 INSERT INTO project_course (course_code,project_code,course_desc,id,x_status) VALUES ('2','MVC6','MVC 6',newid(),'Y');
 INSERT INTO project_course (course_code,project_code,course_desc,id,x_status) VALUES ('3','EF7','Entity Framework 7',newid(),'Y');
 
@@ -6,27 +9,44 @@ INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('A','Good
 INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('B','Pass',newid(),'Y');
 INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('F','Fail',newid(),'Y');
 
-INSERT INTO mem_group (mem_group_code,mem_group_desc,id,x_status) VALUES ('1',N'สุขสวัสดิ์',newid(),'Y');
-INSERT INTO mem_group (mem_group_code,mem_group_desc,id,x_status) VALUES ('2',N'เมืองทอง',newid(),'Y');
+INSERT INTO [dbo].[mem_group] ([mem_group_code], [mem_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1  ', N'ผู้นำพลังปัญญา', N'Y', NULL, NULL, N'5d012928-0f41-4545-874a-197c95242f72');
+INSERT INTO [dbo].[mem_group] ([mem_group_code], [mem_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'2  ', N'สมาชิกเครือข่าย', N'Y', NULL, NULL, N'7df0b28f-abe4-46d8-96d0-330c92da0bec');
+
 
 INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','1',N'ผู้บริหาร',newid(),'Y');
 INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','2',N'ผู้บริหารกลุ่ม',newid(),'Y');
 INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','3',N'สมาชิก',newid(),'Y');
 
-INSERT INTO mem_level (mlevel_code,mlevel_desc,id,x_status) VALUES ('1',N'เพชร',newid(),'Y');
-INSERT INTO mem_level (mlevel_code,mlevel_desc,id,x_status) VALUES ('2',N'ทอง',newid(),'Y');
-INSERT INTO mem_level (mlevel_code,mlevel_desc,id,x_status) VALUES ('3',N'เงิน',newid(),'Y');
+INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1  ', N'ระดับ 1', N'Y', NULL, NULL, N'cfc643a1-50c6-4853-a395-2d3cf6794daf');
+INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'2  ', N'ระดับ 2', N'Y', NULL, NULL, N'5521c365-2ed5-4947-9d42-f23f02c198a5');
+INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'3  ', N'ระดับ 3', N'Y', NULL, NULL, N'9841b246-71bb-49f4-9cfd-6b14ee3cfbea');
 
-INSERT INTO mem_status (mstatus_code,mstatus_desc,id,x_status) VALUES ('1',N'สมาชิก',newid(),'Y');
-INSERT INTO mem_status (mstatus_code,mstatus_desc,id,x_status) VALUES ('2',N'หมดอายุ',newid(),'Y');
-INSERT INTO mem_status (mstatus_code,mstatus_desc,id,x_status) VALUES ('3',N'กำลังดำเนินการต่ออายุ',newid(),'Y');
+INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1  ', N'กำลังศึกษา', N'Y', NULL, NULL, N'd26a9077-7064-49b1-b46b-8fcdd05f5464');
+INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'2  ', N'พักการศึกษาชั่วคราว', N'Y', NULL, NULL, N'e8c3c6dd-930c-496c-a310-d81901db74b8');
+INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'3  ', N'พ้นสภาพการศึกษา', N'Y', NULL, NULL, N'a0ed9458-165f-422e-a8b4-87522e339107');
+INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'4  ', N'สำเร็จการศึกษาระดับ 1', N'Y', NULL, NULL, N'640fe918-7ead-497b-8edf-ddfb886e3c10');
+INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'5  ', N'สำเร็จการศึกษาระดับ 2', N'Y', NULL, NULL, N'05005af4-52e9-49c7-a39a-90adbdd2acbe');
+INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'6  ', N'สำเร็จการศึกษาระดับ 3', N'Y', NULL, NULL, N'c1f8df56-876e-49e2-aacd-090b0de998b4');
+
 
 INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'ไทย', NULL, NULL, NULL, NULL, N'865c24b0-0b06-4b4a-a9cf-aeb6053a456e')
 INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (84, N'เวียดนาม', NULL, NULL, NULL, NULL, N'746e95e2-abc3-4d39-99e7-61e319524b1d')
 INSERT [ini_country] ([country_code], [country_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (856, N'ลาว', NULL, NULL, NULL, NULL, N'fbc45ae4-8134-4f58-a6b1-de8967d6a3b7')
 
-INSERT INTO[dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES('1', N'ปลูกพืช', N'Y', NULL, NULL, N'8a20710a-2152-48fb-93ae-218347593386');
-INSERT INTO[dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES('2', N'เลี้ยงสัตว์', N'Y', NULL, NULL, N'82583c56-71c8-4caa-a1b5-aad4c067ff63');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1', N'พืชไร่', N'Y', NULL, NULL, N'8a20710a-2152-48fb-93ae-218347593386');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'10', N'ศูนย์การเรียนรู้', N'Y', NULL, NULL, N'4f0eeddc-ea9a-431c-a88a-4acd20faae98');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'11', N'สิ่งทอและเสื้อผ้า', N'Y', NULL, NULL, N'43e89cbd-00ca-495d-83aa-386812fa1195');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'12', N'เกษตรผสมผสาน', N'Y', NULL, NULL, N'fea45575-037f-4230-8108-63e606b94d3f');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'13', N'สินค้านวัตกรรม', N'Y', NULL, NULL, N'fc0a9823-c429-49e5-9e39-d738a3bcf450');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'2', N'พืชสวน', N'Y', NULL, NULL, N'82583c56-71c8-4caa-a1b5-aad4c067ff63');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'3', N'สมุนไพร', N'Y', NULL, NULL, N'36944ace-b04f-436b-9724-170b4015154c');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'4', N'ปศุสัตว์', N'Y', NULL, NULL, N'9c5cba0d-659f-44c7-a0b8-1bea8af40405');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'5', N'ประมง', N'Y', NULL, NULL, N'5c64a8b5-c257-4884-b021-8e57a587236d');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'6', N'สินค้าแปรรูป', N'Y', NULL, NULL, N'2bd0b35c-1545-4fb3-b043-6abffe354243');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'7', N'ท่องเที่ยวและบริการ', N'Y', NULL, NULL, N'eae25748-b148-4f13-a29f-d07a21f92b39');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'8', N'อาหารและเครื่องดื่ม', N'Y', NULL, NULL, N'bc4c080c-8e5e-443e-a6b4-ace4e71c4cb0');
+INSERT INTO [dbo].[product_group] ([product_group_code], [product_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'9', N'ร้านค้า', N'Y', NULL, NULL, N'29225bb4-10bf-4ec2-9d97-a0b7b1e0284a');
+
 
 INSERT INTO[dbo].[product_type] ([product_group_code], [product_type_code], [product_type_desc], [x_status], [x_note], [x_log], [id]) VALUES('1', '1', N'ปลูกข้าว', N'Y', NULL, NULL, N'7b424762-fb7f-4d1a-8c74-74404ddc5106');
 INSERT INTO[dbo].[product_type] ([product_group_code], [product_type_code], [product_type_desc], [x_status], [x_note], [x_log], [id]) VALUES('2', '1', N'เลี้ยงปลา', N'Y', NULL, NULL, N'ff208832-e813-4888-8c9d-3a3f94716047');

@@ -130,6 +130,8 @@ namespace PPcore.Models
         public string textb_address { get; set; }
         [Display(Name = "ที่อยู่ 3")]
         public string textc_address { get; set; }
+        [Display(Name = "ที่อยู่ในการจัดส่งเอกสาร")]
+        public string mail_address { get; set; }
 
         [Display(Name = "หมายเลขโทรศัพท์มือถือ")]
         //[RegularExpression(@"^[0-9]{0,15}$", ErrorMessage = "PhoneNumber should contain only numbers")]

@@ -4,8 +4,7 @@
 <div class="form-group">
     <label asp-for="degree" class="col-md-3 control-label"></label>
     <div class="col-md-9">
-        <input asp-for="degree" class="form-control" />
-        <span asp-validation-for="degree" class="text-danger" />
+        <select asp-for="degree" class="form-control" asp-items="@ViewBag.mem_education_degree"></select>
     </div>
 </div>
     <div class="form-group">

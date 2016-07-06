@@ -521,19 +521,20 @@ namespace PPcore.Models
 
                 entity.Property(e => e.blood_group).HasColumnType("char(1)");
 
-                entity.Property(e => e.hobby).HasMaxLength(500);
+                entity.Property(e => e.hobby).HasColumnType("nvarchar(500)");
 
                 entity.Property(e => e.id).HasDefaultValueSql("newid()");
 
-                entity.Property(e => e.medical_history).HasMaxLength(500);
+                entity.Property(e => e.medical_history).HasColumnType("nvarchar(500)");
 
-                entity.Property(e => e.restrict_food).HasMaxLength(500);
+                entity.Property(e => e.restrict_food).HasColumnType("nvarchar(500)");
+                entity.Property(e => e.special_food).HasColumnType("nvarchar(500)");
 
                 entity.Property(e => e.rowversion)
                     .HasColumnType("timestamp")
-                    .ValueGeneratedOnAddOrUpdate();
+                    .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
 
-                entity.Property(e => e.special_skill).HasMaxLength(500);
+                entity.Property(e => e.special_skill).HasColumnType("nvarchar(500)");
 
                 entity.Property(e => e.x_log).HasMaxLength(500);
 
@@ -834,6 +835,7 @@ namespace PPcore.Models
                 entity.Property(e => e.textb_address).HasColumnType("nvarchar(200)");
 
                 entity.Property(e => e.textc_address).HasColumnType("nvarchar(200)");
+                entity.Property(e => e.mail_address).HasColumnType("nvarchar(600)");
 
                 entity.Property(e => e.village).HasColumnType("nvarchar(50)");
 

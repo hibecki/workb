@@ -322,6 +322,31 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label asp-for="mail_address" class="control-label"></label></div>
+                                        <div class="col-md-10">
+
+                                                <label class="checkbox-inline">
+                                                    <input id="mail_addressCheckCurrent" type="checkbox" onclick="mail_addressCheckCurrentTick();">ใช้ทีอยู่ปัจจุบัน
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="mail_addressCheckOther" type="checkbox" onclick="mail_addressCheckOtherTick();">ที่อยู่อื่นๆ
+                                                </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"> </div>
+                                        <div class="col-md-10">
+                                            <input asp-for="mail_address" class="form-control" readonly="readonly" />
+                                            <span asp-validation-for="mail_address" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 

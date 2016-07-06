@@ -28,7 +28,8 @@
                                 <a id="members" onclick="location.href='@Url.Action("Details", "members", new {id=ViewBag.memberId})'">ข้อมูลตามบัตรประชาชน<br />และข้อมูลการติดต่อกลับ</a>
                             </li>
                             <li>
-                                <a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId, v = 1})'" data-toggle="tab" style="width:140px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการฝึกอบรม</div></a>
+                                @*<a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId, v = 1})'" data-toggle="tab" style="width:140px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการฝึกอบรม</div></a>*@
+                                <a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId, v = 1})'" data-toggle="tab" style="width:230px;">ประวัติการฝึกอบรม<br />นอกเหนือหลักสูตรผู้นำพลังปัญญา</a>
                             </li>
                             <li>
                                 <a id="mem_site_visit" onclick="location.href='@Url.Action("Index", "mem_site_visit", new {memberId=ViewBag.memberId, v = 1})'" data-toggle="tab" style="width:120px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการดูงาน</div></a>
@@ -60,7 +61,8 @@
                                 <a id="members" onclick="location.href='@Url.Action("Edit", "members", new {id=ViewBag.memberId})'">ข้อมูลตามบัตรประชาชน<br />และข้อมูลการติดต่อกลับ</a>
                             </li>
                             <li>
-                                <a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId})'" data-toggle="tab" style="width:140px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการฝึกอบรม</div></a>
+                                @*<a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId})'" data-toggle="tab" style="width:140px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการฝึกอบรม</div></a>*@
+                                <a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId})'" data-toggle="tab" style="width:230px;">ประวัติการฝึกอบรม<br/>นอกเหนือหลักสูตรผู้นำพลังปัญญา</a>
                             </li>
                             <li>
                                 <a id="mem_site_visit" onclick="location.href='@Url.Action("Index", "mem_site_visit", new {memberId=ViewBag.memberId})'" data-toggle="tab" style="width:120px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการดูงาน</div></a>
@@ -119,9 +121,16 @@
 
                 if (act == "Create") {
                     $('#province_code').trigger("change"); $('#district_code').trigger("change"); $('#subdistrict_code').trigger("change");
+                    $("#mail_addressCheckCurrent").prop("checked", true);
                 } else if (act == "Edit") {
                     setTabColor();
                     setProvinceData();
+                    if ($("#mail_address").val() == "") {
+                        $("#mail_addressCheckCurrent").prop("checked", true);
+                    } else {
+                        $("#mail_addressCheckOther").prop("checked", true);
+                        $('#mail_address').prop('readonly', false);
+                    }
                 } else if (act == "Details") {
                     setTabColor();
                     setProvinceData();
@@ -140,8 +149,9 @@
                             $('#birthdateButton').attr({ 'disabled': 'disabled' });
                         }
                         $('#btnGoEdit').show(); $('#btnSave').hide();
-                    }, 1000);
+                    }, 800);
                 }
+
             } else {
                 setTabColor();
             }
@@ -314,6 +324,26 @@
                     }, 300);
                 }, 300);
             }, 300);
+        }
+        function mail_addressCheckCurrentTick() {
+            if ($('#mail_addressCheckCurrent').prop("checked") == true) {
+                $("#mail_addressCheckOther").prop("checked", false);
+                $('#mail_address').prop('readonly', true);
+                $('#mail_address').val('');
+            } else {
+                $("#mail_addressCheckOther").prop("checked", true);
+                $('#mail_address').prop('readonly', false);
+            }
+        }
+        function mail_addressCheckOtherTick() {
+            if ($('#mail_addressCheckOther').prop("checked") == true) {
+                $("#mail_addressCheckCurrent").prop("checked", false);
+                $('#mail_address').prop('readonly', false);
+            } else {
+                $("#mail_addressCheckCurrent").prop("checked", true);
+                $('#mail_address').prop('readonly', true);
+                $('#mail_address').val('');
+            }
         }
 
         function mem_productIndex(memberId) {

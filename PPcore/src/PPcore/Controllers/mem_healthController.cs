@@ -50,7 +50,7 @@ namespace PPcore.Controllers
 
         // POST: mem_health/Edit/5
         [HttpPost]
-        public IActionResult Edit(string memberId, string member_code, string medical_history, string blood_group, string hobby, string restrict_food, string special_skill)
+        public IActionResult Edit(string memberId, string member_code, string medical_history, string blood_group, string hobby, string restrict_food, string special_food, string special_skill)
         {
             ViewBag.memberId = memberId;
 
@@ -63,6 +63,7 @@ namespace PPcore.Controllers
                 mh.blood_group = blood_group;
                 mh.hobby = hobby;
                 mh.restrict_food = restrict_food;
+                mh.special_food = special_food;
                 mh.special_skill = special_skill;
                 mh.x_status = "Y";
                 _context.Add(mh);
@@ -75,6 +76,7 @@ namespace PPcore.Controllers
                 mh.blood_group = blood_group;
                 mh.hobby = hobby;
                 mh.restrict_food = restrict_food;
+                mh.special_food = special_food;
                 mh.special_skill = special_skill;
                 mh.x_status = "Y";
                 _context.Update(mh);
