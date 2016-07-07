@@ -1,4 +1,5 @@
-﻿-- mem_site_visit
+﻿
+-- mem_site_visit
   
 IF OBJECT_ID(N'mem_site_visit_Insert', N'TR') IS NOT NULL
     exec sp_executesql N'DROP TRIGGER mem_site_visit_Insert';

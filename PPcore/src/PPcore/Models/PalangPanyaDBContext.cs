@@ -665,8 +665,7 @@ namespace PPcore.Models
 
             modelBuilder.Entity<mem_train_record>(entity =>
             {
-                entity.HasKey(e => new { e.course_code, e.member_code })
-                    .HasName("pk_mem_train_record");
+                entity.HasKey(e => new { e.course_code, e.member_code }).HasName("pk_mem_train_record");
 
                 entity.Property(e => e.course_code).HasColumnType("varchar(30)");
 
@@ -734,7 +733,7 @@ namespace PPcore.Models
                     .HasColumnType("timestamp")
                     .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
 
-                entity.Property(e => e.work_year).HasColumnType("char(4)");
+                entity.Property(e => e.work_year).HasColumnType("varchar(9)");
 
                 entity.Property(e => e.x_log).HasMaxLength(500);
 

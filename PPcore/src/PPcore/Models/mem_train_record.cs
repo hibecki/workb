@@ -8,6 +8,7 @@ namespace PPcore.Models
         [Display(Name = "รหัสหลักสูตรอบรม")]
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         public string course_code { get; set; }
+
         public string member_code { get; set; }
         [Display(Name = "ระดับเกรด")]
         public string course_grade { get; set; }

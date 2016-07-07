@@ -37,7 +37,7 @@
                         <th>@Html.DisplayNameFor(model => model.company_name_eng)</th>
                         <th>@Html.DisplayNameFor(model => model.position_name_th)</th>
                         <th>@Html.DisplayNameFor(model => model.position_name_eng)</th>
-                        <th>@Html.DisplayNameFor(model => model.work_year)</th>
+                        <th>@Html.DisplayNameFor(model => model.workYear)</th>
                         <th>@Html.DisplayNameFor(model => model.office_address)</th>
                     </tr>
                 </thead>
@@ -51,7 +51,7 @@
                             <td>@Html.DisplayFor(modelItem => item.company_name_eng)</td>
                             <td>@Html.DisplayFor(modelItem => item.position_name_th)</td>
                             <td>@Html.DisplayFor(modelItem => item.position_name_eng)</td>
-                            <td>@Html.DisplayFor(modelItem => item.work_year)</td>
+                            <td>@Html.DisplayFor(modelItem => item.workYear)</td>
                             <td>@Html.DisplayFor(modelItem => item.office_address)</td>
                         </tr>
                     }
@@ -106,10 +106,19 @@
                 $("#company_name_eng").prop('disabled', false);
                 $("#position_name_th").prop('disabled', false);
                 $("#position_name_eng").prop('disabled', false);
-                $("#work_year").prop('disabled', false);
+                //$("#work_year").prop('disabled', false);
+                $("#work_year_start").prop('disabled', false); $("#work_year_finish").prop('disabled', false);
                 $("#office_address").prop('disabled', false);
                 $("#mem_worklistSubmit").unbind("click").bind("click", function (e) {
                     e.preventDefault();
+                    //var wy;
+                    //if ($("#work_year_start").val()) {
+                    //    wy = $("#work_year_finish").val();
+                    //} else if ($("#work_year_finish").val()) {
+                    //    wy = $("#work_year_start").val();
+                    //} else {
+                    //    wy = $("#work_year_start").val() + '-' + $("#work_year_finish").val();
+                    //}
                     if ($("#mem_worklistForm").valid()) {
                         $.ajax({
                             async: false,
@@ -121,7 +130,8 @@
                                 company_name_eng: $("#company_name_eng").val(),
                                 position_name_th: $("#position_name_th").val(),
                                 position_name_eng: $("#position_name_eng").val(),
-                                work_year: $("#work_year").val(),
+                                //work_year: $("#work_year").val(),
+                                work_year: $("#work_year_start").val() + '-' + $("#work_year_finish").val(),
                                 office_address: $("#office_address").val()
                             },
                             success: function (data) {
@@ -134,7 +144,8 @@
                 $("#company_name_eng").val('');
                 $("#position_name_th").val('');
                 $("#position_name_eng").val('');
-                $("#work_year").val('');
+                //$("#work_year").val('');
+                $("#work_year_start").val(''); $("#work_year_finish").val('');
                 $("#office_address").val('');
                 $("#mem_worklistForm").clearValidation();
                 $('#mem_worklistModal').modal({ backdrop: 'static', keyboard: false });
@@ -153,7 +164,10 @@
                         $("#company_name_eng").val(data.company_name_eng);
                         $("#position_name_th").val(data.position_name_th);
                         $("#position_name_eng").val(data.position_name_eng);
-                        $("#work_year").val(data.work_year);
+                        //$("#work_year").val(data.work_year);
+                        var wy = data.work_year.split("-", 2);
+                        $("#work_year_start").val(wy[0]);
+                        $("#work_year_finish").val(wy[1]);
                         $("#office_address").val(data.office_address);
 
                         $("#rec_no").prop('disabled', true);
@@ -161,10 +175,12 @@
                         $("#company_name_eng").prop('disabled', false);
                         $("#position_name_th").prop('disabled', false);
                         $("#position_name_eng").prop('disabled', false);
-                        $("#work_year").prop('disabled', false);
+                        //$("#work_year").prop('disabled', false);
+                        $("#work_year_start").prop('disabled', false); $("#work_year_finish").prop('disabled', false);
                         $("#office_address").prop('disabled', false);
                         $("#mem_worklistSubmit").unbind("click").bind("click", function (e) {
                             e.preventDefault();
+                            console.log($("#work_year_start").val() + '-' + $("#work_year_finish").val());
                             if ($("#mem_worklistForm").valid()) {
                                 $.ajax({
                                     type: "POST",
@@ -176,7 +192,8 @@
                                         company_name_eng: $("#company_name_eng").val(),
                                         position_name_th: $("#position_name_th").val(),
                                         position_name_eng: $("#position_name_eng").val(),
-                                        work_year: $("#work_year").val(),
+                                        //work_year: $("#work_year").val(),
+                                        work_year: $("#work_year_start").val() + '-' + $("#work_year_finish").val(),
                                         office_address: $("#office_address").val()
                                     },
                                     url: "@Url.Action("Edit", "mem_worklist")",
@@ -205,7 +222,10 @@
                         $("#company_name_eng").val(data.company_name_eng);
                         $("#position_name_th").val(data.position_name_th);
                         $("#position_name_eng").val(data.position_name_eng);
-                        $("#work_year").val(data.work_year);
+                        //$("#work_year").val(data.work_year);
+                        var wy = data.work_year.split("-", 2);
+                        $("#work_year_start").val(wy[0]);
+                        $("#work_year_finish").val(wy[1]);
                         $("#office_address").val(data.office_address);
 
                         $("#rec_no").prop('disabled', true);
@@ -213,7 +233,8 @@
                         $("#company_name_eng").prop('disabled', true);
                         $("#position_name_th").prop('disabled', true);
                         $("#position_name_eng").prop('disabled', true);
-                        $("#work_year").prop('disabled', true);
+                        //$("#work_year").prop('disabled', true);
+                        $("#work_year_start").prop('disabled', true); $("#work_year_finish").prop('disabled', true);
                         $("#office_address").prop('disabled', true);
 
                         $("#mem_worklistSubmit").click(function (e) {
@@ -224,7 +245,8 @@
                             $("#company_name_eng").prop('disabled', false);
                             $("#position_name_th").prop('disabled', false);
                             $("#position_name_eng").prop('disabled', false);
-                            $("#work_year").prop('disabled', false);
+                            //$("#work_year").prop('disabled', false);
+                            $("#work_year_start").prop('disabled', false); $("#work_year_finish").prop('disabled', false);
                             $("#office_address").prop('disabled', false);
                         });
                         $('#mem_worklistModal').modal({ backdrop: 'static', keyboard: false });

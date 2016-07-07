@@ -461,7 +461,7 @@ create table mem_worklist (
    company_name_eng     nvarchar(100)        null,
    position_name_th     nvarchar(100)        null,
    position_name_eng    nvarchar(100)        null,
-   work_year            char(4)              null,
+   work_year            varchar(9)           null,
    office_address       nvarchar(500)        null,
    x_status             char(1)              null,
    x_note               nvarchar(50)         null,

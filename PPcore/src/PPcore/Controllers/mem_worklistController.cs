@@ -95,7 +95,7 @@ namespace PPcore.Controllers
             var member = _context.member.Single(m => m.id == new Guid(memberId));
             var mem_worklist = _context.mem_worklist.Single(m => m.id == new Guid(id));
             mem_worklist.member_code = member.member_code;
-            mem_worklist.rec_no = rec_no;
+            //mem_worklist.rec_no = rec_no;
             mem_worklist.company_name_th = company_name_th;
             mem_worklist.company_name_eng = company_name_eng;
             mem_worklist.position_name_th = position_name_th;

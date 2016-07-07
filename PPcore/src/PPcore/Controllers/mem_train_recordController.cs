@@ -72,7 +72,8 @@ namespace PPcore.Controllers
 
             var mem_train_record = new mem_train_record();
             mem_train_record.member_code = member.member_code;
-            mem_train_record.course_code = course_code;
+            //mem_train_record.course_code = course_code;
+            mem_train_record.course_code = DateTime.Now.ToString("yyMMddhhmmssfffffff");
             mem_train_record.course_grade = course_grade;
             mem_train_record.x_status = "Y";
 
@@ -102,7 +103,7 @@ namespace PPcore.Controllers
         {
             var member = _context.member.Single(m => m.id == new Guid(memberId));
             var mem_train_record = _context.mem_train_record.Single(m => m.id == new Guid(id));
-            mem_train_record.course_code = course_code;
+            //mem_train_record.course_code = course_code;
             mem_train_record.course_grade = course_grade;
             _context.Update(mem_train_record);
 
