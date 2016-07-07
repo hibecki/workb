@@ -796,7 +796,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.mem_type_code).HasColumnType("char(3)");
 
-                entity.Property(e => e.mlevel_code).HasColumnType("char(3)");
+                entity.Property(e => e.mlevel_code).HasColumnType("varchar(30)");
 
                 entity.Property(e => e.mobile).HasColumnType("nvarchar(50)");
 

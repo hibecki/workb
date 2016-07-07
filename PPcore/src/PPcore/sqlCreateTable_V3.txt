@@ -509,7 +509,7 @@ create table member (
    mstatus_code         char(3)              null,
    mem_type_code        char(3)              null,
    mem_group_code       char(3)              null,
-   mlevel_code          char(3)              null,
+   mlevel_code          varchar(30)          null,
    zone                 nvarchar(30)          null,
    latitude             decimal(9,6)         null,
    longitude            dec(9,6)             null,
