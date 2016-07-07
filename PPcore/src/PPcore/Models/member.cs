@@ -19,7 +19,8 @@ namespace PPcore.Models
 
         [Display(Name = "ประเภทสมาชิก")]
         public string mem_type_code { get; set; }
-        [Display(Name = "กลุ่มของสมาชิก")]
+        //[Display(Name = "กลุ่มของสมาชิก")]
+        [Display(Name = "ประเภทสมาชิก")]
         public string mem_group_code { get; set; }
 
         [Display(Name = "ระดับสมาชิก")]
