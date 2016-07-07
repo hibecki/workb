@@ -345,7 +345,7 @@ go
 /* Table: mem_level                                             */
 /*==============================================================*/
 create table mem_level (
-   mlevel_code          char(3)              not null,
+   mlevel_code          varchar(30)          not null,
    mlevel_desc          nvarchar(100)        not null,
    x_status             char(1)              null,
    x_note               nvarchar(50)         null,

@@ -548,7 +548,7 @@ namespace PPcore.Models
                 entity.HasKey(e => e.mlevel_code)
                     .HasName("pk_mem_level");
 
-                entity.Property(e => e.mlevel_code).HasColumnType("char(3)");
+                entity.Property(e => e.mlevel_code).HasColumnType("varchar(30)");
 
                 entity.Property(e => e.id).HasDefaultValueSql("newid()");
 
