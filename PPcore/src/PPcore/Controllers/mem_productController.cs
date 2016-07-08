@@ -30,7 +30,7 @@ namespace PPcore.Controllers
                 mem_productViewModel.mem_product = mp;
                 var product = _context.product.Single(p => p.product_code == mp.product_code);
                 mem_productViewModel.product = product;
-                mem_productViewModel.product_group_desc = _context.product_group.Single(p => p.product_group_code == product.product_group_code).product_group_desc;
+                mem_productViewModel.product_group_desc = _context.product_group.SingleOrDefault(p => p.product_group_code == product.product_group_code).product_group_desc;
                 mem_productViewModel.product_type_desc = _context.product_type.Single(p => (p.product_type_code == product.product_type_code) && (p.product_group_code == product.product_group_code)).product_type_desc;
                 mem_productViewModels.Add(mem_productViewModel);
             }
