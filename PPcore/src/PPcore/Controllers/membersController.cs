@@ -135,7 +135,7 @@ namespace PPcore.Controllers
         {
             member m = _context.member.SingleOrDefault(mb => mb.id == new Guid(id));
 
-            var fname = m.fname; var lname = m.lname;
+            var fname = m.title + " " + m.fname; var lname = m.lname;
             var sex = m.sex == "F"? "หญิง" : "ชาย";
             var nationality = m.nationality;
 
@@ -161,7 +161,7 @@ namespace PPcore.Controllers
             var facebook = m.facebook;
             var lineId = m.line;
             var text_address = m.texta_address + " " + m.textb_address + " " + m.textc_address;
-
+            text_address = text_address.Trim();
             var count = 0;
 
             List<listTraining> train = new List<listTraining>();
@@ -249,9 +249,9 @@ namespace PPcore.Controllers
             PdfWriter.GetInstance(document, workStream).CloseStream = false;
 
             var logoPath = Path.Combine(_env.WebRootPath, "images");
-            logoPath = Path.Combine(logoPath, "logo_t.png");
+            logoPath = Path.Combine(logoPath, "logonew.jpg");
             Image logo = Image.GetInstance(logoPath);
-            logo.ScalePercent(50);
+            logo.ScalePercent(30);
             logo.Alignment = Element.ALIGN_CENTER;
 
             var memPhoto =  m.mem_photo != null ? m.mem_photo : "dummy_person_0.jpg";
@@ -376,18 +376,34 @@ namespace PPcore.Controllers
             memberInfoRow5.AddCell(new PdfPCell(new Phrase(email, cni)) { Border = Rectangle.NO_BORDER });
             cell = new PdfPCell(memberInfoRow5); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
             table.AddCell(cell);
+
             //Member Info Row 6
+
             table.AddCell("");
-            PdfPTable memberInfoRow6 = new PdfPTable(2);
-            memberInfoRow6.DefaultCell.Border = Rectangle.NO_BORDER;
-            memberInfoRow6.TotalWidth = 400f;
-            memberInfoRow6.LockedWidth = true;
-            memberInfoRow6.DefaultCell.VerticalAlignment = 1;
-            memberInfoRow6.SetWidths(new float[] { 30f, 285f });
-            memberInfoRow6.AddCell(new PdfPCell(new Phrase("Social", cnb)) { Border = Rectangle.NO_BORDER });
-            memberInfoRow6.AddCell(new PdfPCell(new Phrase("Line ID: " + lineId + " Facebook: " + facebook, cni)) { Border = Rectangle.NO_BORDER });
-            cell = new PdfPCell(memberInfoRow6); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
+            PdfPTable memberInfoRow61 = new PdfPTable(2);
+            memberInfoRow61.DefaultCell.Border = Rectangle.NO_BORDER;
+            memberInfoRow61.TotalWidth = 400f;
+            memberInfoRow61.LockedWidth = true;
+            memberInfoRow61.DefaultCell.VerticalAlignment = 1;
+            memberInfoRow61.SetWidths(new float[] { 50f, 350f });
+            memberInfoRow61.AddCell(new PdfPCell(new Phrase("Facebook:", cnb)) { Border = Rectangle.NO_BORDER });
+            memberInfoRow61.AddCell(new PdfPCell(new Phrase(facebook, cni)) { Border = Rectangle.NO_BORDER });
+            cell = new PdfPCell(memberInfoRow61); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
             table.AddCell(cell);
+
+            table.AddCell("");
+            PdfPTable memberInfoRow62 = new PdfPTable(2);
+            memberInfoRow62.DefaultCell.Border = Rectangle.NO_BORDER;
+            memberInfoRow62.TotalWidth = 400f;
+            memberInfoRow62.LockedWidth = true;
+            memberInfoRow62.DefaultCell.VerticalAlignment = 1;
+            memberInfoRow62.SetWidths(new float[] { 30f, 285f });
+            memberInfoRow62.AddCell(new PdfPCell(new Phrase("Line ID:", cnb)) { Border = Rectangle.NO_BORDER });
+            memberInfoRow62.AddCell(new PdfPCell(new Phrase(lineId, cni)) { Border = Rectangle.NO_BORDER });
+            cell = new PdfPCell(memberInfoRow62); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
+            table.AddCell(cell);
+
+
             //Member Info Row 7
             table.AddCell("");
             PdfPTable memberInfoRow7 = new PdfPTable(2);
@@ -395,7 +411,7 @@ namespace PPcore.Controllers
             memberInfoRow7.TotalWidth = 400f;
             memberInfoRow7.LockedWidth = true;
             memberInfoRow7.DefaultCell.VerticalAlignment = 1;
-            memberInfoRow7.SetWidths(new float[] { 30f, 285f });
+            memberInfoRow7.SetWidths(new float[] { 20f, 350f });
             memberInfoRow7.AddCell(new PdfPCell(new Phrase("ที่อยู่", cnb)) { Border = Rectangle.NO_BORDER });
             memberInfoRow7.AddCell(new PdfPCell(new Phrase(text_address, cni)) { Border = Rectangle.NO_BORDER });
             cell = new PdfPCell(memberInfoRow7); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
@@ -684,7 +700,7 @@ namespace PPcore.Controllers
             healthInfoRow2.SetWidths(new float[] { 30f, 50f, 45f, 70f });
             healthInfoRow2.AddCell(new PdfPCell(new Phrase("หมู่โลหิต", cnb)) { Border = Rectangle.NO_BORDER });
             healthInfoRow2.AddCell(new PdfPCell(new Phrase(blood_group, cni)) { Border = Rectangle.NO_BORDER });
-            healthInfoRow2.AddCell(new PdfPCell(new Phrase("งานอดิเรก", cnb)) { Border = Rectangle.NO_BORDER });
+            healthInfoRow2.AddCell(new PdfPCell(new Phrase("งานอดิเรก/กีฬาที่ชอบ", cnb)) { Border = Rectangle.NO_BORDER });
             healthInfoRow2.AddCell(new PdfPCell(new Phrase(hobby, cni)) { Border = Rectangle.NO_BORDER });
             cell = new PdfPCell(healthInfoRow2); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
             table.AddCell(cell);
@@ -697,7 +713,7 @@ namespace PPcore.Controllers
             healthInfoRow3.LockedWidth = true;
             healthInfoRow3.DefaultCell.VerticalAlignment = 1;
             healthInfoRow3.SetWidths(new float[] { 30f, 50f, 45f, 70f });
-            healthInfoRow3.AddCell(new PdfPCell(new Phrase("อาหารที่แพ้", cnb)) { Border = Rectangle.NO_BORDER });
+            healthInfoRow3.AddCell(new PdfPCell(new Phrase("อาหารที่แพ้/ยาที่แพ้", cnb)) { Border = Rectangle.NO_BORDER });
             healthInfoRow3.AddCell(new PdfPCell(new Phrase(restrict_food, cni)) { Border = Rectangle.NO_BORDER });
             healthInfoRow3.AddCell(new PdfPCell(new Phrase("ความสามารถพิเศษ", cnb)) { Border = Rectangle.NO_BORDER });
             healthInfoRow3.AddCell(new PdfPCell(new Phrase(special_skill, cni)) { Border = Rectangle.NO_BORDER });
