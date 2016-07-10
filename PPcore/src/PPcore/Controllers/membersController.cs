@@ -208,11 +208,11 @@ namespace PPcore.Controllers
 
             mem_health mh = _context.mem_health.SingleOrDefault(mhr => mhr.member_code == m.member_code);
             var medical_history = ""; var blood_group = ""; var restrict_food = "";
-            var hobby = ""; var special_skill = "";
+            var hobby = ""; var special_skill = ""; var special_food = "";
             if (mh != null)
             {
                 medical_history = mh.medical_history; blood_group = mh.blood_group; restrict_food = mh.restrict_food;
-                hobby = mh.hobby; special_skill = mh.special_skill;
+                hobby = mh.hobby; special_skill = mh.special_skill; special_food = mh.special_food;
             }
 
             List<listWork> work = new List<listWork>();
@@ -707,18 +707,41 @@ namespace PPcore.Controllers
 
             //Health Info Row 3
             table.AddCell("");
-            PdfPTable healthInfoRow3 = new PdfPTable(4);
-            healthInfoRow3.DefaultCell.Border = Rectangle.NO_BORDER;
-            healthInfoRow3.TotalWidth = 400f;
-            healthInfoRow3.LockedWidth = true;
-            healthInfoRow3.DefaultCell.VerticalAlignment = 1;
-            healthInfoRow3.SetWidths(new float[] { 30f, 50f, 45f, 70f });
-            healthInfoRow3.AddCell(new PdfPCell(new Phrase("อาหารที่แพ้/ยาที่แพ้", cnb)) { Border = Rectangle.NO_BORDER });
-            healthInfoRow3.AddCell(new PdfPCell(new Phrase(restrict_food, cni)) { Border = Rectangle.NO_BORDER });
-            healthInfoRow3.AddCell(new PdfPCell(new Phrase("ความสามารถพิเศษ", cnb)) { Border = Rectangle.NO_BORDER });
-            healthInfoRow3.AddCell(new PdfPCell(new Phrase(special_skill, cni)) { Border = Rectangle.NO_BORDER });
-            cell = new PdfPCell(healthInfoRow3); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
+            PdfPTable healthInfoRow31 = new PdfPTable(2);
+            healthInfoRow31.DefaultCell.Border = Rectangle.NO_BORDER;
+            healthInfoRow31.TotalWidth = 400f;
+            healthInfoRow31.LockedWidth = true;
+            healthInfoRow31.DefaultCell.VerticalAlignment = 1;
+            healthInfoRow31.SetWidths(new float[] { 80f, 290f });
+            healthInfoRow31.AddCell(new PdfPCell(new Phrase("อาหารที่แพ้/ยาที่แพ้", cnb)) { Border = Rectangle.NO_BORDER });
+            healthInfoRow31.AddCell(new PdfPCell(new Phrase(restrict_food, cni)) { Border = Rectangle.NO_BORDER });
+            cell = new PdfPCell(healthInfoRow31); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
             table.AddCell(cell);
+
+            table.AddCell("");
+            PdfPTable healthInfoRow32 = new PdfPTable(2);
+            healthInfoRow32.DefaultCell.Border = Rectangle.NO_BORDER;
+            healthInfoRow32.TotalWidth = 400f;
+            healthInfoRow32.LockedWidth = true;
+            healthInfoRow32.DefaultCell.VerticalAlignment = 1;
+            healthInfoRow32.SetWidths(new float[] { 80f, 290f });
+            healthInfoRow32.AddCell(new PdfPCell(new Phrase("ความสามารถพิเศษ", cnb)) { Border = Rectangle.NO_BORDER });
+            healthInfoRow32.AddCell(new PdfPCell(new Phrase(special_skill, cni)) { Border = Rectangle.NO_BORDER });
+            cell = new PdfPCell(healthInfoRow32); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
+            table.AddCell(cell);
+
+            table.AddCell("");
+            PdfPTable healthInfoRow33 = new PdfPTable(2);
+            healthInfoRow33.DefaultCell.Border = Rectangle.NO_BORDER;
+            healthInfoRow33.TotalWidth = 400f;
+            healthInfoRow33.LockedWidth = true;
+            healthInfoRow33.DefaultCell.VerticalAlignment = 1;
+            healthInfoRow33.SetWidths(new float[] { 80f, 290f });
+            healthInfoRow33.AddCell(new PdfPCell(new Phrase("ประเภทอาหารพิเศษ", cnb)) { Border = Rectangle.NO_BORDER });
+            healthInfoRow33.AddCell(new PdfPCell(new Phrase(special_food, cni)) { Border = Rectangle.NO_BORDER });
+            cell = new PdfPCell(healthInfoRow33); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
+            table.AddCell(cell);
+
 
             //Line
             table.AddCell(" "); //table.AddCell(" ");
