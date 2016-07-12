@@ -95,13 +95,9 @@ namespace PPcore.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Bind("product_type_code,product_group_code,id,product_type_desc,rowversion,x_log,x_note,x_status")] product_type product_type)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(product_type);
-                await _context.SaveChangesAsync();
-                return Json(new { result = "success" });
-            }
-            return Json(new { result = "fail" });
+            _context.Add(product_type);
+            await _context.SaveChangesAsync();
+            return Json(new { result = "success" });
         }
 
         // GET: product_type/Edit/5
@@ -112,26 +108,18 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var product_type = await _context.product_type.SingleOrDefaultAsync(m => m.product_type_code == id);
+            var product_type = await _context.product_type.SingleOrDefaultAsync(m => m.id == new Guid(id));
             if (product_type == null)
             {
                 return NotFound();
             }
+            prepareViewBag();
             return View(product_type);
         }
 
-        // POST: product_type/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("product_type_code,product_group_code,id,product_type_desc,rowversion,x_log,x_note,x_status")] product_type product_type)
         {
-            if (id != product_type.product_type_code)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -141,18 +129,11 @@ namespace PPcore.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!product_typeExists(product_type.product_type_code))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return Json(new { result = "fail" });
                 }
-                return RedirectToAction("Index");
+                return Json(new { result = "success" });
             }
-            return View(product_type);
+            return Json(new { result = "fail" });
         }
 
         // GET: product_type/Delete/5

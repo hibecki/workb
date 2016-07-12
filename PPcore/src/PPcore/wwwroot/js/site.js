@@ -286,7 +286,7 @@ function setTable_default(tableId, w) {
             }
         }, bAutoWidth: false,
         "columnDefs": w,
-        fixedColumns: true,
+        fixedColumns: true, 
         preDrawCallback: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var pagination = $(this)

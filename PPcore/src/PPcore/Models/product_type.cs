@@ -9,6 +9,7 @@ namespace PPcore.Models
     {
         [Display(Name = "รหัสกลุ่มผลิตผล")]
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
+        [HiddenInput]
         public string product_group_code { get; set; }
         [Display(Name = "รหัสประเภทผลิตผล")]
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]

@@ -88,7 +88,8 @@
                     <h4 class="modal-title" id="product_type_modal_label" style="vertical-align:middle;"></h4>
                 </div>
                 <div class="modal-body container-fluid">
-                    <div id="product_type_modal_body"></div>
+                    <div id="product_type_modal_body">
+                    </div>
                 </div>
 
             </div>
@@ -105,59 +106,7 @@
         <script src="~/lib/bootstrap/js/modal.js"></script>
         <script>
             $(document).ready(function () {
-                $.ajax({
-                    type: 'get', url: '@Url.Action("DetailsAsTable", "product_type")' + '?id=' + $('#product_group_code').val(),
-                }).done(function (resp) {
-                    $('#product_type_details_as_table').html(resp);
-                    var w = [
-                        { "targets": [0], "width": "15", "className": "dt-center" },
-                        { "targets": [1], "visible": false, "searchable": false },
-                        { "targets": [2], "width": "150", "className": "dt-center" },
-                        { "targets": [4], "width": "50", "className": "dt-center" },
-                    ];
-                    var table = setTable_default($('#product_type_table'), w);
-                    table.$('tr:first').click();
-
-                    $('#btnCreate_product_type').on('click', function () {
-                        $.ajax({
-                            type: 'get', url: '@Url.Action("Create", "product_type")',
-                        }).done(function (resp) {
-                            $('#product_type_modal_body').html(resp);
-                            $('#product_type_modal_label').text('เพิ่มประเภทผลิตผล');
-
-                            $("#product_type_submit").off("click").on("click", function (e) {
-                                e.preventDefault();
-                                if ($("#product_type_form").valid()) {
-                                    console.log('testy');
-                                    $.ajax({
-                                        async: false,
-                                        type: "POST",
-                                        url: "@Url.Action("Create", "product_type")",
-                                        data: {
-                                            product_type_code: $("#product_type_code").val(),
-                                            product_type_desc: $("#product_type_desc").val(),
-                                            x_status: $("#x_status").val()
-                                        },
-                                        success: function (data) {
-                                            //$("#product_type_code").val('');
-                                            //$("#product_type_desc").val('');
-                                            //$("#x_status").val('Y');
-                                            //$("#product_type_form").clearValidation();
-                                            //$('#product_type_modal').modal({ backdrop: 'static', keyboard: false });
-                                        }
-                                    });
-                                }
-                            });
-
-                            $('#product_type_modal').modal({ backdrop: 'static', keyboard: false });
-                        });
-                    });
-
-
-
-
-
-                });
+                product_type_details_as_table();
 
                 $('#btnSave').off('click').on('click', function () {
                     if ($("#product_group_form").valid()) {
@@ -179,19 +128,105 @@
                     }
                 });
 
-                
 
-
-                $('#btnEdit_product_type').on('click', function () {
-                    var datarow = table.row('.selected').data();
-                    window.location.href = "@Url.Action("Edit", "product_group")" + "/" + datarow[1];
-                });
 
 
 
 
             });
 
+            function product_type_details_as_table() {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("DetailsAsTable", "product_type")' + '?id=' + $('#product_group_code').val(),
+                }).done(function (resp) {
+                    $('#product_type_details_as_table').html(resp);
+                    var w = [
+                        { "targets": [0], "width": "15", "className": "dt-center" },
+                        { "targets": [1], "visible": false, "searchable": false },
+                        { "targets": [2], "width": "150", "className": "dt-center" },
+                        { "targets": [4], "width": "50", "className": "dt-center" },
+                    ];
+                    var table = setTable_default($('#product_type_table'), w);
+                    table.$('tr:first').click();
+                });
+            }
+
+            function product_type_create() {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("Create", "product_type")',
+                }).done(function (resp) {
+                    $('#product_type_modal_body').html(resp);
+                    $('#product_type_modal_label').text('เพิ่มประเภทผลิตผล');
+                    $('#product_type_product_group_code').text('เพิ่มประเภทผลิตผล');
+                    $("#product_type_submit").off("click").on("click", function (e) {
+                        e.preventDefault();
+                        //if ($("#product_type_form").valid()) {
+                        if (product_type_form_valid()) {
+                            $.ajax({
+                                async: false,
+                                type: "POST",
+                                url: "@Url.Action("Create", "product_type")",
+                                data: {
+                                product_group_code: $("#product_group_code").val(),
+                                product_type_code: $("#product_type_code").val(),
+                                product_type_desc: $("#product_type_desc").val(),
+                                x_status: $("#product_type_form #x_status").val()
+                                },
+                                success: function (data) {
+                                    $('#product_type_modal').modal('hide');
+                                    product_type_details_as_table();
+                                }
+                            });
+                        }
+                    });
+                    $('#product_type_modal').modal({ backdrop: 'static', keyboard: false });
+                });
+            }
+            function product_type_edit() {
+                var table = $('#product_type_table').DataTable();
+                var datarow = table.row('.selected').data(); console.log('dd ' + datarow[1]);
+                $.ajax({
+                    type: 'get', url: '@Url.Action("Edit", "product_type")' + "/" + datarow[1],
+                }).done(function (resp) {
+                    $('#product_type_modal_body').html(resp);
+                    $('#product_type_modal_label').text('แก้ไขประเภทผลิตผล');
+                    $("#product_type_submit").off("click").on("click", function (e) {
+                        e.preventDefault();
+                        //if ($("#product_type_form").valid()) {
+                        if (product_type_form_valid()) {
+                            $.ajax({
+                                async: false,
+                                type: "POST",
+                                url: "@Url.Action("Edit", "product_type")",
+                                data: {
+                                    product_group_code: $("#product_group_code").val(),
+                                    product_type_code: $("#product_type_code").val(),
+                                    product_type_desc: $("#product_type_desc").val(),
+                                    x_status: $("#product_type_form #x_status").val(),
+                                    id: datarow[1],
+                                    rowversion: $("#product_type_form #rowversion").val(),
+                                },
+                            success: function (data) {
+                                $('#product_type_modal').modal('hide');
+                                product_type_details_as_table();
+                            }
+                        });
+                    }
+                    });
+                $('#product_type_modal').modal({ backdrop: 'static', keyboard: false });
+            });
+            }
+            function product_type_form_valid() {
+                var result = false;
+                if($("#product_type_code").val() && $("#product_type_desc").val()) {
+                    result = true;
+                } else {
+                    result = false;
+                    if (!$("#product_type_code").val()) { $("#product_type_code_msg").text('กรุณากรอกข้อมูล'); }
+                    if (!$("#product_type_desc").val()) { $("#product_type_desc_msg").text('กรุณากรอกข้อมูล'); }
+                }
+                return result;
+            }
         </script>
     }
 
