@@ -14,6 +14,7 @@ namespace PPcore.Models
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         public string product_group_desc { get; set; }
         [Display(Name = "สถานะ")]
+        [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         public string x_status { get; set; }
         public string x_note { get; set; }
         public string x_log { get; set; }

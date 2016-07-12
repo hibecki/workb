@@ -28,7 +28,7 @@
                                     <div class="row">
                                         <label asp-for="product_group_code" class="col-md-2 control-label"></label>
                                         <div class="col-md-4">
-                                            <input asp-for="product_group_code" class="form-control" />
+                                            <input asp-for="product_group_code" class="form-control" readonly />
                                             <span asp-validation-for="product_group_code" class="text-danger" />
                                         </div>
                                     </div>
@@ -80,23 +80,22 @@
 
 
     <!-- Modal -->
-    <div class="modal fade modalForm1" id="product_group_modal" tabindex="-1" role="dialog" aria-labelledby="product_group_modal_label" aria-hidden="true">
+    <div class="modal fade modalForm1" id="product_type_modal" tabindex="-1" role="dialog" aria-labelledby="product_type_modal_label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div id="product_group_modal_header" class="modal-header">
+                <div id="product_type_modal_header" class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
-                    <h4 class="modal-title" id="product_group_modal_label" style="vertical-align:middle;"></h4>
+                    <h4 class="modal-title" id="product_type_modal_label" style="vertical-align:middle;"></h4>
                 </div>
                 <div class="modal-body container-fluid">
-                    @{ await Html.RenderPartialAsync("Create", new product_group()); }
+                    <div id="product_type_modal_body"></div>
                 </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-    </div>
 
+            </div>
+
+        </div>
+    </div>
+    <!-- /Modal -->
 
 
 
@@ -107,100 +106,87 @@
         <script>
             $(document).ready(function () {
                 $.ajax({
-                    type: 'get', url: '@Url.Action("DetailsAsTable", "product_type")' + '?product_group_code=' + product_group_code,
+                    type: 'get', url: '@Url.Action("DetailsAsTable", "product_type")' + '?id=' + $('#product_group_code').val(),
                 }).done(function (resp) {
                     $('#product_type_details_as_table').html(resp);
+                    var w = [
+                        { "targets": [0], "width": "15", "className": "dt-center" },
+                        { "targets": [1], "visible": false, "searchable": false },
+                        { "targets": [2], "width": "150", "className": "dt-center" },
+                        { "targets": [4], "width": "50", "className": "dt-center" },
+                    ];
+                    var table = setTable_default($('#product_type_table'), w);
+                    table.$('tr:first').click();
 
+                    $('#btnCreate_product_type').on('click', function () {
+                        $.ajax({
+                            type: 'get', url: '@Url.Action("Create", "product_type")',
+                        }).done(function (resp) {
+                            $('#product_type_modal_body').html(resp);
+                            $('#product_type_modal_label').text('เพิ่มประเภทผลิตผล');
 
-
-
-
-
-                });
-
-
-                var w = [
-                    { "targets": [0], "width": "15", "className": "dt-center" },
-                    { "targets": [1], "visible": false, "searchable": false },
-                    { "targets": [2], "width": "150", "className": "dt-center" },
-                    { "targets": [4], "width": "50", "className": "dt-center" },
-                ];
-                var table = setTable_default($('#product_group_table'),w);
-                table.$('tr:first').click();
-                
-
-                $('#btnCreate').on('click', function () {
-                    $('#product_group_modal_label').text('เพิ่มข้อมูลการศึกษา');
-                    $('#product_group_submit').html('บันทึก');
-                    $("#product_group_submit").off("click").on("click", function (e) {
-                        e.preventDefault();
-                        if ($("#product_group_form").valid()) {
-                            $.ajax({
-                                async: false,
-                                type: "POST",
-                                url: "@Url.Action("Create", "product_group")",
-                                data: {
-                                    product_group_code: $("#product_group_code").val(),
-                                    product_group_desc: $("#product_group_desc").val(),
-                                    x_status: $("#x_status").val()
-                                },
-                                success: function (data) {
-                                    window.location.href = "@Url.Action("Index", "product_group")";
-                                }
-                            });
-                        }
-                    });
-                    $("#product_group_code").val('');
-                    $("#product_group_desc").val('');
-                    $("#product_group_form").clearValidation();
-                    $('#product_group_modal').modal({ backdrop: 'static', keyboard: false });
-                });
-                $('#btnEdit').on('click', function () {
-                    var datarow = table.row('.selected').data();
-                    window.location.href = "@Url.Action("Edit", "product_group")" + "/" + datarow[1];
-                });
-
-                @*$('#btnEdit').on('click', function () {
-                    var datarow = tableMember.row('.selected').data();
-                    $('#mem_educationModalLabel').text('แก้ไขข้อมูลการศึกษา');
-                    $('#mem_educationSubmit').html('บันทึก');
-                    $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("Edit", "mem_education")" + "/" + datarow[1],
-                        success: function (data) {
-                            $("#rec_no").val(data.rec_no);
-                            $("#degree").val(data.degree);
-                            $("#colledge_name").val(data.colledge_name);
-                            $("#faculty").val(data.faculty);
-                            $("#rec_no").prop('disabled', true);
-                            $("#degree").prop('disabled', false);
-                            $("#colledge_name").prop('disabled', false);
-                            $("#faculty").prop('disabled', false);
-                            $("#mem_educationSubmit").unbind("click").bind("click", function (e) {
+                            $("#product_type_submit").off("click").on("click", function (e) {
                                 e.preventDefault();
-                                if ($("#mem_educationForm").valid()) {
+                                if ($("#product_type_form").valid()) {
+                                    console.log('testy');
                                     $.ajax({
+                                        async: false,
                                         type: "POST",
+                                        url: "@Url.Action("Create", "product_type")",
                                         data: {
-                                            id: datarow[1],
-                                            memberId: "@ViewBag.memberId",
-                                            rec_no: $("#rec_no").val(),
-                                            degree: $("#degree").val(),
-                                            colledge_name: $("#colledge_name").val(),
-                                            faculty: $("#faculty").val()
+                                            product_type_code: $("#product_type_code").val(),
+                                            product_type_desc: $("#product_type_desc").val(),
+                                            x_status: $("#x_status").val()
                                         },
-                                        url: "@Url.Action("Edit", "mem_education")",
                                         success: function (data) {
-                                            window.location.href = "@Url.Action("Index", "mem_education", new {memberId = ViewBag.memberId})";
+                                            //$("#product_type_code").val('');
+                                            //$("#product_type_desc").val('');
+                                            //$("#x_status").val('Y');
+                                            //$("#product_type_form").clearValidation();
+                                            //$('#product_type_modal').modal({ backdrop: 'static', keyboard: false });
                                         }
                                     });
                                 }
                             });
-                            $("#mem_educationForm").clearValidation();
-                            $('#mem_educationModal').modal({ backdrop: 'static', keyboard: false });
-                        }
+
+                            $('#product_type_modal').modal({ backdrop: 'static', keyboard: false });
+                        });
                     });
-                });*@
+
+
+
+
+
+                });
+
+                $('#btnSave').off('click').on('click', function () {
+                    if ($("#product_group_form").valid()) {
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: "@Url.Action("Edit", "product_group")",
+                            data: {
+                                product_group_code: $("#product_group_code").val(),
+                                product_group_desc: $("#product_group_desc").val(),
+                                x_status: $("#x_status").val(),
+                                rowversion: $("#rowversion").val(),
+                                id: $("#id").val()
+                            },
+                            success: function (data) {
+                                window.location.href = "@Url.Action("Index", "product_group")";
+                            }
+                        });
+                    }
+                });
+
+                
+
+
+                $('#btnEdit_product_type').on('click', function () {
+                    var datarow = table.row('.selected').data();
+                    window.location.href = "@Url.Action("Edit", "product_group")" + "/" + datarow[1];
+                });
+
 
 
 

@@ -59,22 +59,14 @@ namespace PPcore.Controllers
             return View(product_group);
         }
 
-        // POST: product_group/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("product_group_code,id,product_group_desc,rowversion,x_log,x_note,x_status")] product_group product_group)
         {
-            if (id != product_group.product_group_code)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    
                     _context.Update(product_group);
                     await _context.SaveChangesAsync();
                 }

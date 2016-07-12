@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +12,11 @@ namespace PPcore.Controllers
     public class product_typeController : Controller
     {
         private readonly PalangPanyaDBContext _context;
+
+        private void prepareViewBag()
+        {
+            ViewBag.x_status = new SelectList(new[] { new { Value = "Y", Text = "ใช้งาน" }, new { Value = "N", Text = "ยกเลิก" } }, "Value", "Text", "Y");
+        }
 
         public product_typeController(PalangPanyaDBContext context)
         {
@@ -63,26 +68,40 @@ namespace PPcore.Controllers
             return View(product_type);
         }
 
+        [HttpGet]
+        public IActionResult DetailsAsTable(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product_type = _context.product_type.Where(m => m.product_group_code == id).ToList();
+            if (product_type == null)
+            {
+                return NotFound();
+            }
+
+            return View(product_type);
+        }
+
         // GET: product_type/Create
         public IActionResult Create()
         {
+            prepareViewBag();
             return View();
         }
 
-        // POST: product_type/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("product_type_code,product_group_code,id,product_type_desc,rowversion,x_log,x_note,x_status")] product_type product_type)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(product_type);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return Json(new { result = "success" });
             }
-            return View(product_type);
+            return Json(new { result = "fail" });
         }
 
         // GET: product_type/Edit/5

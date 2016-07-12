@@ -56,7 +56,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.rowversion)
                     .HasColumnType("timestamp")
-                    .ValueGeneratedOnAddOrUpdate();
+                    .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
 
                 entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
 
@@ -81,7 +81,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.rowversion)
                     .HasColumnType("timestamp")
-                    .ValueGeneratedOnAddOrUpdate();
+                    .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
 
                 entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
 
