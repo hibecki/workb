@@ -108,10 +108,11 @@
         var birthdate = $('#birthdate').val().trim();
         var mobile = $('#mobile').val().trim();
         var email = $('#email').val().trim();
+        var mem_photo = $('#mem_photo').val(); var cid_card_pic = $('#cid_card_pic').val();
         if ((cid_card != '') && (fname != '') && (lname != '') && (birthdate != '') && (mobile != '') && (email != '')) {
             $.ajax({
                 type: 'post',
-                url: '@Url.Action("Create", "Account")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email,
+                url: '@Url.Action("Create", "Account")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email + "&mem_photo=" + mem_photo + "&cid_card_pic=" + cid_card_pic,
             }).done(function (resp) {
                 if (resp.result == "success") {
                     window.location.replace("@Url.Action("Index","Home")");
@@ -163,6 +164,38 @@
             $('#loginMsg').text('กรุณากรอกข้อมูลผู้ใช้งาน ระบบจะจัดส่งรหัสผ่านให้ทางอีเมล');
             $('#loginModal').modal({ backdrop: 'static', keyboard: false });
         }
+    }
+    function uploadMemPhoto() {
+        if ($('#fileMemPhoto')[0].files[0]) {
+            $('#waitMemPhoto').show();
+            var formData = new FormData();
+            formData.append("fileMemPhoto", $('#fileMemPhoto')[0].files[0]);
+            $.ajax({
+                type: 'post', url: '@Url.Action("uploadMemPhoto", "members")',
+                data: formData, processData: false, contentType: false,
+            }).done(function (resp) {
+                var result = resp.result; var fileName = resp.fileName;
+                $('#mem_photo').val(resp.fileName);
+                $('#waitMemPhoto').hide();
+            });
+        }
+    }
+
+    function uploadCidCardPhoto() {
+        if ($('#fileCidCardPhoto')[0].files[0]) {
+            $('#waitCidCardPhoto').show();
+            var formData = new FormData();
+            formData.append("fileCidCardPhoto", $('#fileCidCardPhoto')[0].files[0]);
+            $.ajax({
+                type: 'post', url: '@Url.Action("uploadCidCardPhoto", "members")',
+                data: formData, processData: false, contentType: false,
+            }).done(function (resp) {
+                var result = resp.result; var fileName = resp.fileName;
+                $('#cid_card_pic').val(resp.fileName);
+                $('#waitCidCardPhoto').hide();
+            });
+        }
+
     }
 </script>
 

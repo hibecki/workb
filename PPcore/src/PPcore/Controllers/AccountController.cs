@@ -29,7 +29,7 @@ namespace PPcore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile)
+        public IActionResult Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
         {
             DateTime bd = Convert.ToDateTime(birthdate);
             //birthdate = (bd.Year).ToString() + bd.Month.ToString() + bd.Day.ToString();
