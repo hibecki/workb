@@ -48,9 +48,8 @@ namespace PPcore.Controllers
             {
                 _context.Add(course_group);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
-            return View(course_group);
+            return Json(new { result = "success" });
         }
 
         // GET: course_group/Edit/5

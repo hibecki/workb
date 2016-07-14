@@ -170,8 +170,8 @@ go
 /* Table: course_type                                        */
 /*==============================================================*/
 create table course_type (
-   cgroup_code          char(3)              not null,
-   ctype_code           char(3)              not null,
+   cgroup_code          varchar(30)              not null,
+   ctype_code           varchar(30)              not null,
    ctype_desc           nvarchar(100)        not null,
    x_status             char(1)              null,
    x_note               nvarchar(50)         null,

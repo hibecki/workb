@@ -245,9 +245,9 @@ namespace PPcore.Models
                 entity.HasKey(e => new { e.ctype_code, e.cgroup_code })
                     .HasName("pk_course_type");
 
-                entity.Property(e => e.ctype_code).HasColumnType("char(3)");
+                entity.Property(e => e.ctype_code).HasColumnType("varchar(30)");
 
-                entity.Property(e => e.cgroup_code).HasColumnType("char(3)");
+                entity.Property(e => e.cgroup_code).HasColumnType("varchar(30)");
 
                 entity.Property(e => e.ctype_desc)
                     .IsRequired()
@@ -257,7 +257,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.rowversion)
                     .HasColumnType("timestamp")
-                    .ValueGeneratedOnAddOrUpdate();
+                    .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
 
                 entity.Property(e => e.x_log).HasMaxLength(500);
 

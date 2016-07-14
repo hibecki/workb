@@ -125,11 +125,11 @@
             $.ajax({
                 type: 'get', url: '@Url.Action("Create", "course_type")',
             }).done(function (resp) {
-                $('#a_body').html(resp); console.log(resp);
+                $('#a_body').html(resp);
                 $('#a_submit').html('บันทึก');
                 $("#a_submit").off("click").on("click", function (e) {
-                    console.log('test '+$("#a_form").valid());
-                    e.preventDefault();
+                    //console.log('test '+$("#a_form").valid());
+                    e.preventDefault(); $("#a_form").validate(); $("#ctype_code").valid(); console.log("test " + $("#ctype_code").valid());
                     if ($("#a_form").valid()) {
                         $.ajax({
                             async: false,
