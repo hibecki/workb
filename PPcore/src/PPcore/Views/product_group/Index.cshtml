@@ -89,7 +89,7 @@
 
 
                 $('#btnCreate').on('click', function () {
-                    $('#product_group_modal_label').text('เพิ่มข้อมูลการศึกษา');
+                    $('#product_group_modal_label').text('กลุ่มผลิตผล');
                     $('#product_group_submit').html('บันทึก');
                     $("#product_group_submit").off("click").on("click", function (e) {
                         e.preventDefault();
@@ -118,50 +118,6 @@
                     var datarow = table.row('.selected').data();
                     window.location.href = "@Url.Action("Edit", "product_group")" + "/" + datarow[1];
                 });
-
-                @*$('#btnEdit').on('click', function () {
-                    var datarow = tableMember.row('.selected').data();
-                    $('#mem_educationModalLabel').text('แก้ไขข้อมูลการศึกษา');
-                    $('#mem_educationSubmit').html('บันทึก');
-                    $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("Edit", "mem_education")" + "/" + datarow[1],
-                        success: function (data) {
-                            $("#rec_no").val(data.rec_no);
-                            $("#degree").val(data.degree);
-                            $("#colledge_name").val(data.colledge_name);
-                            $("#faculty").val(data.faculty);
-                            $("#rec_no").prop('disabled', true);
-                            $("#degree").prop('disabled', false);
-                            $("#colledge_name").prop('disabled', false);
-                            $("#faculty").prop('disabled', false);
-                            $("#mem_educationSubmit").unbind("click").bind("click", function (e) {
-                                e.preventDefault();
-                                if ($("#mem_educationForm").valid()) {
-                                    $.ajax({
-                                        type: "POST",
-                                        data: {
-                                            id: datarow[1],
-                                            memberId: "@ViewBag.memberId",
-                                            rec_no: $("#rec_no").val(),
-                                            degree: $("#degree").val(),
-                                            colledge_name: $("#colledge_name").val(),
-                                            faculty: $("#faculty").val()
-                                        },
-                                        url: "@Url.Action("Edit", "mem_education")",
-                                        success: function (data) {
-                                            window.location.href = "@Url.Action("Index", "mem_education", new {memberId = ViewBag.memberId})";
-                                        }
-                                    });
-                                }
-                            });
-                            $("#mem_educationForm").clearValidation();
-                            $('#mem_educationModal').modal({ backdrop: 'static', keyboard: false });
-                        }
-                    });
-                });*@
-
-
 
             });
 

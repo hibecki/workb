@@ -176,6 +176,7 @@
             }).done(function (resp) {
                 var result = resp.result; var fileName = resp.fileName;
                 $('#mem_photo').val(resp.fileName);
+                $('#mem_photo_input').val(resp.fileName);
                 $('#waitMemPhoto').hide();
             });
         }
@@ -192,6 +193,7 @@
             }).done(function (resp) {
                 var result = resp.result; var fileName = resp.fileName;
                 $('#cid_card_pic').val(resp.fileName);
+                $('#cid_card_pic_input').val(resp.fileName);
                 $('#waitCidCardPhoto').hide();
             });
         }
