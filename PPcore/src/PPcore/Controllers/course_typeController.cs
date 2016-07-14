@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +12,11 @@ namespace PPcore.Controllers
     public class course_typeController : Controller
     {
         private readonly PalangPanyaDBContext _context;
+
+        private void prepareViewBag()
+        {
+            ViewBag.x_status = new SelectList(new[] { new { Value = "Y", Text = "ใช้งาน" }, new { Value = "N", Text = "ยกเลิก" } }, "Value", "Text", "Y");
+        }
 
         public course_typeController(PalangPanyaDBContext context)
         {
@@ -41,25 +46,22 @@ namespace PPcore.Controllers
             return View(course_type);
         }
 
-        public IActionResult DetailsAsTableList(string cgroup_code)
+        public IActionResult DetailsAsTable(string cgroup_code)
         {
             //ViewBag.product_group = new SelectList(_context.product_group, "product_group_code", "product_group_desc", "1");
             //ViewBag.memberId = memberId;
-            var ct = _context.course_type.Where(c => (c.cgroup_code == cgroup_code)).ToList();
+            var ct = _context.course_type.Where(c => (c.cgroup_code == cgroup_code)).OrderBy(c => c.cgroup_code).ToList();
             return View(ct);
         }
 
         // GET: course_type/Create
         public IActionResult Create()
         {
-            return View();
+            prepareViewBag();
+            return View(new course_type());
         }
 
-        // POST: course_type/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ctype_code,cgroup_code,ctype_desc,id,rowversion,x_log,x_note,x_status")] course_type course_type)
         {
             if (ModelState.IsValid)

@@ -27,15 +27,16 @@ namespace PPcore.Controllers
         public IActionResult Index()
         {
             prepareViewBag();
-            var cg = _context.course_group.OrderByDescending(m => m.rowversion);
-            ViewBag.countRecords = cg.Count();
-            return View(cg.ToList());
+            //var cg = _context.course_group.OrderByDescending(m => m.rowversion);
+            //ViewBag.countRecords = cg.Count();
+            //return View(cg.ToList());
+            return View();
         }
 
         [HttpGet]
         public IActionResult DetailsAsTable()
         {
-            var cg = _context.course_group.OrderByDescending(m => m.rowversion);
+            var cg = _context.course_group.OrderBy(m => m.cgroup_code);
             ViewBag.countRecords = cg.Count();
             return View(cg.ToList());
         }
@@ -65,7 +66,7 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            ViewBag.x_status = new SelectList(new[] { new { Value = "N", Text = "เตรียมการ" }, new { Value = "Y", Text = "เปิด" } }, "Value", "Text");
+            prepareViewBag();
             return View(course_group);
         }
 

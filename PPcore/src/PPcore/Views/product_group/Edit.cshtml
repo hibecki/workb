@@ -184,7 +184,7 @@
             }
             function product_type_edit() {
                 var table = $('#product_type_table').DataTable();
-                var datarow = table.row('.selected').data(); console.log('dd ' + datarow[1]);
+                var datarow = table.row('.selected').data();
                 $.ajax({
                     type: 'get', url: '@Url.Action("Edit", "product_type")' + "/" + datarow[1],
                 }).done(function (resp) {

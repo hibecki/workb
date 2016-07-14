@@ -29,7 +29,7 @@
                                         <div class="row">
                                             <label asp-for="cgroup_code" class="col-md-2 control-label"></label>
                                             <div class="col-md-4">
-                                                <input asp-for="cgroup_code" class="form-control" />
+                                                <input asp-for="cgroup_code" class="form-control" readonly />
                                                 <span asp-validation-for="cgroup_code" class="text-danger" />
                                             </div>
                                         </div>
@@ -74,8 +74,21 @@
                 </div>
             </form>
 
-            <div id="course_typeTable"></div>
+            <div class="panel panel-blue">
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">ประเภทหลักสูตร</div>
+                    <div class="pull-right" style="margin-top:-2px;">
+                        <div id="btnCreate_course_type" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div id="btnEdit_course_type" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;&nbsp;</div>
+                        @*<div id="btnDelete_course_type" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-eraser" aria-hidden="true" style="color:white;"></i>&nbsp;ลบ&nbsp;&nbsp;</div>*@
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
 
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -83,86 +96,91 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade modalForm1" id="course_typeModal" tabindex="-1" role="dialog" aria-labelledby="course_typeModalLabel" aria-hidden="true">
+<div class="modal fade modalForm1" id="a_modal" tabindex="-1" role="dialog" aria-labelledby="a_label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div id="course_typeModalHeader" class="modal-header">
+            <div id="a_header" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
-                <h4 class="modal-title" id="course_typeModalLabel" style="vertical-align:middle;"></h4>
+                <h4 class="modal-title" id="a_label" style="vertical-align:middle;"></h4>
             </div>
-            <div class="modal-body container-fluid">
-                @{ await Html.RenderPartialAsync("~/Views/course_type/ViewInput", new PPcore.Models.course_type());  }
-                
+            <div class="modal-body container-fluid" id="a_body">
+                @*@{ await Html.RenderPartialAsync("Create", new course_group()); }*@
             </div>
+
         </div>
+
     </div>
+
+
 </div>
 <!-- /Modal -->
 
-    @section scripts {
-        <script>
-            $(document).ready(function () {
-                $.ajax({
-                    type: 'get', url: '@Url.Action("DetailsAsTableList", "course_type")' + '?cgroup_code=' + $('#cgroup_code').val(),
-                }).done(function (resp) {
-                    $('#course_typeTable').html(resp);
+@section scripts {
+<script src="~/lib/bootstrap/js/modal.js"></script>
+<script>
+    $(document).ready(function () {
+        a_details_as_table();
 
-                    $('#btnCreateCourseType').off('click').on('click', function () {
-                        $('#course_typeModalLabel').text('เพิ่มรหัสประเภทหลักสูตร');
-                        $('#course_typeSubmit').html('บันทึก');
-                        $('#course_typeModal').modal({ backdrop: 'static', keyboard: false });
-                    });
-
-                    $('#btnEditCourseType').off('click').on('click', function () {
-                        console.log('testtttt');
-                    });
-
-                    $('#btnDeleteCourseType').off('click').on('click', function () {
-                        console.log('testtttt');
-                    });
-                    //$('#btnCreateProduct').hide(); $('#btnEditProduct').hide();
-                    //var tableProduct = setTableProductDetailsAsTableList($('#dataTablesProductDetailsAsTableList'));
-                    //tableProduct.$('tr:first').click();
-
-                    @*$('#product_type').off('change').on('change', function () {
-                    var sPattern = $('#searchPattern').val().trim();
-                    $.ajax({
-                        type: 'get', url: '@Url.Action("DetailsAsJsonList", "products")' + '?product_type_code=' + $('#product_type').val() + '&product_group_code=' + $('#product_group').val() + '&pattern=' + sPattern,
-                    }).done(function (resp) {
-                        if (resp != "") {
-                            resp = JSON.parse(resp);
-                            if (!jQuery.isEmptyObject(resp)) {
-                                tableProduct.clear().draw();
-                                for (var i in resp) {
-                                    tableProduct.row.add([resp[i].rec_no, resp[i].product_code, resp[i].product_desc, '<div id="btnS' + resp[i].id + '"><div class="btn btn-xs btn-default btn-panel-yellow" onclick="mem_productEdit(\'' + data[1] + '\',\'' + resp[i].id + '\')">&nbsp;<i class="fa fa-plus-circle" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เลือก&nbsp;&nbsp;</div></div>']);
-                                }
-                                tableProduct.draw();
-                            } else {
-                                tableProduct.clear().draw();
+        $('#btnCreate_course_type').off('click').on('click', function () {
+            $.ajax({
+                type: 'get', url: '@Url.Action("Create", "course_type")',
+            }).done(function (resp) {
+                $('#a_body').html(resp); console.log(resp);
+                $('#a_submit').html('บันทึก');
+                $("#a_submit").off("click").on("click", function (e) {
+                    console.log('test '+$("#a_form").valid());
+                    e.preventDefault();
+                    if ($("#a_form").valid()) {
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: "@Url.Action("Create", "course_type")",
+                            data: {
+                            cgroup_code: $("#cgroup_code").val(),
+                            ctype_code: $("#ctype_code").val(),
+                            ctype_desc: $("#ctype_desc").val(),
+                            x_status: $("#a_form #x_status").val()
+                            },
+                            success: function (data) {
+                                a_details_as_table();
+                                $("#ctype_code").val('');
+                                $("#ctype_desc").val('');
+                                $("#a_form").clearValidation();
                             }
-                        } else {
-                            tableProduct.clear().draw();
-                        }
-                        tableProduct.$('tr:first').click();
-                    });
-                });*@
-
-                    @*$('#product_group').off('change').on('change', function () {
-                    $.ajax({
-                        type: 'get', url: '@Url.Action("SelectBy", "product_type")' + '?product_group_code=' + $('#product_group').val(),
-                    }).done(function (resp) {
-                        if (resp != "") {
-                            $('#product_type').empty();
-                            $('#product_type').append(resp);
-                            $('#product_type').trigger("change");
-                        } else {
-                            $('#product_type').empty();
-                        }
-                    });
-                });*@
+                        });
+                    }
                 });
             });
-        </script>
+
+            $('#a_label').text('เพิ่มรหัสประเภทหลักสูตร');
+            $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+        });
+        $('#btnEditCourseType').off('click').on('click', function () {
+            console.log('testtttt');
+        });
+
+        $('#btnDeleteCourseType').off('click').on('click', function () {
+            console.log('testtttt');
+        });
+
+    });
+    function a_details_as_table() {
+        $.ajax({
+            type: 'get', url: '@Url.Action("DetailsAsTable", "course_type")' + '?cgroup_code=' + $('#cgroup_code').val(),
+        }).done(function (resp) {
+            $('#a_details_as_table').html(resp);
+            var w = [
+                { "targets": [0], "width": "15", "className": "dt-center" },
+                { "targets": [1], "visible": false, "searchable": false },
+                { "targets": [2], "width": "150", "className": "dt-center" },
+                { "targets": [4], "width": "50", "className": "dt-center" },
+            ];
+            var table = setTable_default($('#a_table'), w);
+            table.$('tr:first').click();
+        });
     }
+</script>
+
+}
 
 
