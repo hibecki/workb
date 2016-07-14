@@ -13,6 +13,11 @@ namespace PPcore.Controllers
     {
         private readonly PalangPanyaDBContext _context;
 
+        private void prepareViewBag()
+        {
+            ViewBag.x_status = new SelectList(new[] { new { Value = "Y", Text = "ใช้งาน" }, new { Value = "N", Text = "ยกเลิก" } }, "Value", "Text", "Y");
+        }
+
         public course_groupController(PalangPanyaDBContext context)
         {
             _context = context;    
@@ -21,37 +26,21 @@ namespace PPcore.Controllers
         // GET: course_group
         public IActionResult Index()
         {
+            prepareViewBag();
             var cg = _context.course_group.OrderByDescending(m => m.rowversion);
             ViewBag.countRecords = cg.Count();
             return View(cg.ToList());
         }
 
-        // GET: course_group/Details/5
-        public async Task<IActionResult> Details(string id)
+        [HttpGet]
+        public IActionResult DetailsAsTable()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var course_group = await _context.course_group.SingleOrDefaultAsync(m => m.cgroup_code == id);
-            if (course_group == null)
-            {
-                return NotFound();
-            }
-
-            return View(course_group);
-        }
-
-        // GET: course_group/Create
-        public IActionResult Create()
-        {
-            ViewBag.x_status = new SelectList(new[] { new { Value = "N", Text = "เตรียมการ" }, new { Value = "Y", Text = "เปิด" } }, "Value", "Text");
-            return View();
+            var cg = _context.course_group.OrderByDescending(m => m.rowversion);
+            ViewBag.countRecords = cg.Count();
+            return View(cg.ToList());
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("cgroup_code,cgroup_desc,x_status")] course_group course_group)
         {
             if (ModelState.IsValid)
