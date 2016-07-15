@@ -104,7 +104,7 @@
                 <h4 class="modal-title" id="a_label" style="vertical-align:middle;"></h4>
             </div>
             <div class="modal-body container-fluid" id="a_body">
-                @*@{ await Html.RenderPartialAsync("Create", new course_group()); }*@
+                @{ await Html.RenderPartialAsync("~/Views/course_type/ViewInput.cshtml", new course_type()); }
             </div>
 
         </div>
@@ -122,46 +122,87 @@
         a_details_as_table();
 
         $('#btnCreate_course_type').off('click').on('click', function () {
-            $.ajax({
-                type: 'get', url: '@Url.Action("Create", "course_type")',
-            }).done(function (resp) {
-                $('#a_body').html(resp);
-                $('#a_submit').html('บันทึก');
-                $("#a_submit").off("click").on("click", function (e) {
-                    //console.log('test '+$("#a_form").valid());
-                    e.preventDefault(); $("#a_form").validate(); $("#ctype_code").valid(); console.log("test " + $("#ctype_code").valid());
-                    if ($("#a_form").valid()) {
-                        $.ajax({
-                            async: false,
-                            type: "POST",
-                            url: "@Url.Action("Create", "course_type")",
-                            data: {
-                            cgroup_code: $("#cgroup_code").val(),
-                            ctype_code: $("#ctype_code").val(),
-                            ctype_desc: $("#ctype_desc").val(),
-                            x_status: $("#a_form #x_status").val()
-                            },
-                            success: function (data) {
-                                a_details_as_table();
-                                $("#ctype_code").val('');
-                                $("#ctype_desc").val('');
-                                $("#a_form").clearValidation();
-                            }
-                        });
-                    }
-                });
+            $('#a_label').text('เพิ่มรหัสประเภทหลักสูตร');
+            $('#a_submit').html('บันทึก');
+            $("#a_submit").off("click").on("click", function (e) {
+                e.preventDefault();
+                if ($("#a_form").valid()) {
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "@Url.Action("Create", "course_type")",
+                        data: {
+                        cgroup_code: $("#cgroup_code").val(),
+                        ctype_code: $("#ctype_code").val(),
+                        ctype_desc: $("#ctype_desc").val(),
+                        x_status: $("#a_form #x_status").val()
+                        },
+                        success: function (data) {
+                            a_details_as_table();
+                            $("#ctype_code").val('');
+                            $("#ctype_desc").val('');
+                            $("#a_form").clearValidation();
+                        }
+                    });
+                }
             });
 
-            $('#a_label').text('เพิ่มรหัสประเภทหลักสูตร');
+            $("#ctype_code").val('');
+            $("#ctype_desc").val('');
+            $("#a_form").clearValidation();
             $('#a_modal').modal({ backdrop: 'static', keyboard: false });
         });
-        $('#btnEditCourseType').off('click').on('click', function () {
-            console.log('testtttt');
+        $('#btnEdit_course_type').off('click').on('click', function () {
+            var table = $('#a_table').DataTable();
+            var datarow = table.row('.selected').data();
+            $.ajax({
+                type: 'get', url: '@Url.Action("Edit", "course_type")' + '?id=' + datarow[1],
+            }).done(function (data) {
+                if (data.result == "success") {
+                    $("#ctype_code").prop("readonly",true);
+                    $("#id").val(data.id);
+                    $("#rowversion").val(data.rowversion);
+                    $("#ctype_code").val(data.ctype_code);
+                    $("#ctype_desc").val(data.ctype_desc);
+                    $("#a_form #x_tatus").val(data.x_status);
+
+                    $("#a_form").clearValidation();
+                    $('#a_label').text('แก้ไขรหัสประเภทหลักสูตร');
+                    $('#a_submit').html('บันทึก');
+
+                    $("#a_submit").off("click").on("click", function (e) {
+                        e.preventDefault();
+                        if ($("#a_form").valid()) {
+                            $.ajax({
+                                async: false,
+                                type: "POST",
+                                url: "@Url.Action("Edit", "course_type")",
+                                data: {
+                                    cgroup_code: $("#cgroup_code").val(),
+                                    ctype_code: $("#ctype_code").val(),
+                                    ctype_desc: $("#ctype_desc").val(),
+                                    x_status: $("#a_form #x_status").val(),
+                                    id: $("#id").val(),
+                                    rowversion: $("#rowversion").val()
+                                },
+                                success: function (data) {
+                                    a_details_as_table();
+                                    $("#ctype_code").prop("readonly", false);
+                                    $("#ctype_code").val('');
+                                    $("#ctype_desc").val('');
+                                    $("#a_form").clearValidation();
+                                    $('#a_modal').modal('hide');
+                                }
+                            });
+                        }
+                    });
+                    $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                }
+
+            });
+
         });
 
-        $('#btnDeleteCourseType').off('click').on('click', function () {
-            console.log('testtttt');
-        });
 
     });
     function a_details_as_table() {
