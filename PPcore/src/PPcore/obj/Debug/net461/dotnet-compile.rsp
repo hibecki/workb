@@ -231,6 +231,7 @@ O:\workb\PPcore\src\PPcore\Controllers\mem_worklistController.cs
 O:\workb\PPcore\src\PPcore\Controllers\productsController.cs
 O:\workb\PPcore\src\PPcore\Controllers\product_groupController.cs
 O:\workb\PPcore\src\PPcore\Controllers\product_typeController.cs
+O:\workb\PPcore\src\PPcore\Controllers\project_sponsorController.cs
 O:\workb\PPcore\src\PPcore\Controllers\videosController.cs
 O:\workb\PPcore\src\PPcore\Models\album.cs
 O:\workb\PPcore\src\PPcore\Models\course_grade.cs
@@ -240,6 +241,7 @@ O:\workb\PPcore\src\PPcore\Models\course_train_place.cs
 O:\workb\PPcore\src\PPcore\Models\course_type.cs
 O:\workb\PPcore\src\PPcore\Models\ini_config.cs
 O:\workb\PPcore\src\PPcore\Models\ini_country.cs
+O:\workb\PPcore\src\PPcore\Models\ini_data.cs
 O:\workb\PPcore\src\PPcore\Models\ini_district.cs
 O:\workb\PPcore\src\PPcore\Models\ini_list_zip.cs
 O:\workb\PPcore\src\PPcore\Models\ini_province.cs

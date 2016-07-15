@@ -15,7 +15,7 @@ namespace PPcore.Controllers
 
         private void prepareViewBag()
         {
-            ViewBag.x_status = new SelectList(new[] { new { Value = "Y", Text = "ใช้งาน" }, new { Value = "N", Text = "ยกเลิก" } }, "Value", "Text", "Y");
+            ViewBag.x_status = ini_data.x_status;
         }
 
         public course_typeController(PalangPanyaDBContext context)

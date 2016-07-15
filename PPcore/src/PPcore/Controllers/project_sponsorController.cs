@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using PPcore.Models;
 
 namespace PPcore.Controllers
 {
-    public class course_groupController : Controller
+    public class project_sponsorController : Controller
     {
         private readonly PalangPanyaDBContext _context;
 
@@ -18,38 +18,44 @@ namespace PPcore.Controllers
             ViewBag.x_status = ini_data.x_status;
         }
 
-        public course_groupController(PalangPanyaDBContext context)
+        public project_sponsorController(PalangPanyaDBContext context)
         {
             _context = context;    
         }
 
-        // GET: course_group
         public IActionResult Index()
         {
-            prepareViewBag();
-            ViewBag.countRecords = _context.course_group.Count();
+            ViewBag.countRecords = _context.project_sponsor.Count();
             return View();
         }
 
         [HttpGet]
         public IActionResult DetailsAsTable()
         {
-            var cg = _context.course_group.OrderBy(m => m.cgroup_code);
-            return View(cg.ToList());
+            var ps = _context.project_sponsor.OrderBy(m => m.spon_code);
+            return View(ps.ToList());
+        }
+
+        // GET: project_sponsor/Create
+        public IActionResult Create()
+        {
+            prepareViewBag();
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("cgroup_code,cgroup_desc,x_status")] course_group course_group)
+        public async Task<IActionResult> Create([Bind("spon_code,confirm_date,contactor,contactor_detail,id,ref_doc,spon_desc,x_log,x_note,x_status")] project_sponsor project_sponsor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(course_group);
+                _context.Add(project_sponsor);
                 await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            return Json(new { result = "success" });
+            return View(project_sponsor);
         }
 
-        // GET: course_group/Edit/5
+        // GET: project_sponsor/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -57,20 +63,19 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var course_group = await _context.course_group.SingleOrDefaultAsync(m => m.id == new Guid(id));
-            if (course_group == null)
+            var project_sponsor = await _context.project_sponsor.SingleOrDefaultAsync(m => m.id == new Guid(id));
+            if (project_sponsor == null)
             {
                 return NotFound();
             }
             prepareViewBag();
-            return View(course_group);
+            return View(project_sponsor);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("cgroup_code,cgroup_desc,id,x_status")] course_group course_group)
+        public async Task<IActionResult> Edit(string id, [Bind("spon_code,confirm_date,contactor,contactor_detail,id,ref_doc,spon_desc,x_log,x_note,x_status")] project_sponsor project_sponsor)
         {
-            if (course_group.id != new Guid(id))
+            if (new Guid(id) != project_sponsor.id)
             {
                 return NotFound();
             }
@@ -79,18 +84,12 @@ namespace PPcore.Controllers
             {
                 try
                 {
-                    course_group cg = _context.course_group.SingleOrDefault(c => (c.id == new Guid(id)));
-                    cg.cgroup_code = course_group.cgroup_code.Trim();
-                    cg.cgroup_desc = course_group.cgroup_desc.Trim();
-                    cg.x_status = course_group.x_status;
-                    _context.Update(cg);
-
-                    //_context.Update(course_group);
+                    _context.Update(project_sponsor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!course_groupExists(course_group.id.ToString()))
+                    if (!project_sponsorExists(project_sponsor.spon_code))
                     {
                         return NotFound();
                     }
@@ -101,10 +100,10 @@ namespace PPcore.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(course_group);
+            return View(project_sponsor);
         }
 
-        // GET: course_group/Delete/5
+        // GET: project_sponsor/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -112,29 +111,29 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var course_group = await _context.course_group.SingleOrDefaultAsync(m => m.cgroup_code == id);
-            if (course_group == null)
+            var project_sponsor = await _context.project_sponsor.SingleOrDefaultAsync(m => m.spon_code == id);
+            if (project_sponsor == null)
             {
                 return NotFound();
             }
 
-            return View(course_group);
+            return View(project_sponsor);
         }
 
-        // POST: course_group/Delete/5
+        // POST: project_sponsor/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var course_group = await _context.course_group.SingleOrDefaultAsync(m => m.cgroup_code == id);
-            _context.course_group.Remove(course_group);
+            var project_sponsor = await _context.project_sponsor.SingleOrDefaultAsync(m => m.spon_code == id);
+            _context.project_sponsor.Remove(project_sponsor);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool course_groupExists(string id)
+        private bool project_sponsorExists(string id)
         {
-            return _context.course_group.Any(e => e.id == new Guid(id));
+            return _context.project_sponsor.Any(e => e.spon_code == id);
         }
     }
 }
