@@ -9,26 +9,34 @@ using PPcore.Models;
 
 namespace PPcore.Controllers
 {
-    public class project_sponsorController : Controller
+    public class projectsController : Controller
     {
         private readonly PalangPanyaDBContext _context;
+
+        public projectsController(PalangPanyaDBContext context)
+        {
+            _context = context;    
+        }
 
         private void prepareViewBag()
         {
             ViewBag.x_status = ini_data.x_status;
         }
 
-        public project_sponsorController(PalangPanyaDBContext context)
-        {
-            _context = context;    
-        }
-
         public IActionResult Index()
         {
-            ViewBag.countRecords = _context.project_sponsor.Count();
+            ViewBag.countRecords = _context.project.Count();
             return View();
         }
 
+        [HttpGet]
+        public IActionResult DetailsAsTable()
+        {
+            var p = _context.project.OrderBy(m => m.project_code);
+            return View(p.ToList());
+        }
+
+        // GET: projects/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -36,23 +44,16 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var project_sponsor = await _context.project_sponsor.SingleOrDefaultAsync(m => m.id == new Guid(id));
-            if (project_sponsor == null)
+            var project = await _context.project.SingleOrDefaultAsync(m => m.project_code == id);
+            if (project == null)
             {
                 return NotFound();
             }
-            prepareViewBag();
-            return View(project_sponsor);
+
+            return View(project);
         }
 
-        [HttpGet]
-        public IActionResult DetailsAsTable()
-        {
-            var ps = _context.project_sponsor.OrderBy(m => m.spon_code);
-            return View(ps.ToList());
-        }
-
-        // GET: project_sponsor/Create
+        // GET: projects/Create
         public IActionResult Create()
         {
             prepareViewBag();
@@ -60,18 +61,18 @@ namespace PPcore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("spon_code,confirm_date,contactor,contactor_detail,id,ref_doc,spon_desc,x_log,x_note,x_status")] project_sponsor project_sponsor)
+        public async Task<IActionResult> Create([Bind("project_code,active_member_join,budget,id,passed_member,project_approve_date,project_date,project_desc,project_manager,ref_doc,target_member_join,x_log,x_note,x_status")] project project)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(project_sponsor);
+                _context.Add(project);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(project_sponsor);
+            return View(project);
         }
 
-        // GET: project_sponsor/Edit/5
+        // GET: projects/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -79,19 +80,19 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var project_sponsor = await _context.project_sponsor.SingleOrDefaultAsync(m => m.id == new Guid(id));
-            if (project_sponsor == null)
+            var project = await _context.project.SingleOrDefaultAsync(m => m.id == new Guid(id));
+            if (project == null)
             {
                 return NotFound();
             }
             prepareViewBag();
-            return View(project_sponsor);
+            return View(project);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, [Bind("spon_code,confirm_date,contactor,contactor_detail,id,ref_doc,spon_desc,x_log,x_note,x_status")] project_sponsor project_sponsor)
+        public async Task<IActionResult> Edit(string id, [Bind("project_code,active_member_join,budget,id,passed_member,project_approve_date,project_date,project_desc,project_manager,ref_doc,target_member_join,x_log,x_note,x_status")] project project)
         {
-            if (new Guid(id) != project_sponsor.id)
+            if (new Guid(id) != project.id)
             {
                 return NotFound();
             }
@@ -100,12 +101,12 @@ namespace PPcore.Controllers
             {
                 try
                 {
-                    _context.Update(project_sponsor);
+                    _context.Update(project);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!project_sponsorExists(project_sponsor.spon_code))
+                    if (!projectExists(project.project_code))
                     {
                         return NotFound();
                     }
@@ -116,10 +117,10 @@ namespace PPcore.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(project_sponsor);
+            return View(project);
         }
 
-        // GET: project_sponsor/Delete/5
+        // GET: projects/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -127,29 +128,29 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var project_sponsor = await _context.project_sponsor.SingleOrDefaultAsync(m => m.spon_code == id);
-            if (project_sponsor == null)
+            var project = await _context.project.SingleOrDefaultAsync(m => m.project_code == id);
+            if (project == null)
             {
                 return NotFound();
             }
 
-            return View(project_sponsor);
+            return View(project);
         }
 
-        // POST: project_sponsor/Delete/5
+        // POST: projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var project_sponsor = await _context.project_sponsor.SingleOrDefaultAsync(m => m.spon_code == id);
-            _context.project_sponsor.Remove(project_sponsor);
+            var project = await _context.project.SingleOrDefaultAsync(m => m.project_code == id);
+            _context.project.Remove(project);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool project_sponsorExists(string id)
+        private bool projectExists(string id)
         {
-            return _context.project_sponsor.Any(e => e.spon_code == id);
+            return _context.project.Any(e => e.project_code == id);
         }
     }
 }

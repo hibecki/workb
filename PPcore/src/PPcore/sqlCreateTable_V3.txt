@@ -671,7 +671,7 @@ go
 /*==============================================================*/
 create table train_place (
    place_code           varchar(30)          not null,
-   instructor_desc      nvarchar(100)        not null,
+   place_desc      nvarchar(100)        not null,
    confirm_date         datetime             null,
    ref_doc              varchar(30)          null,
    contactor            nvarchar(100)        null,

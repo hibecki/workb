@@ -121,7 +121,7 @@
         $(document).ready(function () {
             $.datepicker.regional['th'] = {
                 dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
-                yearRange: "-100:+0", yearOffSet: 543, beforeShow: dateDefault
+                yearRange: "-100:+1", yearOffSet: 543, beforeShow: dateDefault
             };
             $.datepicker.setDefaults($.datepicker.regional['th']);
             $("#confirm_date").datepicker($.datepicker.regional["th"]);

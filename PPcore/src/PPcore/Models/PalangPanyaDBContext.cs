@@ -1053,9 +1053,9 @@ namespace PPcore.Models
 
                 entity.Property(e => e.id).HasDefaultValueSql("newid()");
 
-                entity.Property(e => e.instructor_desc)
+                entity.Property(e => e.place_desc)
                     .IsRequired()
-                    .HasMaxLength(100);
+                    .HasColumnType("nvarchar(100)");
 
                 entity.Property(e => e.ref_doc).HasColumnType("varchar(30)");
 
