@@ -14,6 +14,8 @@ namespace PPcore.Models
         public string spon_code { get; set; }
         public string ref_doc { get; set; }
         [Display(Name = "งบประมาณ")]
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        //[DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal? support_budget { get; set; }
         [Display(Name = "ตัวแทน/ผู้ติดต่อ")]
         public string contactor { get; set; }

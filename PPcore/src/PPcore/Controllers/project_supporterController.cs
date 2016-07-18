@@ -59,26 +59,28 @@ namespace PPcore.Controllers
             return View(project_supporter.ToList());
         }
 
-        // GET: project_supporter/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: project_supporter/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("spon_code,project_code,contactor,contactor_detail,id,ref_doc,support_budget,x_log,x_note,x_status")] project_supporter project_supporter)
+        public async Task<IActionResult> Create(string sponsorId, string support_budget, string projectCode)
         {
-            if (ModelState.IsValid)
+            var psp = _context.project_sponsor.SingleOrDefault(pjs => pjs.id == new Guid(sponsorId));
+            project_supporter ps = new project_supporter();
+            ps.project_code = projectCode;
+            ps.spon_code = psp.spon_code;
+            ps.support_budget = Int32.Parse(support_budget);
+            ps.contactor = psp.contactor;
+            ps.contactor_detail = psp.contactor_detail;
+            ps.x_status = psp.x_status;
+            
+            try
             {
-                _context.Add(project_supporter);
+                _context.Add(ps);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
-            return View(project_supporter);
+            catch (Exception)
+            {
+                return Json(new { result = "fail" });
+            }
+            return Json(new { result = "success" });
         }
 
         public IActionResult EditAsTable()
@@ -108,51 +110,22 @@ namespace PPcore.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!project_supporterExists(project_supporter.spon_code))
-                    {
+
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+
                 }
                 return RedirectToAction("Index");
             }
             return View(project_supporter);
         }
 
-        // GET: project_supporter/Delete/5
+        [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var project_supporter = await _context.project_supporter.SingleOrDefaultAsync(m => m.spon_code == id);
-            if (project_supporter == null)
-            {
-                return NotFound();
-            }
-
-            return View(project_supporter);
-        }
-
-        // POST: project_supporter/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var project_supporter = await _context.project_supporter.SingleOrDefaultAsync(m => m.spon_code == id);
+            var project_supporter = await _context.project_supporter.SingleOrDefaultAsync(m => m.id == new Guid(id));
             _context.project_supporter.Remove(project_supporter);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool project_supporterExists(string id)
-        {
-            return _context.project_supporter.Any(e => e.spon_code == id);
+            return Json(new { result = "success" });
         }
     }
 }

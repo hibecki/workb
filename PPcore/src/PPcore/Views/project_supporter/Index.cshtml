@@ -78,6 +78,52 @@
 </div>
 <!-- /Modal -->
 
+<!-- Modal -->
+<div class="modal fade modalForm1" id="alert_modal" tabindex="-1" role="dialog" aria-labelledby="alert_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="alert_modal_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="alert_label" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="alert_modal_body"></div>
+                <br/><br/>
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /Modal -->
+
+<!-- Modal Delete -->
+<div id="confirm_modal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="confirm_Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="confirm_model_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="confirm_Label" style="vertical-align:middle;">ยืนยัน</h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="confirm_modal_body" class="col-md-12"></div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-4"><button id="btnDeleteConfirm" class="btn btn-danger pull-right" onclick="deleteConfirm();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยืนยัน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <button id="btnDeleteCancel" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยกเลิก&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal Delete -->
+
+
 @section scripts {
     <script src="~/lib/bootstrap/js/modal.js"></script>
     <script>
@@ -118,66 +164,87 @@
                 var table = setTable_PageN($('#b_table'), w, n);
                 table.$('tr:first').click();
 
-                //$('#b_table').DataTable({
-                //    "drawCallback": function (settings) {
-                //        var api = this.api();
-
-                //        // Output the data for the visible rows to the browser's console
-                //        console.log(api.rows({ page: 'current' }).data());
-                //    }
-                //});
-
+                $('#btnSave').off('click').on('click', function () {
+                    var foundEmpty = false; var foundDup = false;
+                    table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                        var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
+                        var cell4 = table.cell({ row: rowIdx, column: 4 }).node();
+                        if ($('input', cell0).prop("checked") == true) {
+                            if (!$('input', cell4).val()) {
+                                foundEmpty = true;
+                            }
+                        }
+                    });
+                    if (foundEmpty) {
+                        $('#alert_label').text('เพิ่มผู้สนับสนุน');
+                        $('#alert_modal_body').html('<div style="color:red">ตรวจพบมีข้อมูลงบประมาณไม่ถูกต้อง</div>');
+                        $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
+                    } else {
+                        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                            var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
+                            var cell2 = table.cell({ row: rowIdx, column: 2 }).node();
+                            var cell4 = table.cell({ row: rowIdx, column: 4 }).node();
+                            if ($('input', cell0).prop("checked") == true) {
+                                $.ajax({
+                                    async: false,
+                                    type: "POST",
+                                    url: "@Url.Action("Create", "project_supporter")",
+                                    data: {
+                                    projectCode: '@ViewBag.projectCode',
+                                    support_budget: $('input', cell4).val(),
+                                    sponsorId: $(cell2).text(),
+                                    },
+                                    success: function (data) {
+                                        if (data.result != "fail") {
+                                            a_details_as_table();
+                                            $('input', cell0).prop("checked", false);
+                                            $('input', cell4).attr("readonly", true).removeAttr('data-val-required');
+                                        } else {
+                                            foundDup = true;
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        if (foundDup) {
+                            $('#alert_label').text('เพิ่มผู้สนับสนุน');
+                            $('#alert_modal_body').html('<div style="color:red">ตรวจพบมีข้อมูลผู้สนับสนุนในโครงการแล้ว</div>');
+                            $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
+                        } else {
+                            $('#a_modal').modal('hide');
+                        }
+                    }
+                });
             });
             $('#a_modal').modal({ backdrop: 'static', keyboard: false });
         });
-        $('#btnDetails').on('click', function () {
+
+        $('#btnDelete').off('click').on('click', function () {
+            $('#confirm_modal_body').html('<div style="color:red">ยืนยันการลบข้อมูล</div>');
+            $('#confirm_modal').modal({ backdrop: 'static', keyboard: false });
+        });
+        function deleteConfirm() {
             var table = $('#a_table').DataTable();
             var datarow = table.row('.selected').data();
-            window.location.href = "@Url.Action("Details", "projects")" + "/" + datarow[1];
-
-
-
-
-            $('#a_label').text('เพิ่มรหัสประเภทหลักสูตร');
-            $('#a_submit').html('บันทึก');
-            $("#a_submit").off("click").on("click", function (e) {
-                e.preventDefault();
-                if ($("#a_form").valid()) {
-                    $.ajax({
-                        async: false,
-                        type: "POST",
-                        url: "@Url.Action("Create", "course_type")",
-                        data: {
-                        cgroup_code: $("#cgroup_code").val(),
-                        ctype_code: $("#ctype_code").val(),
-                        ctype_desc: $("#ctype_desc").val(),
-                        x_status: $("#a_form #x_status").val()
-                        },
-                    success: function (data) {
-                        a_details_as_table();
-                        $("#ctype_code").val('');
-                        $("#ctype_desc").val('');
-                        $("#a_form").clearValidation();
-                    }
-                });
-            }
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "@Url.Action("Delete", "project_supporter")",
+                data: {
+                    id: datarow[1],
+                },
+                success: function (data) {
+                    a_details_as_table();
+                }
             });
-
-        $("#ctype_code").val('');
-        $("#ctype_desc").val('');
-        $("#a_form").clearValidation();
-        $('#a_modal').modal({ backdrop: 'static', keyboard: false });
-
-
-
-
-        });
+            $('#confirm_modal').modal('hide');
+        }
         function checkboxClick(projectId) {
             var idc = "#c-" + projectId; var idi = "#i-" + projectId;
             if ($(idc).prop("checked") == true) {
-                $(idi).attr("readonly", false);
+                $(idi).attr("readonly", false).attr('data-val-required', true);
             } else {
-                $(idi).attr("readonly", true);
+                $(idi).attr("readonly", true).removeAttr('data-val-required');
             }
         }
         function checkboxAll() {
@@ -189,8 +256,7 @@
                     var cell2 = table.cell({ row: rowIdx, column: 2 }).node();
                     var cell4 = table.cell({ row: rowIdx, column: 4 }).node();
                     $('input', cell0).prop("checked", true);
-                    $('input', cell4).attr("readonly", false).attr('data-val-required',true);
-                    console.log($(cell2).text());
+                    $('input', cell4).attr("readonly", false).attr('data-val-required', true);
                 });
             } else {
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) {
