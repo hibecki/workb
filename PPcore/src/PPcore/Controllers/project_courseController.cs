@@ -18,23 +18,35 @@ namespace PPcore.Controllers
             _context = context;    
         }
 
-        private void prepareViewBag()
-        {
-            ViewBag.x_status = ini_data.x_status;
-            ViewBag.cgroup_code = new SelectList(_context.course_group.OrderBy(cg => cg.cgroup_code), "cgroup_code", "cgroup_desc",1);
-        }
-
-        public IActionResult Index()
-        {
-            ViewBag.countRecords = _context.project_course.Count();
-            return View();
-        }
+        //private void prepareViewBag()
+        //{
+        //    ViewBag.x_status = ini_data.x_status;
+        //    ViewBag.cgroup_code = new SelectList(_context.course_group.OrderBy(cg => cg.cgroup_code), "cgroup_code", "cgroup_desc",1);
+        //}
 
         [HttpGet]
-        public IActionResult DetailsAsTable()
+        public IActionResult Index(string id)
         {
-            var p = _context.project_course.OrderBy(m => m.course_code);
-            return View(p.ToList());
+            var pj = _context.project.SingleOrDefault(p => p.id == new Guid(id));
+            ViewBag.projectId = pj.id;
+            ViewBag.projectCode = pj.project_code;
+            ViewBag.countRecords = _context.project_course.Count();
+            return View(new project_course());
+        }
+
+        public IActionResult DetailsAsTable(string id, string code)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var project_course = _context.project_course.Where(m => m.project_code == code);
+            if (project_course == null)
+            {
+                return NotFound();
+            }
+
+            return View(project_course.ToList());
         }
 
         // GET: project_course/Details/5
@@ -54,40 +66,50 @@ namespace PPcore.Controllers
             return View(project_course);
         }
 
-        public IActionResult Create()
-        {
-            prepareViewBag();
-            return View();
-        }
-
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("course_code,active_member_join,budget,cgroup_code,charge_head,course_approve_date,course_begin,course_date,course_desc,course_end,ctype_code,id,passed_member,project_code,project_manager,ref_doc,support_head,target_member_join,x_log,x_note,x_status")] project_course project_course)
+        public async Task<IActionResult> Create(string courseId, string projectCode)
         {
-            if (ModelState.IsValid)
+            var c = _context.course.SingleOrDefault(m => m.id == new Guid(courseId));
+            project_course pc = new project_course();
+            pc.project_code = projectCode;
+            pc.active_member_join = c.active_member_join;
+            pc.budget = c.budget;
+            pc.cgroup_code = c.cgroup_code;
+            pc.charge_head = c.charge_head;
+            pc.course_approve_date = c.course_approve_date;
+            pc.course_begin = c.course_begin;
+            pc.course_code = c.course_code;
+            pc.course_date = c.course_date;
+            pc.course_desc = c.course_desc;
+            pc.course_end = c.course_end;
+            pc.ctype_code = c.ctype_code;
+            pc.passed_member = c.passed_member;
+            pc.project_manager = c.project_manager;
+            pc.ref_doc = c.ref_doc;
+            pc.support_head = c.support_head;
+            pc.target_member_join = c.target_member_join;
+            pc.x_status = c.x_status;
+
+            try
             {
-                _context.Add(project_course);
+                _context.Add(pc);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
-            return View(project_course);
+            catch (Exception)
+            {
+                return Json(new { result = "fail" });
+            }
+            return Json(new { result = "success" });
         }
 
-        // GET: project_course/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult EditAsTable()
         {
-            if (id == null)
+            var p = _context.course.OrderBy(m => m.course_code).ToList();
+            if (p == null)
             {
                 return NotFound();
             }
-
-            var project_course = await _context.project_course.SingleOrDefaultAsync(m => m.id == new Guid(id));
-            if (project_course == null)
-            {
-                return NotFound();
-            }
-            prepareViewBag();
-            ViewBag.ctype_code = project_course.ctype_code;
-            return View(project_course);
+            return View(p);
         }
 
         [HttpPost]
@@ -116,37 +138,13 @@ namespace PPcore.Controllers
             return View(project_course);
         }
 
-        // GET: project_course/Delete/5
+        [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var project_course = await _context.project_course.SingleOrDefaultAsync(m => m.course_code == id);
-            if (project_course == null)
-            {
-                return NotFound();
-            }
-
-            return View(project_course);
-        }
-
-        // POST: project_course/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var project_course = await _context.project_course.SingleOrDefaultAsync(m => m.course_code == id);
-            _context.project_course.Remove(project_course);
+            var pc = await _context.project_course.SingleOrDefaultAsync(m => m.id == new Guid(id));
+            _context.project_course.Remove(pc);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool project_courseExists(string id)
-        {
-            return _context.project_course.Any(e => e.course_code == id);
+            return Json(new { result = "success" });
         }
     }
 }

@@ -18,13 +18,14 @@ namespace PPcore.Controllers
             _context = context;    
         }
 
+        [HttpGet]
         public IActionResult Index(string id)
         {
             var pj = _context.project.SingleOrDefault(p => p.id == new Guid(id));
             ViewBag.projectId = pj.id;
             ViewBag.projectCode = pj.project_code;
             ViewBag.countRecords = _context.project_supporter.Count();
-            return View();
+            return View(new project_supporter());
         }
 
         // GET: project_supporter/Details/5

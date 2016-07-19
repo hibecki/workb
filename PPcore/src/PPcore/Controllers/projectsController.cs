@@ -36,6 +36,19 @@ namespace PPcore.Controllers
             return View(p.ToList());
         }
 
+        [HttpGet]
+        public IActionResult DetailsAsTableBySponsor(string spon_code)
+        {
+            var pss = _context.project_supporter.Where(mps => mps.spon_code == spon_code).ToList();
+            List<project> pjs = new List<project>();
+            foreach (project_supporter ps in pss)
+            {
+                var p = _context.project.SingleOrDefault(m => m.project_code == ps.project_code);
+                pjs.Add(p);
+            }
+            return View("DetailsAsTable", pjs.ToList());
+        }
+
         // GET: projects/Details/5
         public async Task<IActionResult> Details(string id)
         {
