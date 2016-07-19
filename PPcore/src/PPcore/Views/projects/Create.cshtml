@@ -167,8 +167,8 @@
             });
         });
         function dateDefault() {
-            if ($("#project_date").val() == "" && $("#project_date").is(":focus")) { $("#project_date").datepicker("setDate", new Date()); }
-            if ($("#project_approve_date").val() == "" && $("#project_approve_date").is(":focus")) { $("#project_approve_date").datepicker("setDate", new Date()); }
+            if ($("#project_date").val() == "" && ($("#project_date").is(":focus") || $("#project_date_button").is(":focus"))) { $("#project_date").datepicker("setDate", new Date()); }
+            if ($("#project_approve_date").val() == "" && ($("#project_approve_date").is(":focus") || $("#project_approve_date_button").is(":focus"))) { $("#project_approve_date").datepicker("setDate", new Date()); }
         }
     </script>
 }

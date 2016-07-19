@@ -41,6 +41,31 @@ namespace PPcore.Controllers
             return View(ct);
         }
 
+        [HttpGet]
+        public IActionResult SelectBy(string cgroup_code)
+        {
+            if (cgroup_code == null)
+            {
+                return NotFound();
+            }
+
+            var c = _context.course_type.Where(d => d.cgroup_code == cgroup_code).OrderBy(d => d.ctype_desc).ToList();
+            if (c == null)
+            {
+                return NotFound();
+            }
+
+            var selectOptions = "";
+            //if (!String.IsNullOrEmpty(selectOptions))
+            //{
+            foreach (var ct in c)
+            {
+                selectOptions += "<option value='" + ct.ctype_code + "'>" + ct.ctype_desc + "</option>";
+            }
+            //}
+
+            return Content(selectOptions);
+        }
 
 
         [HttpPost]

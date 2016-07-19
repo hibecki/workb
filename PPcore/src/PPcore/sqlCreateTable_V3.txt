@@ -1,4 +1,33 @@
 ﻿/*==============================================================*/
+/* Table: course												*/
+/*==============================================================*/
+create table course (
+   course_code          varchar(30)          not null,
+   project_code         varchar(30)          null,
+	ctype_code           varchar(30)          null,
+	cgroup_code          varchar(30)          null,
+   course_desc          nvarchar(100)        not null,
+   course_date          datetime             null,
+   course_approve_date  datetime             null,
+   course_begin         datetime             null,
+   course_end           datetime             null,
+   ref_doc              varchar(30)          null,
+   budget               money                null,
+	charge_head          money                null,
+	support_head         money                null,
+   project_manager      nvarchar(100)        null,
+   target_member_join   int                  null,
+   active_member_join   int                  null,
+   passed_member        int                  null,
+   x_status             char(1)              null,
+   x_note               nvarchar(50)         null,
+   x_log                nvarchar(500)        null,
+   id uniqueidentifier NOT NULL DEFAULT (newid()),
+   constraint pk_course primary key (course_code)
+)
+go
+
+/*==============================================================*/
 /* Table: product_group                                         */
 /*==============================================================*/
 create table product_group (

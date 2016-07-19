@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PPcore.Models
 {
-    public partial class project_course
+    public partial class course
     {
         [Display(Name = "รหัสหลักสูตร")]
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
