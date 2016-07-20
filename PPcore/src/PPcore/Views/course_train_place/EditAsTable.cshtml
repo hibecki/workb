@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "";
 }
-@model IEnumerable<PPcore.Models.instructor>
+@model IEnumerable<PPcore.Models.train_place>
 
 <div class="panel panel-blue">
     <div class="panel-heading">
@@ -27,9 +27,9 @@
                         <th style="width:75px;"><div class="checkbox"><label>เลือกทั้งหมด<br/><input type="checkbox" id="cAll" onclick="checkboxAll()"></label></div></th>
                         <th style="width:13px;">ลำดับ</th>
                         <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
-                        <th style="width:70px;">@Html.DisplayNameFor(model => model.instructor_code)</th>
-                        <th>วันที่ยืนยันการอบรม</th>
-                        <th style="width:100px;">ค่าวิทยากร</th>
+                        <th style="width:70px;">@Html.DisplayNameFor(model => model.place_code)</th>
+                        <th>@Html.DisplayNameFor(model => model.confirm_date)</th>
+                        <th style="width:100px;">ค่าสถานที่</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,7 +41,7 @@
                             <td><div class="checkbox"><label><input type="checkbox" id="c-@Html.DisplayFor(modelItem => item.id)" onclick="checkboxClick('@Html.DisplayFor(modelItem => item.id)')"></label></div></td>
                             <td>@countOrder</td>
                             <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
-                            <td>@Html.DisplayFor(modelItem => item.instructor_code)</td>
+                            <td>@Html.DisplayFor(modelItem => item.place_code)</td>
                             @*<td id="cell4-@Html.DisplayFor(modelItem => item.id)">
                                 <div class="input-group">
                                     <input class="form-control" style="width:100px;" readonly />

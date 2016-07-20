@@ -18,133 +18,71 @@ namespace PPcore.Controllers
             _context = context;    
         }
 
-        // GET: course_train_place
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult Index(string id)
         {
-            return View(await _context.course_train_place.ToListAsync());
+            var c = _context.course.SingleOrDefault(m => m.id == new Guid(id));
+            ViewBag.courseId = c.id;
+            ViewBag.courseCode = c.course_code;
+            ViewBag.countRecords = _context.course_train_place.Where(ci => ci.course_code == c.course_code).Count();
+            return View(new course_train_place());
         }
 
-        // GET: course_train_place/Details/5
-        public async Task<IActionResult> Details(string id)
+        public IActionResult DetailsAsTable(string id, string code)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var course_train_place = await _context.course_train_place.SingleOrDefaultAsync(m => m.place_code == id);
-            if (course_train_place == null)
+            var ci = _context.course_train_place.Where(m => m.course_code == code);
+            if (ci == null)
             {
                 return NotFound();
             }
 
-            return View(course_train_place);
+            return View(ci.ToList());
         }
 
-        // GET: course_train_place/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: course_train_place/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("place_code,course_code,confirm_date,id,place_cost,ref_doc,x_log,x_note,x_status")] course_train_place course_train_place)
+        public async Task<IActionResult> Create(string placeId, string place_cost, string courseCode)
         {
-            if (ModelState.IsValid)
+            var i = _context.train_place.SingleOrDefault(m => m.id == new Guid(placeId));
+            course_train_place ci = new course_train_place();
+            ci.confirm_date = i.confirm_date;
+            ci.course_code = courseCode;
+            ci.place_code = i.place_code;
+            ci.place_cost = Decimal.Parse(place_cost);
+            ci.ref_doc = i.ref_doc;
+            ci.x_status = i.x_status;
+            try
             {
-                _context.Add(course_train_place);
+                _context.Add(ci);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
-            return View(course_train_place);
+            catch (Exception)
+            {
+                return Json(new { result = "fail" });
+            }
+            return Json(new { result = "success" });
         }
 
-        // GET: course_train_place/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult EditAsTable()
         {
-            if (id == null)
+            var p = _context.train_place.OrderBy(m => m.place_code).ToList();
+            if (p == null)
             {
                 return NotFound();
             }
-
-            var course_train_place = await _context.course_train_place.SingleOrDefaultAsync(m => m.place_code == id);
-            if (course_train_place == null)
-            {
-                return NotFound();
-            }
-            return View(course_train_place);
+            return View(p);
         }
 
-        // POST: course_train_place/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("place_code,course_code,confirm_date,id,place_cost,ref_doc,x_log,x_note,x_status")] course_train_place course_train_place)
-        {
-            if (id != course_train_place.place_code)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(course_train_place);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!course_train_placeExists(course_train_place.place_code))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(course_train_place);
-        }
-
-        // GET: course_train_place/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var course_train_place = await _context.course_train_place.SingleOrDefaultAsync(m => m.place_code == id);
-            if (course_train_place == null)
-            {
-                return NotFound();
-            }
-
-            return View(course_train_place);
-        }
-
-        // POST: course_train_place/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var course_train_place = await _context.course_train_place.SingleOrDefaultAsync(m => m.place_code == id);
-            _context.course_train_place.Remove(course_train_place);
+            var ci = await _context.course_train_place.SingleOrDefaultAsync(m => m.id == new Guid(id));
+            _context.course_train_place.Remove(ci);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool course_train_placeExists(string id)
-        {
-            return _context.course_train_place.Any(e => e.place_code == id);
+            return Json(new { result = "success" });
         }
     }
 }

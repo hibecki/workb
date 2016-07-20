@@ -164,12 +164,13 @@
 
                 $.datepicker.regional['th'] = {
                     dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
-                    yearRange: "-100:+1", yearOffSet: 543, beforeShow: dateDefault
+                    yearRange: "-100:+1", yearOffSet: 543
                 };
                 $.datepicker.setDefaults($.datepicker.regional['th']);
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) {
                     var cell4 = table.cell({ row: rowIdx, column: 4 }).node();
                     $('input', cell4).datepicker($.datepicker.regional["th"]);
+                    $('input', cell4).datepicker("disable");
                     $('button', cell4).off('click').on('click', function () {
                         $('input', cell4).datepicker("show");
                     });
@@ -178,37 +179,37 @@
                     var foundEmpty = false; var foundDup = false;
                     table.rows().every(function (rowIdx, tableLoop, rowLoop) {
                         var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
-                        var cell4 = table.cell({ row: rowIdx, column: 4 }).node();
+                        var cell5 = table.cell({ row: rowIdx, column: 5 }).node();
                         if ($('input', cell0).prop("checked") == true) {
-                            if (!$('input', cell4).val()) {
+                            if (!$('input', cell5).val()) {
                                 foundEmpty = true;
                             }
                         }
                     });
                     if (foundEmpty) {
-                        $('#alert_label').text('เพิ่มผู้สนับสนุน');
-                        $('#alert_modal_body').html('<div style="color:red">ตรวจพบมีข้อมูลงบประมาณไม่ถูกต้อง</div>');
+                        $('#alert_label').text('เพิ่มวิทยากร');
+                        $('#alert_modal_body').html('<div style="color:red">ตรวจพบค่าวิทยากรไม่ถูกต้อง</div>');
                         $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
                     } else {
                         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
                             var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
                             var cell2 = table.cell({ row: rowIdx, column: 2 }).node();
-                            var cell4 = table.cell({ row: rowIdx, column: 4 }).node();
+                            var cell5 = table.cell({ row: rowIdx, column: 5 }).node();
                             if ($('input', cell0).prop("checked") == true) {
                                 $.ajax({
                                     async: false,
                                     type: "POST",
-                                    url: "@Url.Action("Create", "project_supporter")",
+                                    url: "@Url.Action("Create", "course_instructor")",
                                     data: {
-                                    projectCode: '@ViewBag.projectCode',
-                                    support_budget: $('input', cell4).val(),
-                                    sponsorId: $(cell2).text(),
+                                        courseCode: '@ViewBag.courseCode',
+                                        instructor_cost: $('input', cell5).val(),
+                                        instructorId: $(cell2).text(),
                                     },
                                     success: function (data) {
                                         if (data.result != "fail") {
                                             a_details_as_table();
                                             $('input', cell0).prop("checked", false);
-                                            $('input', cell4).attr("readonly", true).removeAttr('data-val-required');
+                                            $('input', cell5).attr("readonly", true).removeAttr('data-val-required');
                                         } else {
                                             foundDup = true;
                                         }
@@ -217,8 +218,8 @@
                             }
                         });
                         if (foundDup) {
-                            $('#alert_label').text('เพิ่มผู้สนับสนุน');
-                            $('#alert_modal_body').html('<div style="color:red">ตรวจพบมีข้อมูลผู้สนับสนุนในโครงการแล้ว</div>');
+                            $('#alert_label').text('เพิ่มวิทยากร');
+                            $('#alert_modal_body').html('<div style="color:red">ตรวจพบมีข้อมูลวิทยากรในหลักสูตรแล้ว</div>');
                             $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
                         } else {
                             $('#a_modal').modal('hide');
@@ -239,7 +240,7 @@
             $.ajax({
                 async: false,
                 type: "POST",
-                url: "@Url.Action("Delete", "project_supporter")",
+                url: "@Url.Action("Delete", "course_instructor")",
                 data: {
                     id: datarow[1],
                 },
@@ -250,15 +251,26 @@
             $('#confirm_modal').modal('hide');
         }
         function checkboxClick(id) {
-            var idc = "#c-" + id; var idi = "#i-" + id; var idd = "#d-" + id; var iddb = "#db-" + id;
+            var idc = "#c-" + id;
+            var cell4 = "#cell4-" + id; var cell5 = "#cell5-" + id;
             if ($(idc).prop("checked") == true) {
-                $(idd).attr("readonly", false); $("idd").css("background-color", "white");
-                $(iddb).attr("disabled", false);
-                $(idi).attr("readonly", false).attr('data-val-required', true);
+                var table = $('#b_table').DataTable();
+                var node4 = table.cell(cell4).node(); var node5 = table.cell(cell5).node();
+                //$('input', node4).datepicker("setDate", new Date());
+                //$('input', node4).datepicker("enable");
+                //$('input', node4).attr("readonly", false).css("background-color", "white");
+                //$('button', node4).attr("disabled", false).off('click').on('click', function () {
+                //    $('input', node4).datepicker("show");
+                //});
+                $('input', node5).attr("readonly", false).attr('data-val-required', true);
             } else {
-                $(idd).attr("readonly", true);
-                $(iddb).attr("disabled", true); $("idd").css("background-color", "grey");
-                $(idi).attr("readonly", true).removeAttr('data-val-required');
+                var table = $('#b_table').DataTable();
+                var node4 = table.cell(cell4).node(); var node5 = table.cell(cell5).node();
+                //$('input', node4).val('');
+                //$('input', node4).datepicker("disable");
+                //$('input', node4).attr("readonly", true).css("background-color", "#EEE");
+                //$('button', node4).attr("disabled", true);
+                $('input', node5).attr("readonly", true).removeAttr('data-val-required');
             }
         }
         function checkboxAll() {
@@ -267,26 +279,18 @@
             if ($("#cAll").prop("checked") == true) {
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) {
                     var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
-                    var cell2 = table.cell({ row: rowIdx, column: 2 }).node();
-                    var cell4 = table.cell({ row: rowIdx, column: 4 }).node();
+                    var cell5 = table.cell({ row: rowIdx, column: 5 }).node();
                     $('input', cell0).prop("checked", true);
-                    $('input', cell4).attr("readonly", false).attr('data-val-required', true);
+                    $('input', cell5).attr("readonly", false).attr('data-val-required', true);
                 });
             } else {
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) {
                     var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
-                    var cell2 = table.cell({ row: rowIdx, column: 2 }).node();
-                    var cell4 = table.cell({ row: rowIdx, column: 4 }).node();
+                    var cell5 = table.cell({ row: rowIdx, column: 5 }).node();
                     $('input', cell0).prop("checked", false);
-                    $('input', cell4).attr("readonly", true).removeAttr('data-val-required');
+                    $('input', cell5).attr("readonly", true).removeAttr('data-val-required');
                 });
             }
-        }
-        function dateDefault() {
-            if ($("#course_date").val() == "" && ($("#course_date").is(":focus") || $("#course_date_button").is(":focus"))) { $("#course_date").datepicker("setDate", new Date()); }
-            if ($("#course_approve_date").val() == "" && ($("#course_approve_date").is(":focus") || $("#course_approve_date_button").is(":focus"))) { $("#course_approve_date").datepicker("setDate", new Date()); }
-            if ($("#course_begin").val() == "" && ($("#course_begin").is(":focus") || $("#course_begin_button").is(":focus"))) { $("#course_begin").datepicker("setDate", new Date()); }
-            if ($("#course_end").val() == "" && ($("#course_end").is(":focus") || $("#course_end_button").is(":focus"))) { $("#course_end").datepicker("setDate", new Date()); }
         }
     </script>
 }

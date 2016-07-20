@@ -60,26 +60,27 @@ namespace PPcore.Controllers
             return View(course_instructor);
         }
 
-        // GET: course_instructor/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: course_instructor/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("instructor_code,course_code,confirm_date,id,instructor_cost,ref_doc,x_log,x_note,x_status")] course_instructor course_instructor)
+        public async Task<IActionResult> Create(string instructorId, string instructor_cost, string courseCode)
         {
-            if (ModelState.IsValid)
+            var i = _context.instructor.SingleOrDefault(m => m.id == new Guid(instructorId));
+            course_instructor ci = new course_instructor();
+            ci.confirm_date = i.confirm_date;
+            ci.course_code = courseCode;
+            ci.instructor_code = i.instructor_code;
+            ci.instructor_cost = Decimal.Parse(instructor_cost);
+            ci.ref_doc = i.ref_doc;
+            ci.x_status = i.x_status;
+            try
             {
-                _context.Add(course_instructor);
+                _context.Add(ci);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
-            return View(course_instructor);
+            catch (Exception)
+            {
+                return Json(new { result = "fail" });
+            }
+            return Json(new { result = "success" });
         }
 
         public IActionResult EditAsTable()
@@ -92,88 +93,13 @@ namespace PPcore.Controllers
             return View(p);
         }
 
-        // GET: course_instructor/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var course_instructor = await _context.course_instructor.SingleOrDefaultAsync(m => m.instructor_code == id);
-            if (course_instructor == null)
-            {
-                return NotFound();
-            }
-            return View(course_instructor);
-        }
-
-        // POST: course_instructor/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("instructor_code,course_code,confirm_date,id,instructor_cost,ref_doc,x_log,x_note,x_status")] course_instructor course_instructor)
-        {
-            if (id != course_instructor.instructor_code)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(course_instructor);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!course_instructorExists(course_instructor.instructor_code))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(course_instructor);
-        }
-
-        // GET: course_instructor/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var course_instructor = await _context.course_instructor.SingleOrDefaultAsync(m => m.instructor_code == id);
-            if (course_instructor == null)
-            {
-                return NotFound();
-            }
-
-            return View(course_instructor);
-        }
-
-        // POST: course_instructor/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var course_instructor = await _context.course_instructor.SingleOrDefaultAsync(m => m.instructor_code == id);
-            _context.course_instructor.Remove(course_instructor);
+            var ci = await _context.course_instructor.SingleOrDefaultAsync(m => m.id == new Guid(id));
+            _context.course_instructor.Remove(ci);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool course_instructorExists(string id)
-        {
-            return _context.course_instructor.Any(e => e.instructor_code == id);
+            return Json(new { result = "success" });
         }
     }
 }
