@@ -14,6 +14,12 @@
                         <li class="active">
                             <a data-toggle="tab">หลักสูตรอบรม</a>
                         </li>
+                        <li>
+                            <a data-toggle="tab" onclick="location.href='@Url.Action("Index", "course_instructor")'+'?id='+'@Model.id'">วิทยากร</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" onclick="location.href='@Url.Action("Index", "course_train_place")'+'?id='+'@Model.id'">สถานที่จัดอบรม</a>
+                        </li>
                     </ul>
                     <div style="background-color:#093D6A;height:8px;"></div>
                     <br />
@@ -196,6 +202,16 @@
 
                         </form>
 
+                        <div class="panel panel-blue">
+                            <div class="panel-heading">
+                                <div class="pull-left" style="padding-top:5px;">แสดงข้อมูลผู้ลงทะเบียนเข้าอบรม</div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
+
+                                </div>
+                            </div>
+                        </div>
 
 
                     </div>
@@ -254,12 +270,29 @@
             setTimeout(function () {
                 $('#ctype_code').val('@ViewBag.ctype_code');
             }, 300);
+
+            a_details_as_table();
         });
         function dateDefault() {
             if ($("#course_date").val() == "" && ($("#course_date").is(":focus") || $("#course_date_button").is(":focus"))) { $("#course_date").datepicker("setDate", new Date()); }
             if ($("#course_approve_date").val() == "" && ($("#course_approve_date").is(":focus") || $("#course_approve_date_button").is(":focus"))) { $("#course_approve_date").datepicker("setDate", new Date()); }
             if ($("#course_begin").val() == "" && ($("#course_begin").is(":focus") || $("#course_begin_button").is(":focus"))) { $("#course_begin").datepicker("setDate", new Date()); }
             if ($("#course_end").val() == "" && ($("#course_end").is(":focus") || $("#course_end_button").is(":focus"))) { $("#course_end").datepicker("setDate", new Date()); }
+        }
+        function a_details_as_table() {
+            @*$.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsTableBySponsor", "projects")' + '?spon_code=' + $('#spon_code').val(),
+            }).done(function (resp) {
+                $('#a_details_as_table').html(resp);
+                var w = [
+                    { "targets": [0], "width": "15", "className": "dt-center" },
+                    { "targets": [1], "visible": false, "searchable": false },
+                    { "targets": [2], "width": "150", "className": "dt-center" },
+                    { "targets": [4], "width": "50", "className": "dt-center" },
+                ];
+                var table = setTable_default($('#a_table'), w);
+                table.$('tr:first').click();
+            });*@
         }
     </script>
 }

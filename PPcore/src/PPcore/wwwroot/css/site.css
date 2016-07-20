@@ -449,6 +449,8 @@ width: 100% !important;
     margin-left: 16%;
 }
 
+.ui-datepicker{ z-index: 9999 !important;}
+
 input[data-val-required] {
     border:1px solid #ff8383;
 }

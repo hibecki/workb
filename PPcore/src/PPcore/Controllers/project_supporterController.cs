@@ -24,7 +24,7 @@ namespace PPcore.Controllers
             var pj = _context.project.SingleOrDefault(p => p.id == new Guid(id));
             ViewBag.projectId = pj.id;
             ViewBag.projectCode = pj.project_code;
-            ViewBag.countRecords = _context.project_supporter.Count();
+            ViewBag.countRecords = _context.project_supporter.Where(ps => ps.project_code == pj.project_code).Count();
             return View(new project_supporter());
         }
 

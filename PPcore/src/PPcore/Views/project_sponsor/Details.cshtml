@@ -45,9 +45,9 @@
                                             <div class="col-md-2 text-right"><label asp-for="confirm_date" class="control-label"></label></div>
                                             <div class="col-md-4">
                                                 <div class="input-group">
-                                                    <input asp-for="confirm_date" class="form-control" readonly style="background-color:white">
+                                                    <input asp-for="confirm_date" class="form-control" readonly />
                                                     <span class="input-group-btn">
-                                                        <button id="confirm_date_button" class="btn btn-default" type="button">
+                                                        <button id="confirm_date_button" class="btn btn-default" type="button" disabled >
                                                             <i class="fa fa-calendar"></i>
                                                         </button>
                                                     </span>
@@ -107,7 +107,16 @@
                     </form>
 
 
+                    <div class="panel panel-blue">
+                        <div class="panel-heading">
+                            <div class="pull-left" style="padding-top:5px;">ข้อมูลโครงการ</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
 
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -125,19 +134,22 @@
     <script src="~/lib/bootstrap/js/modal.js"></script>
     <script>
         $(document).ready(function () {
-            $.datepicker.regional['th'] = {
-                dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
-                yearRange: "-100:+1", yearOffSet: 543, beforeShow: dateDefault
-            };
-            $.datepicker.setDefaults($.datepicker.regional['th']);
-            $("#confirm_date").datepicker($.datepicker.regional["th"]);
-
-            $('#confirm_date_button').off('click').on('click', function () {
-                $('#confirm_date').datepicker("show");
-            });
+            a_details_as_table();
         });
-        function dateDefault() {
-            if ($("#confirm_date").val() == "") { $("#confirm_date").datepicker("setDate", new Date()); }
+        function a_details_as_table() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsTableBySponsor", "projects")' + '?spon_code=' + $('#spon_code').val(),
+            }).done(function (resp) {
+                $('#a_details_as_table').html(resp);
+                var w = [
+                    { "targets": [0], "width": "15", "className": "dt-center" },
+                    { "targets": [1], "visible": false, "searchable": false },
+                    { "targets": [2], "width": "150", "className": "dt-center" },
+                    { "targets": [4], "width": "50", "className": "dt-center" },
+                ];
+                var table = setTable_default($('#a_table'), w);
+                table.$('tr:first').click();
+            });
         }
     </script>
 }
