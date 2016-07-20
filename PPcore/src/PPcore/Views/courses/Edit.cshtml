@@ -280,19 +280,23 @@
             if ($("#course_end").val() == "" && ($("#course_end").is(":focus") || $("#course_end_button").is(":focus"))) { $("#course_end").datepicker("setDate", new Date()); }
         }
         function a_details_as_table() {
-            @*$.ajax({
-                type: 'get', url: '@Url.Action("DetailsAsTableBySponsor", "projects")' + '?spon_code=' + $('#spon_code').val(),
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsTableMember", "project_course_register")' + '?course_code=' + $('#course_code').val(),
             }).done(function (resp) {
                 $('#a_details_as_table').html(resp);
                 var w = [
                     { "targets": [0], "width": "15", "className": "dt-center" },
                     { "targets": [1], "visible": false, "searchable": false },
-                    { "targets": [2], "width": "150", "className": "dt-center" },
-                    { "targets": [4], "width": "50", "className": "dt-center" },
+                    { "targets": [2], "width": "70", "className": "dt-center" },
+                    { "targets": [3], "width": "150", "className": "dt-center" },
+                    { "targets": [5], "width": "150", "className": "dt-center" },
+                    { "targets": [6], "width": "150", "className": "dt-center" },
+                    { "targets": [7], "width": "150", "className": "dt-center" },
+                    { "targets": [8], "width": "150", "className": "dt-center" },
                 ];
                 var table = setTable_default($('#a_table'), w);
                 table.$('tr:first').click();
-            });*@
+            });
         }
     </script>
 }

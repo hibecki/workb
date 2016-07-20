@@ -45,13 +45,13 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var course = await _context.course.SingleOrDefaultAsync(m => m.course_code == id);
+            var course = await _context.course.SingleOrDefaultAsync(m => m.id == new Guid(id));
             if (course == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return Json(course);
         }
 
         public IActionResult Create()

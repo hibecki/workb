@@ -1,0 +1,39 @@
+﻿@model IEnumerable<PPcore.Models.member>
+@{
+    Layout = null;
+}
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th style="width:15px;">ลำดับ</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.member_code)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.fname)</th>
+            <th>ที่อยู่</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.mobile)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.email)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.line)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.facebook)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0;}
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td style="width:15px;">@countOrder</td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
+                <td>@Html.DisplayFor(modelItem => item.member_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.title)@Html.DisplayFor(modelItem => item.fname) @Html.DisplayFor(modelItem => item.lname)</td>
+                <td>@Html.DisplayFor(modelItem => item.texta_address) @Html.DisplayFor(modelItem => item.textb_address) @Html.DisplayFor(modelItem => item.textc_address)</td>
+                <td>@Html.DisplayFor(modelItem => item.mobile)</td>
+                <td>@Html.DisplayFor(modelItem => item.email)</td>
+                <td>@Html.DisplayFor(modelItem => item.line)</td>
+                <td>@Html.DisplayFor(modelItem => item.facebook)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
