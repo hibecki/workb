@@ -12,7 +12,6 @@ INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('F','Fail
 INSERT INTO [dbo].[mem_group] ([mem_group_code], [mem_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1  ', N'ผู้นำพลังปัญญา', N'Y', NULL, NULL, N'5d012928-0f41-4545-874a-197c95242f72');
 INSERT INTO [dbo].[mem_group] ([mem_group_code], [mem_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'2  ', N'สมาชิกเครือข่าย', N'Y', NULL, NULL, N'7df0b28f-abe4-46d8-96d0-330c92da0bec');
 
-
 INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','1',N'ผู้บริหาร',newid(),'Y');
 INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','2',N'ผู้บริหารกลุ่ม',newid(),'Y');
 INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','3',N'สมาชิก',newid(),'Y');
