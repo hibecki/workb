@@ -145,51 +145,6 @@ namespace PPcore.Models
                 entity.Property(e => e.x_status).HasColumnType("char(1)");
             });
 
-            modelBuilder.Entity<course>(entity =>
-            {
-                entity.HasKey(e => e.course_code)
-                    .HasName("pk_course");
-
-                entity.Property(e => e.course_code).HasColumnType("varchar(30)");
-
-                entity.Property(e => e.budget).HasColumnType("money");
-
-                entity.Property(e => e.cgroup_code).HasColumnType("varchar(30)");
-
-                entity.Property(e => e.charge_head).HasColumnType("money");
-
-                entity.Property(e => e.course_approve_date).HasColumnType("datetime");
-
-                entity.Property(e => e.course_begin).HasColumnType("datetime");
-
-                entity.Property(e => e.course_date).HasColumnType("datetime");
-
-                entity.Property(e => e.course_desc)
-                    .IsRequired()
-                    .HasColumnType("nvarchar(100)");
-
-                entity.Property(e => e.course_end).HasColumnType("datetime");
-
-                entity.Property(e => e.ctype_code).HasColumnType("varchar(30)");
-
-                entity.Property(e => e.id).HasDefaultValueSql("newid()");
-
-                entity.Property(e => e.project_code).HasColumnType("varchar(30)");
-
-                entity.Property(e => e.project_manager).HasColumnType("nvarchar(100)");
-
-                entity.Property(e => e.ref_doc).HasColumnType("varchar(30)");
-
-                entity.Property(e => e.support_head).HasColumnType("money");
-
-                entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
-
-                entity.Property(e => e.x_note).HasColumnType("nvarchar(50)");
-
-                entity.Property(e => e.x_status).HasColumnType("char(1)");
-            });
-
-
             modelBuilder.Entity<course_grade>(entity =>
             {
                 entity.HasKey(e => e.cgrade_code)
@@ -1116,7 +1071,6 @@ namespace PPcore.Models
         public virtual DbSet<product_type> product_type { get; set; }
         public virtual DbSet<mem_product> mem_product { get; set; }
 
-        public virtual DbSet<course> course { get; set; }
         public virtual DbSet<course_grade> course_grade { get; set; }
         public virtual DbSet<course_group> course_group { get; set; }
         public virtual DbSet<course_instructor> course_instructor { get; set; }

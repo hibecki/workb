@@ -1,49 +1,24 @@
-@model PPcore.Models.project_supporter
+@model PPcore.Models.project_daily_checklist
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
-<form asp-action="Create">
+<form asp-action="Edit">
     <div class="form-horizontal">
-        <h4>project_supporter</h4>
+        <h4>project_daily_checklist</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="contactor" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="contactor" class="form-control" />
-                <span asp-validation-for="contactor" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="contactor_detail" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="contactor_detail" class="form-control" />
-                <span asp-validation-for="contactor_detail" class="text-danger" />
-            </div>
-        </div>
+    <input type="hidden" asp-for="course_date" />
+    <input type="hidden" asp-for="course_code" />
+    <input type="hidden" asp-for="member_code" />
         <div class="form-group">
             <label asp-for="id" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="id" class="form-control" />
                 <span asp-validation-for="id" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ref_doc" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ref_doc" class="form-control" />
-                <span asp-validation-for="ref_doc" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="support_budget" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="support_budget" class="form-control" />
-                <span asp-validation-for="support_budget" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
@@ -69,7 +44,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>

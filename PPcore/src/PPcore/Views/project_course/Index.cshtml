@@ -161,7 +161,7 @@
                 type: 'get', url: '@Url.Action("EditAsTable", "project_course")',
             }).done(function (resp) {
                 $('#a_body').html(resp);
-                $('#a_label').text('เพิ่มผู้สนับสนุน');
+                $('#a_label').text('เพิ่มหลักสูตร');
                 var w = [
                     { "targets": [0], "width": "75", "className": "dt-center" },
                     { "targets": [1], "width": "13", "className": "dt-center" },
@@ -172,7 +172,7 @@
                 var n = 5;
                 var table = setTable_PageN($('#b_table'), w, n);
                 table.$('tr:first').click();
-
+                console.log('test');
                 $('#btnSave').off('click').on('click', function () {
                     var foundDup = false;
                     table.rows().every(function (rowIdx, tableLoop, rowLoop) {

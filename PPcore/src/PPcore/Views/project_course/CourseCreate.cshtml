@@ -3,7 +3,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12" style="padding-top:15px;">
-            <table><tr><td><h4 class="txt-color-blue">หลักสูตรอบรม</h4></td><td class="txt-color-blue" style="padding-top:2px">&nbsp;&nbsp;&nbsp;&nbsp;แก้ไขข้อมูลหลักสูตรอบรม</td></tr></table>
+            <table><tr><td><h4 class="txt-color-blue">หลักสูตรอบรม</h4></td><td class="txt-color-blue" style="padding-top:2px">&nbsp;&nbsp;&nbsp;&nbsp;เพิ่มข้อมูลหลักสูตรอบรม</td></tr></table>
         </div>
     </div>
     <div class="row">
@@ -19,10 +19,10 @@
                     <br />
                     <div id="renderBody">
 
-                        <form asp-action="Edit"><input asp-for="id" />
+                        <form asp-action="CourseCreate">
                             <div class="pull-right" style="margin-top:-72px;">
                                 <button id="btnSave" type="submit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</button>
-                                <div id="btnDetails" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "project_course")'">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูลทั้งหมด</div>
+                                <div id="btnDetails" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("CourseIndex", "project_course")'">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูลทั้งหมด</div>
                             </div>
                             <div class="form-horizontal">
                                 <br />
@@ -32,7 +32,7 @@
                                             <div class="row">
                                                 <div class="col-md-2 text-right"><label asp-for="course_code" class="control-label"></label></div>
                                                 <div class="col-md-4">
-                                                    <input asp-for="course_code" class="form-control" readonly />
+                                                    <input asp-for="course_code" class="form-control" />
                                                     <span asp-validation-for="course_code" class="text-danger" />
                                                 </div>
                                                 <div class="col-md-2 text-right"><label asp-for="project_code" class="control-label"></label></div>
@@ -251,9 +251,6 @@
             });
 
             $('#cgroup_code').trigger("change");
-            setTimeout(function () {
-                $('#ctype_code').val('@ViewBag.ctype_code');
-            }, 300);
         });
         function dateDefault() {
             if ($("#course_date").val() == "" && ($("#course_date").is(":focus") || $("#course_date_button").is(":focus"))) { $("#course_date").datepicker("setDate", new Date()); }

@@ -57,9 +57,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.passed_member)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.x_status)
-                </td>
+                <td>@Html.x_status_text(item.x_status)</td>
             </tr>
         }
     </tbody>

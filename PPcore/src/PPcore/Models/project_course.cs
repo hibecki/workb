@@ -15,7 +15,7 @@ namespace PPcore.Models
         public string ctype_code { get; set; }
         [Display(Name = "กลุ่มหลักสูตร")]
         public string cgroup_code { get; set; }
-        [Display(Name = "ชื่อ หลักสูตรอบรม")] //ชื่อ/คำอธบายหลักสูตร
+        [Display(Name = "ชื่อหลักสูตรอบรม")] //ชื่อ/คำอธบายหลักสูตร
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         public string course_desc { get; set; }
         

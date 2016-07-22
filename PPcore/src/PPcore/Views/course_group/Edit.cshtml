@@ -59,7 +59,7 @@
                                         <div class="row">
                                             <label asp-for="x_status" class="col-md-2 control-label"></label>
                                             <div class="col-md-4">
-                                                <select asp-for="x_status" asp-items="ViewBag.x_status" class="form-control"></select>
+                                                <select asp-for="x_status" asp-items="@Html.x_status_SelectList()" class="form-control"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -164,8 +164,8 @@
                     $("#rowversion").val(data.rowversion);
                     $("#ctype_code").val(data.ctype_code);
                     $("#ctype_desc").val(data.ctype_desc);
-                    $("#a_form #x_tatus").val(data.x_status);
-
+                    $("#a_form #x_status").val(data.x_status);
+                    
                     $("#a_form").clearValidation();
                     $('#a_label').text('แก้ไขรหัสประเภทหลักสูตร');
                     $('#a_submit').html('บันทึก');

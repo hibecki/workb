@@ -13,11 +13,6 @@ namespace PPcore.Controllers
     {
         private readonly PalangPanyaDBContext _context;
 
-        private void prepareViewBag()
-        {
-            ViewBag.x_status = ini_data.x_status;
-        }
-
         public course_groupController(PalangPanyaDBContext context)
         {
             _context = context;    
@@ -26,7 +21,6 @@ namespace PPcore.Controllers
         // GET: course_group
         public IActionResult Index()
         {
-            prepareViewBag();
             ViewBag.countRecords = _context.course_group.Count();
             return View();
         }
@@ -62,7 +56,6 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            prepareViewBag();
             return View(course_group);
         }
 

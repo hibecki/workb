@@ -81,7 +81,7 @@
                                         <div class="row">
                                             <div class="col-md-2 text-right"><label asp-for="x_status" class="control-label"></label></div>
                                             <div class="col-md-4">
-                                                <select asp-for="x_status" class="form-control" asp-items="@ViewBag.x_status" disabled></select>
+                                                <select asp-for="x_status" class="form-control" asp-items="@Html.x_status_SelectList()" disabled></select>
                                             </div>
 
                                         </div>

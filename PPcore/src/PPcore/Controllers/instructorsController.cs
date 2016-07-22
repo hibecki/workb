@@ -18,11 +18,6 @@ namespace PPcore.Controllers
             _context = context;    
         }
 
-        private void prepareViewBag()
-        {
-            ViewBag.x_status = ini_data.x_status;
-        }
-
         public IActionResult Index()
         {
             ViewBag.countRecords = _context.instructor.Count();
@@ -48,13 +43,11 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            prepareViewBag();
             return View(instructor);
         }
 
         public IActionResult Create()
         {
-            prepareViewBag();
             return View();
         }
 
@@ -83,7 +76,6 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            prepareViewBag();
             return View(instructor);
         }
 

@@ -13,11 +13,6 @@ namespace PPcore.Controllers
     {
         private readonly PalangPanyaDBContext _context;
 
-        private void prepareViewBag()
-        {
-            ViewBag.x_status = ini_data.x_status;
-        }
-
         public project_sponsorController(PalangPanyaDBContext context)
         {
             _context = context;    
@@ -41,7 +36,6 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            prepareViewBag();
             return View(project_sponsor);
         }
 
@@ -55,7 +49,6 @@ namespace PPcore.Controllers
         // GET: project_sponsor/Create
         public IActionResult Create()
         {
-            prepareViewBag();
             return View();
         }
 
@@ -84,7 +77,6 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            prepareViewBag();
             return View(project_sponsor);
         }
 

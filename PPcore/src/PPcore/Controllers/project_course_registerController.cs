@@ -20,14 +20,13 @@ namespace PPcore.Controllers
 
         private void prepareViewBag()
         {
-            ViewBag.x_status = ini_data.x_status;
             ViewBag.cgroup_code = new SelectList(_context.course_group.OrderBy(cg => cg.cgroup_code), "cgroup_code", "cgroup_desc", 1);
         }
 
         public IActionResult Index()
         {
             prepareViewBag();
-            ViewBag.countRecords = _context.course.Count();
+            ViewBag.countRecords = _context.project_course.Count();
             return View();
         }
 
@@ -35,7 +34,7 @@ namespace PPcore.Controllers
         public IActionResult DetailsAsTableCourse(string cgroup_code, string ctype_code)
         {
             //var p = _context.course.OrderBy(m => m.course_code);
-            var p = _context.course.Where(m => (m.cgroup_code == cgroup_code && m.ctype_code == ctype_code)).OrderBy(m => m.course_code);
+            var p = _context.project_course.Where(m => (m.cgroup_code == cgroup_code && m.ctype_code == ctype_code)).OrderBy(m => m.course_code);
             return View(p.ToList());
         }
 
@@ -55,14 +54,14 @@ namespace PPcore.Controllers
         [HttpGet]
         public IActionResult DetailsCourse(string id)
         {
-            var c = _context.course.SingleOrDefault(m => m.id == new Guid(id));
+            var c = _context.project_course.SingleOrDefault(m => m.id == new Guid(id));
             return View(c);
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(string cid, string courseId)
         {
-            course c = _context.course.SingleOrDefault(cc => cc.id == new Guid(courseId));
+            project_course c = _context.project_course.SingleOrDefault(cc => cc.id == new Guid(courseId));
             member m = _context.member.SingleOrDefault(mm => mm.cid_card == cid);
             try
             {

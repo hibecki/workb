@@ -18,11 +18,6 @@ namespace PPcore.Controllers
             _context = context;    
         }
 
-        private void prepareViewBag()
-        {
-            ViewBag.x_status = ini_data.x_status;
-        }
-
         // GET: train_place
         public IActionResult Index()
         {
@@ -50,14 +45,12 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            prepareViewBag();
             return View(train_place);
         }
 
         // GET: train_place/Create
         public IActionResult Create()
         {
-            prepareViewBag();
             return View();
         }
 
@@ -86,7 +79,6 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            prepareViewBag();
             return View(train_place);
         }
 

@@ -21,7 +21,7 @@ namespace PPcore.Controllers
         [HttpGet]
         public IActionResult Index(string id)
         {
-            var c = _context.course.SingleOrDefault(m => m.id == new Guid(id));
+            var c = _context.project_course.SingleOrDefault(m => m.id == new Guid(id));
             ViewBag.courseId = c.id;
             ViewBag.courseCode = c.course_code;
             ViewBag.countRecords = _context.course_train_place.Where(ci => ci.course_code == c.course_code).Count();

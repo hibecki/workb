@@ -25,7 +25,7 @@
                 <td>@Html.DisplayFor(modelItem => item.instructor_code)</td>
                 <td>@Html.DisplayFor(modelItem => item.confirm_date)</td>
                 <td>@Html.DisplayFor(modelItem => item.instructor_cost)</td>
-                <td>@Html.DisplayFor(modelItem => item.x_status)</td>
+                <td>@Html.x_status_text(item.x_status)</td>
             </tr>
         }
     </tbody>

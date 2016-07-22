@@ -1,4 +1,4 @@
-@model PPcore.Models.project_supporter
+@model PPcore.Models.project_daily_checklist
 
 @{
     ViewData["Title"] = "Details";
@@ -7,38 +7,14 @@
 <h2>Details</h2>
 
 <div>
-    <h4>project_supporter</h4>
+    <h4>project_daily_checklist</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.contactor)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.contactor)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.contactor_detail)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.contactor_detail)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.id)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ref_doc)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ref_doc)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.support_budget)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.support_budget)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.x_log)

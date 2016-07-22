@@ -18,11 +18,6 @@ namespace PPcore.Controllers
             _context = context;    
         }
 
-        private void prepareViewBag()
-        {
-            ViewBag.x_status = ini_data.x_status;
-        }
-
         public IActionResult Index()
         {
             ViewBag.countRecords = _context.project.Count();
@@ -69,7 +64,6 @@ namespace PPcore.Controllers
         // GET: projects/Create
         public IActionResult Create()
         {
-            prepareViewBag();
             return View();
         }
 
@@ -98,7 +92,6 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            prepareViewBag();
             return View(project);
         }
 

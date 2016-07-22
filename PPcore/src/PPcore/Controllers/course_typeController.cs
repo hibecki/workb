@@ -13,11 +13,6 @@ namespace PPcore.Controllers
     {
         private readonly PalangPanyaDBContext _context;
 
-        private void prepareViewBag()
-        {
-            ViewBag.x_status = ini_data.x_status;
-        }
-
         public course_typeController(PalangPanyaDBContext context)
         {
             _context = context;    
@@ -31,7 +26,6 @@ namespace PPcore.Controllers
 
         public IActionResult ViewInput()
         {
-            prepareViewBag();
             return View(new course_type());
         }
 

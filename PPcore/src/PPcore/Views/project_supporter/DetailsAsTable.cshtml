@@ -27,7 +27,7 @@
                 <td>@Html.DisplayFor(modelItem => item.support_budget)</td>
                 <td>@Html.DisplayFor(modelItem => item.contactor)</td>
                 <td>@Html.DisplayFor(modelItem => item.contactor_detail)</td>
-                <td>@Html.DisplayFor(modelItem => item.x_status)</td>
+                <td>@Html.x_status_text(item.x_status)</td>
             </tr>
         }
     </tbody>
