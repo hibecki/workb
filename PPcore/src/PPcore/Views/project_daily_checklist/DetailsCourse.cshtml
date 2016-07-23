@@ -250,15 +250,49 @@
                     { "targets": [0], "width": "15", "className": "dt-center" },
                     { "targets": [1], "visible": false, "searchable": false },
                     { "targets": [2], "width": "70", "className": "dt-center" },
-                    { "targets": [3], "width": "150", "className": "dt-center" },
-                    { "targets": [5], "width": "150", "className": "dt-center" },
+                    { "targets": [3], "width": "50", "className": "dt-center" },
+                    { "targets": [4], "width": "150", "className": "dt-center" },
                     { "targets": [6], "width": "150", "className": "dt-center" },
                     { "targets": [7], "width": "150", "className": "dt-center" },
                     { "targets": [8], "width": "150", "className": "dt-center" },
+                    { "targets": [9], "width": "150", "className": "dt-center" },
+                    { "targets": [10], "width": "70", "className": "dt-center" },
                 ];
                 var table = setTable_default($('#a_table'), w);
                 table.$('tr:first').click();
             });
+        }
+        function attendClick(id) {
+            if (!$('#cell-' + id).hasClass("btn-panel-green-attended")) {
+                attend('add', id);
+                $('#cell-' + id).html('<i class="fa fa-check-square-o" aria-hidden="true"></i> ลงชื่อแล้ว');
+                $('#cell-' + id).removeClass('btn-panel-yellow').addClass('btn-panel-green-attended');
+            } else {
+                attend('del', id);
+                $('#cell-' + id).html('<i class="fa fa-square-o" aria-hidden="true"></i> เช็คชื่อเข้าอบรม');
+                $('#cell-' + id).removeClass('btn-panel-green-attended').addClass('btn-panel-yellow');
+            }
+
+        }
+        function attend(action, id) {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "@Url.Action("Edit", "project_daily_checklist")",
+                data: {
+                    id: id,
+                    action: action,
+                },
+                success: function (data) {
+                    if (data.result != "fail") {
+                        a_details_as_table();
+                        $('input', cell0).prop("checked", false);
+                    } else {
+                        foundDup = true;
+                    }
+                }
+            });
+
         }
     </script>
 }

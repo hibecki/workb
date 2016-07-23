@@ -31,13 +31,6 @@ namespace PPcore.Controllers
             return View(p.ToList());
         }
 
-        [HttpGet]
-        public IActionResult DetailsAsTableMember()
-        {
-            var p = _context.project_course.Where(m => m.x_status != "N").OrderBy(m => m.course_code);
-            return View(p.ToList());
-        }
-
         public async Task<IActionResult> DetailsCourse(string id)
         {
             if (id == null)
@@ -57,8 +50,18 @@ namespace PPcore.Controllers
         [HttpGet]
         public IActionResult DetailsAsTableMember(string course_code)
         {
-            var p = _context.project_course_register.Where(m => m.x_status != "N").OrderBy(m => m.course_code);
-            return View(p.ToList());
+            var ps = _context.project_course_register.Where(pp => pp.course_code == course_code).OrderBy(pp => pp.member_code).ToList();
+            List<PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel> pms = new List<PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel>();
+            foreach (project_course_register p in ps)
+            {
+                var m = _context.member.SingleOrDefault(mm => mm.member_code == p.member_code);
+                PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel pd = new PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel();
+                pd.member = m;
+                pd.attended = "Y";
+                pd.course_day = 1;
+                pms.Add(pd);
+            }
+            return View(pms);
         }
 
         // GET: project_daily_checklist/Details/5
@@ -100,55 +103,27 @@ namespace PPcore.Controllers
             return View(project_daily_checklist);
         }
 
-        // GET: project_daily_checklist/Edit/5
-        public async Task<IActionResult> Edit(DateTime? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var project_daily_checklist = await _context.project_daily_checklist.SingleOrDefaultAsync(m => m.course_date == id);
-            if (project_daily_checklist == null)
-            {
-                return NotFound();
-            }
-            return View(project_daily_checklist);
-        }
-
-        // POST: project_daily_checklist/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(DateTime id, [Bind("course_date,course_code,member_code,id,x_log,x_note,x_status")] project_daily_checklist project_daily_checklist)
+        public async Task<IActionResult> Edit(string action, string id)
         {
-            if (id != project_daily_checklist.course_date)
+            try
             {
-                return NotFound();
+                _context.Update(project_daily_checklist);
+                await _context.SaveChangesAsync();
             }
-
-            if (ModelState.IsValid)
+            catch (DbUpdateConcurrencyException)
             {
-                try
+                if (!project_daily_checklistExists(project_daily_checklist.course_date))
                 {
-                    _context.Update(project_daily_checklist);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!project_daily_checklistExists(project_daily_checklist.course_date))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                return RedirectToAction("Index");
             }
-            return View(project_daily_checklist);
+            return RedirectToAction("Index");
         }
 
         // GET: project_daily_checklist/Delete/5

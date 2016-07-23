@@ -311,6 +311,23 @@ background-color: #093D6A;
   background-color: #e6e6e6;
   border-color: #79eb2a;
 }
+.btn-panel-green-attended {
+  color: #000;
+  background-color: #79eb2a;
+  border-color: #79eb2a;
+  margin-left: 10px;
+}
+.btn-panel-green-attended:focus,
+.btn-panel-green-attended.focus {
+  color: #000;
+  background-color: #79eb2a;
+  border-color: #79eb2a;
+}
+.btn-panel-green-attended:hover {
+  color: #000;
+  background-color: #79eb2a;
+  border-color: #79eb2a;
+}
 .btn-panel-black {
   color: #000;
   background-color: #fff;
