@@ -44,119 +44,74 @@ namespace PPcore.Controllers
                 return NotFound();
             }
             ViewBag.ctype_code = project_course.ctype_code;
+            if ((project_course.course_end == null) || (project_course.course_end <= project_course.course_begin))
+            {
+                ViewBag.course_day = new SelectList(new[] { new { Value = "1", Text = "1" } }, "Value", "Text", "1");
+            }
+            else
+            {
+                TimeSpan ts = (DateTime)project_course.course_end - (DateTime)project_course.course_begin;
+                List<SelectListItem> items = new List<SelectListItem>();
+                for (int i = 1; i <= (ts.Days + 1);i++)
+                {
+                    items.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+                }
+                ViewBag.course_day = new SelectList(items, "Value", "Text", "1");
+            }
+            
             return View(project_course);
         }
 
         [HttpGet]
-        public IActionResult DetailsAsTableMember(string course_code)
+        public IActionResult DetailsAsTableMember(string course_code, int course_day)
         {
             var ps = _context.project_course_register.Where(pp => pp.course_code == course_code).OrderBy(pp => pp.member_code).ToList();
+            var c = _context.project_course.SingleOrDefault(cc => cc.course_code == course_code);
+            var cdate = ((DateTime)c.course_begin).AddDays(course_day - 1);
+
             List<PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel> pms = new List<PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel>();
+
             foreach (project_course_register p in ps)
             {
                 var m = _context.member.SingleOrDefault(mm => mm.member_code == p.member_code);
+                var pc = _context.project_daily_checklist.SingleOrDefault(pcc => (pcc.member_code == m.member_code) && (pcc.course_code == course_code) && (pcc.course_date == cdate));
                 PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel pd = new PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel();
                 pd.member = m;
-                pd.attended = "Y";
-                pd.course_day = 1;
+                if (pc == null) { pd.attended = "N"; } else { pd.attended = "Y"; }
                 pms.Add(pd);
             }
             return View(pms);
         }
 
-        // GET: project_daily_checklist/Details/5
-        public async Task<IActionResult> Details(DateTime? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var project_daily_checklist = await _context.project_daily_checklist.SingleOrDefaultAsync(m => m.course_date == id);
-            if (project_daily_checklist == null)
-            {
-                return NotFound();
-            }
-
-            return View(project_daily_checklist);
-        }
-
-        // GET: project_daily_checklist/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: project_daily_checklist/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("course_date,course_code,member_code,id,x_log,x_note,x_status")] project_daily_checklist project_daily_checklist)
+        public async Task<IActionResult> Edit(string action, string member_code, string course_code, DateTime course_begin, int course_day)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(project_daily_checklist);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(project_daily_checklist);
-        }
+            var cdate = course_begin.AddDays(course_day-1);
 
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(string action, string id)
-        {
             try
             {
-                _context.Update(project_daily_checklist);
+
+                if (action.Equals("add"))
+                {
+                    var c = new project_daily_checklist();
+                    c.member_code = member_code;
+                    c.course_code = course_code;
+                    c.course_date = cdate;
+                    c.x_status = "Y";
+                    _context.Add(c);
+                }
+                else if (action.Equals("del"))
+                {
+                    var c = _context.project_daily_checklist.SingleOrDefault(d => (d.member_code == member_code) && (d.course_code == course_code) && (d.course_date == cdate));
+                    _context.Remove(c);
+                }
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                if (!project_daily_checklistExists(project_daily_checklist.course_date))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Json(new { result = "fail" });
             }
-            return RedirectToAction("Index");
-        }
-
-        // GET: project_daily_checklist/Delete/5
-        public async Task<IActionResult> Delete(DateTime? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var project_daily_checklist = await _context.project_daily_checklist.SingleOrDefaultAsync(m => m.course_date == id);
-            if (project_daily_checklist == null)
-            {
-                return NotFound();
-            }
-
-            return View(project_daily_checklist);
-        }
-
-        // POST: project_daily_checklist/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(DateTime id)
-        {
-            var project_daily_checklist = await _context.project_daily_checklist.SingleOrDefaultAsync(m => m.course_date == id);
-            _context.project_daily_checklist.Remove(project_daily_checklist);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool project_daily_checklistExists(DateTime id)
-        {
-            return _context.project_daily_checklist.Any(e => e.course_date == id);
+            return Json(new { result = "success" });
         }
     }
 }

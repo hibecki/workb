@@ -7,6 +7,7 @@ namespace PPcore.Models
     {
         public string course_code { get; set; }
         public string member_code { get; set; }
+        public int course_grade { get; set; }
         public string x_status { get; set; }
         public string x_note { get; set; }
         public string x_log { get; set; }

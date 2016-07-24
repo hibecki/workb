@@ -42,13 +42,17 @@ namespace PPcore.Controllers
         public IActionResult DetailsAsTableMember(string course_code)
         {
             var ps = _context.project_course_register.Where(pp => pp.course_code == course_code).OrderBy(pp => pp.member_code).ToList();
-            List<member> ms = new List<member>();
+
+            List<PPcore.ViewModels.project_course_register_member.project_course_register_memberViewModel> rs = new List<PPcore.ViewModels.project_course_register_member.project_course_register_memberViewModel>();
             foreach (project_course_register p in ps)
             {
                 var m = _context.member.SingleOrDefault(mm => mm.member_code == p.member_code);
-                ms.Add(m);
+                var r = new PPcore.ViewModels.project_course_register_member.project_course_register_memberViewModel();
+                r.member = m;
+                r.course_grade = p.course_grade;
+                rs.Add(r);
             }
-            return View(ms);
+            return View(rs);
         }
 
         [HttpGet]
@@ -77,6 +81,16 @@ namespace PPcore.Controllers
                 return Json(new { result = "fail", cid = cid });
             }
             return Json(new { result = "success", cid = cid });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditGrade(string member_code, string course_code, int grade)
+        {
+            project_course_register r = _context.project_course_register.SingleOrDefault(rr => (rr.member_code == member_code) && (rr.course_code == course_code));
+            r.course_grade = grade;
+            _context.project_course_register.Update(r);
+            await _context.SaveChangesAsync();
+            return Json(new { result = "success" });
         }
     }
 }

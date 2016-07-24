@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        @{ var countOrder = 0;}
+        @{ var countOrder = 0; }
         @foreach (var item in Model)
         {
             countOrder++;
@@ -36,7 +36,19 @@
                 <td>@Html.DisplayFor(modelItem => item.member.line)</td>
                 <td>@Html.DisplayFor(modelItem => item.member.facebook)</td>
                 <td style="text-align:center">
-                    <button id="cell-@Html.DisplayFor(modelItem => item.member.id)" class="btn btn-xs btn-panel-yellow" type="button" onclick="attendClick('@Html.DisplayFor(modelItem => item.member.id)');"><i class="fa fa-square-o" aria-hidden="true"></i> เช็คชื่อเข้าอบรม</button>
+                    @if (item.attended == "Y")
+                    {
+                        <button id="cell-@Html.DisplayFor(modelItem => item.member.id)" class="btn btn-xs btn-panel-green-attended" type="button" onclick="attendClick('@Html.DisplayFor(modelItem => item.member.id)','@Html.DisplayFor(modelItem => item.member.member_code)');">
+                        <i class='fa fa-check-square-o' aria-hidden='true'></i> ลงชื่อแล้ว
+                        </button>
+                    }
+                    else
+                    {
+                        <button id="cell-@Html.DisplayFor(modelItem => item.member.id)" class="btn btn-xs btn-panel-yellow" type="button" onclick="attendClick('@Html.DisplayFor(modelItem => item.member.id)','@Html.DisplayFor(modelItem => item.member.member_code)');">
+                        <i class='fa fa-square-o' aria-hidden='true'></i> เช็คชื่อเข้าอบรม
+                        </button>
+                    }
+                    
                     @*<div id="" aria-hidden="true" style="font-size:25px;" onclick=""><i class="fa fa-square-o" aria-hidden="true"></i></div>
                     <div id="" aria-hidden="true" style="font-size:25px;" onclick=""><i class="fa fa-check-square-o" aria-hidden="true"></i></div>*@
                 </td>

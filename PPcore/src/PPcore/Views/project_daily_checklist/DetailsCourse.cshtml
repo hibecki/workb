@@ -194,6 +194,9 @@
                         <div class="panel panel-blue">
                             <div class="panel-heading">
                                 <div class="pull-left" style="padding-top:5px;">แสดงข้อมูลผู้ลงทะเบียนเข้าอบรม</div>
+                                <div class="pull-right form-inline" style="margin-top:-2px;">
+                                    วันที่เช็คชื่อ&nbsp;&nbsp;&nbsp;<select id="course_day" class="form-control" style="width:100px;" asp-items="@ViewBag.course_day"></select>
+                                </div>
                             </div>
                             <div class="panel-body">
                                 <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
@@ -218,32 +221,15 @@
             $('input').prop("readonly", true);
             $('select').prop("disabled", true);
             $('button').prop("disabled", true);
-            $('#cgroup_code').off("change").on("change", function (e) {
-                $.ajax({
-                    type: 'get', url: '@Url.Action("SelectBy", "course_type")' + '?cgroup_code=' + $('#cgroup_code').val(),
-                }).done(function (resp) {
-                    if (resp == "") {
-                        $('#ctype_code').empty();
-                        $('#ctype_code').prop("disabled", true);
-                    } else {
-                        $("#ctype_code").prop("disabled", false);
-                        $('#ctype_code').empty();
-                        $('#ctype_code').append(resp);
-                    }
-                });
-
+            $('#course_day').prop("disabled", false);
+            $('#course_day').off("change").on("change", function (e) {
+                a_details_as_table();
             });
-
-            $('#cgroup_code').trigger("change");
-            setTimeout(function () {
-                $('#ctype_code').val('@ViewBag.ctype_code');
-            }, 300);
-
             a_details_as_table();
         });
         function a_details_as_table() {
             $.ajax({
-                type: 'get', url: '@Url.Action("DetailsAsTableMember", "project_daily_checklist")' + '?course_code=' + $('#course_code').val(),
+                type: 'get', url: '@Url.Action("DetailsAsTableMember", "project_daily_checklist")' + '?course_code=' + $('#course_code').val() + '&course_day=' + $('#course_day').val(),
             }).done(function (resp) {
                 $('#a_details_as_table').html(resp);
                 var w = [
@@ -262,33 +248,35 @@
                 table.$('tr:first').click();
             });
         }
-        function attendClick(id) {
+        function attendClick(id, member_code) {
             if (!$('#cell-' + id).hasClass("btn-panel-green-attended")) {
-                attend('add', id);
+                attend('add', member_code);
                 $('#cell-' + id).html('<i class="fa fa-check-square-o" aria-hidden="true"></i> ลงชื่อแล้ว');
                 $('#cell-' + id).removeClass('btn-panel-yellow').addClass('btn-panel-green-attended');
             } else {
-                attend('del', id);
+                attend('del', member_code);
                 $('#cell-' + id).html('<i class="fa fa-square-o" aria-hidden="true"></i> เช็คชื่อเข้าอบรม');
                 $('#cell-' + id).removeClass('btn-panel-green-attended').addClass('btn-panel-yellow');
             }
 
         }
-        function attend(action, id) {
+        function attend(action, member_code) {
             $.ajax({
                 async: false,
                 type: "POST",
                 url: "@Url.Action("Edit", "project_daily_checklist")",
                 data: {
-                    id: id,
                     action: action,
+                    member_code: member_code,
+                    course_code: $('#course_code').val(),
+                    course_begin: $('#course_begin').val(),
+                    course_day: $('#course_day').val()
                 },
                 success: function (data) {
                     if (data.result != "fail") {
-                        a_details_as_table();
-                        $('input', cell0).prop("checked", false);
+                        //a_details_as_table();
                     } else {
-                        foundDup = true;
+                        //a_details_as_table();
                     }
                 }
             });

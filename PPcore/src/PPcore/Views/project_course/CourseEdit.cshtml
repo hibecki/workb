@@ -288,14 +288,35 @@
                     { "targets": [0], "width": "15", "className": "dt-center" },
                     { "targets": [1], "visible": false, "searchable": false },
                     { "targets": [2], "width": "70", "className": "dt-center" },
-                    { "targets": [3], "width": "150", "className": "dt-center" },
-                    { "targets": [5], "width": "150", "className": "dt-center" },
+                    { "targets": [3], "width": "65", "className": "dt-center" },
+                    { "targets": [4], "width": "150", "className": "dt-center" },
                     { "targets": [6], "width": "150", "className": "dt-center" },
                     { "targets": [7], "width": "150", "className": "dt-center" },
                     { "targets": [8], "width": "150", "className": "dt-center" },
+                    { "targets": [9], "width": "150", "className": "dt-center" },
+                    { "targets": [10], "width": "70", "className": "dt-center" },
                 ];
                 var table = setTable_default($('#a_table'), w);
                 table.$('tr:first').click();
+            });
+        }
+        function gradeEnter(id, member_code) {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "@Url.Action("EditGrade", "project_course_register")",
+                data: {
+                    member_code: member_code,
+                    course_code: $('#course_code').val(),
+                    grade: $('#cell-'+id).val()
+                },
+                success: function (data) {
+                    if (data.result != "fail") {
+                        //a_details_as_table();
+                    } else {
+                        //a_details_as_table();
+                    }
+                }
             });
         }
     </script>
