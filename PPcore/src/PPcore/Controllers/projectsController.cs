@@ -27,8 +27,20 @@ namespace PPcore.Controllers
         [HttpGet]
         public IActionResult DetailsAsTable()
         {
-            var p = _context.project.OrderBy(m => m.project_code);
-            return View(p.ToList());
+            var ps = _context.project.OrderBy(m => m.project_code).ToList();
+            foreach (project p in ps)
+            {
+                int countJoin = 0; int countPassed = 0;
+                var pcs = _context.project_course.Where(pss => pss.project_code == p.project_code).ToList();
+                foreach (project_course pc in pcs)
+                {
+                    countJoin += _context.project_course_register.Where(pcr => pcr.course_code == pc.course_code).Count();
+                    countPassed += _context.project_course_register.Where(pcrr => (pcrr.course_code == pc.course_code) && (pcrr.course_grade >= pc.passed_score)).Count();
+                }
+                p.active_member_join = countJoin;
+                p.passed_member = countPassed;
+            }
+            return View(ps);
         }
 
         [HttpGet]

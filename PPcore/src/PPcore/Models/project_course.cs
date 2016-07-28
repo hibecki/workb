@@ -35,6 +35,8 @@ namespace PPcore.Models
         public string ref_doc { get; set; }
         
         [Display(Name = "งบประมาณ")]
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        //[DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal? budget { get; set; }
         
         [Display(Name = "ค่าใช้จ่ายต่อคน")]

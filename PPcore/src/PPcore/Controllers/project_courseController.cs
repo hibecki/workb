@@ -160,8 +160,12 @@ namespace PPcore.Controllers
         [HttpGet]
         public IActionResult CourseDetailsAsTable()
         {
-            var p = _context.project_course.OrderBy(m => m.course_code);
-            return View(p.ToList());
+            var pcs = _context.project_course.OrderBy(m => m.course_code).ToList();
+            foreach (project_course pc in pcs)
+            {
+                pc.passed_member = _context.project_course_register.Where(pcr => (pcr.course_code == pc.course_code) && (pcr.course_grade >= pc.passed_score)).Count();
+            }
+            return View(pcs);
         }
 
         public IActionResult CourseCreate()
