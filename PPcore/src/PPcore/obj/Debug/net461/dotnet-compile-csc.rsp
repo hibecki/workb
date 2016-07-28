@@ -279,6 +279,8 @@
 "O:\workb\PPcore\src\PPcore\Models\train_place.cs"
 "O:\workb\PPcore\src\PPcore\Services\IEmailSender.cs"
 "O:\workb\PPcore\src\PPcore\Services\MessageServices.cs"
+"O:\workb\PPcore\src\PPcore\ViewModels\course_instructor\instructorViewModel.cs"
+"O:\workb\PPcore\src\PPcore\ViewModels\course_train_place\train_placeViewModel.cs"
 "O:\workb\PPcore\src\PPcore\ViewModels\mem_product\mem_productViewModel.cs"
 "O:\workb\PPcore\src\PPcore\ViewModels\mem_site_visit\mem_site_visitViewModel.cs"
 "O:\workb\PPcore\src\PPcore\ViewModels\mem_train_record\mem_train_recordViewModel.cs"

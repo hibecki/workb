@@ -148,7 +148,7 @@ namespace PPcore.Controllers
 
         private void prepareViewBag()
         {
-            ViewBag.cgroup_code = new SelectList(_context.course_group.OrderBy(cg => cg.cgroup_code), "cgroup_code", "cgroup_desc", 1);
+            ViewBag.cgroup_code = new SelectList(_context.course_group.Where(cg => cg.x_status != "N").OrderBy(cg => cg.cgroup_code), "cgroup_code", "cgroup_desc", 1);
         }
 
         public IActionResult CourseIndex()
@@ -196,11 +196,13 @@ namespace PPcore.Controllers
             }
             prepareViewBag();
             ViewBag.ctype_code = project_course.ctype_code;
+            ViewBag.active_member_join = _context.project_course_register.Where(pcr => pcr.course_code == project_course.course_code).Count();
+            ViewBag.passed_member = _context.project_course_register.Where(p => (p.course_code == project_course.course_code) && (p.course_grade >= project_course.passed_score)).Count();
             return View(project_course);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CourseEdit(string id, [Bind("course_code,active_member_join,budget,cgroup_code,charge_head,course_approve_date,course_begin,course_date,course_desc,course_end,ctype_code,id,passed_member,project_code,project_manager,ref_doc,support_head,target_member_join,x_log,x_note,x_status")] project_course project_course)
+        public async Task<IActionResult> CourseEdit(string id, [Bind("passed_score,course_code,active_member_join,budget,cgroup_code,charge_head,course_approve_date,course_begin,course_date,course_desc,course_end,ctype_code,id,passed_member,project_code,project_manager,ref_doc,support_head,target_member_join,x_log,x_note,x_status")] project_course project_course)
         {
             if (new Guid(id) != project_course.id)
             {

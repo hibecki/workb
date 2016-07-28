@@ -173,7 +173,7 @@
                                                 </div>
                                                 <div class="col-md-2 text-right"><label asp-for="active_member_join" class="control-label"></label></div>
                                                 <div class="col-md-4">
-                                                    <input asp-for="active_member_join" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <input asp-for="active_member_join" class="form-control" readonly value="@ViewBag.active_member_join" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
                                                     <span asp-validation-for="active_member_join" class="text-danger" />
                                                 </div>
                                             </div>
@@ -182,16 +182,24 @@
                                             <div class="row">
                                                 <div class="col-md-2 text-right"><label asp-for="passed_member" class="control-label"></label></div>
                                                 <div class="col-md-4">
-                                                    <input asp-for="passed_member" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <input asp-for="passed_member" class="form-control" readonly value="@ViewBag.passed_member" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
                                                     <span asp-validation-for="passed_member" class="text-danger" />
                                                 </div>
+                                                <div class="col-md-2 text-right"><label asp-for="passed_score" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="passed_score" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <span asp-validation-for="passed_score" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
                                                 <div class="col-md-2 text-right"><label asp-for="x_status" class="control-label"></label></div>
                                                 <div class="col-md-4">
                                                     <select asp-for="x_status" class="form-control" asp-items="@Html.x_status_SelectList()"></select>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
 

@@ -43,7 +43,7 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var c = _context.course_type.Where(d => d.cgroup_code == cgroup_code).OrderBy(d => d.ctype_desc).ToList();
+            var c = _context.course_type.Where(d => (d.cgroup_code == cgroup_code) && (d.x_status != "N")).OrderBy(d => d.ctype_desc).ToList();
             if (c == null)
             {
                 return NotFound();

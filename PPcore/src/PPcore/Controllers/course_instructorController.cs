@@ -34,13 +34,24 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            var ci = _context.course_instructor.Where(m => m.course_code == code);
+            var ci = _context.course_instructor.Where(m => m.course_code == code).ToList();
             if (ci == null)
             {
                 return NotFound();
             }
+            List<ViewModels.course_instructor.instructorViewModel> v = new List<ViewModels.course_instructor.instructorViewModel>();
+            foreach (course_instructor c in ci)
+            {
+                ViewModels.course_instructor.instructorViewModel cv = new ViewModels.course_instructor.instructorViewModel();
+                var i = _context.instructor.SingleOrDefault(m => m.instructor_code == c.instructor_code);
+                cv.course_instructor = c;
+                cv.instructor_desc = i.instructor_desc;
+                cv.contactor = i.contactor;
+                cv.contactor_detail = i.contactor_detail;
+                v.Add(cv);
+            }
 
-            return View(ci.ToList());
+            return View(v);
         }
 
         // GET: course_instructor/Details/5
@@ -85,7 +96,7 @@ namespace PPcore.Controllers
 
         public IActionResult EditAsTable()
         {
-            var p = _context.instructor.OrderBy(m => m.instructor_code).ToList();
+            var p = _context.instructor.Where(m => m.x_status != "N").OrderBy(m => m.instructor_code).ToList();
             if (p == null)
             {
                 return NotFound();

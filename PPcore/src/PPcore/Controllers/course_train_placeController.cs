@@ -34,13 +34,23 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            var ci = _context.course_train_place.Where(m => m.course_code == code);
+            var ci = _context.course_train_place.Where(m => m.course_code == code).ToList();
             if (ci == null)
             {
                 return NotFound();
             }
-
-            return View(ci.ToList());
+            List<ViewModels.course_train_place.train_placeViewModel> v = new List<ViewModels.course_train_place.train_placeViewModel>();
+            foreach (course_train_place c in ci)
+            {
+                ViewModels.course_train_place.train_placeViewModel t = new ViewModels.course_train_place.train_placeViewModel();
+                var tp = _context.train_place.SingleOrDefault(tpp => tpp.place_code == c.place_code);
+                t.course_train_place = c;
+                t.place_desc = tp.place_desc;
+                t.contactor = tp.contactor;
+                t.contactor_detail = tp.contactor_detail;
+                v.Add(t);
+            }
+            return View(v);
         }
 
         [HttpPost]
@@ -68,7 +78,7 @@ namespace PPcore.Controllers
 
         public IActionResult EditAsTable()
         {
-            var p = _context.train_place.OrderBy(m => m.place_code).ToList();
+            var p = _context.train_place.Where(m => m.x_status != "N").OrderBy(m => m.place_code).ToList();
             if (p == null)
             {
                 return NotFound();

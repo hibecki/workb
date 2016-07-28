@@ -46,10 +46,18 @@ namespace PPcore.Models
         public string project_manager { get; set; }
         [Display(Name = "จำนวนเป้าหมายผู้เข้าอบรม")]
         public int? target_member_join { get; set; }
+
         [Display(Name = "จำนวนผู้ลงทะเบียนเข้าอบรม")]
         public int? active_member_join { get; set; }
+
+
         [Display(Name = "จำนวนผู้ที่สอบผ่าน")]
         public int? passed_member { get; set; }
+
+        [Display(Name = "เกณฑ์การประเมิน")]
+        [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
+        public int passed_score { get; set; }
+
         [Display(Name = "สถานะ")]
         [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         public string x_status { get; set; }

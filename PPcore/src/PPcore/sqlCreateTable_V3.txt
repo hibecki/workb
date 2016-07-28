@@ -595,6 +595,7 @@ create table project_course (
    target_member_join   int                  null,
    active_member_join   int                  null,
    passed_member        int                  null,
+   passed_score			int					 not null default 50,
    x_status             char(1)              null,
    x_note               nvarchar(50)         null,
    x_log                nvarchar(500)        null,

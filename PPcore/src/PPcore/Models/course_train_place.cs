@@ -19,6 +19,8 @@ namespace PPcore.Models
         [DisplayFormat(DataFormatString = "{0:C0}")]
         //[DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal? place_cost { get; set; }
+        [Display(Name = "สถานะ")]
+        [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         public string x_status { get; set; }
         public string x_note { get; set; }
         public string x_log { get; set; }
