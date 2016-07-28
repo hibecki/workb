@@ -35,13 +35,16 @@ namespace PPcore.Controllers
         public IActionResult DetailsAsTableBySponsor(string spon_code)
         {
             var pss = _context.project_supporter.Where(mps => mps.spon_code == spon_code).ToList();
-            List<project> pjs = new List<project>();
+            List<PPcore.ViewModels.projects_project_supporter.projects_project_supporterViewModel> pjs = new List<PPcore.ViewModels.projects_project_supporter.projects_project_supporterViewModel>();
             foreach (project_supporter ps in pss)
             {
                 var p = _context.project.SingleOrDefault(m => m.project_code == ps.project_code);
-                pjs.Add(p);
+                PPcore.ViewModels.projects_project_supporter.projects_project_supporterViewModel v = new PPcore.ViewModels.projects_project_supporter.projects_project_supporterViewModel();
+                v.project = p;
+                v.support_budget = ps.support_budget;
+                pjs.Add(v);
             }
-            return View("DetailsAsTable", pjs.ToList());
+            return View("DetailsAsTableBySponsor", pjs.ToList());
         }
 
         // GET: projects/Details/5
@@ -92,6 +95,8 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
+            ViewBag.active_member_join = "1";
+            ViewBag.passed_member = "1";
             return View(project);
         }
 

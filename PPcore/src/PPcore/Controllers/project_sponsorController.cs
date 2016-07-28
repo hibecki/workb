@@ -77,6 +77,8 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
+            var sum_budget = _context.project_supporter.Where(s => s.spon_code == project_sponsor.spon_code).Sum(s => s.support_budget);
+            ViewBag.sum_budget = String.Format("{0:C0}", sum_budget);
             return View(project_sponsor);
         }
 
