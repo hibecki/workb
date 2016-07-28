@@ -34,13 +34,17 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            var project_course = _context.project_course.Where(m => m.project_code == code);
-            if (project_course == null)
+            var pcs = _context.project_course.Where(m => m.project_code == code).OrderBy(m => m.course_code).ToList();
+            if (pcs == null)
             {
                 return NotFound();
             }
 
-            return View(project_course.ToList());
+            foreach (project_course pc in pcs)
+            {
+                pc.passed_member = _context.project_course_register.Where(pcr => (pcr.course_code == pc.course_code) && (pcr.course_grade >= pc.passed_score)).Count();
+            }
+            return View(pcs);
         }
 
         // GET: project_course/Details/5
