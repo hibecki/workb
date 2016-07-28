@@ -35,11 +35,11 @@ namespace PPcore.Controllers
         public IActionResult DetailsAsTableBySponsor(string spon_code)
         {
             var pss = _context.project_supporter.Where(mps => mps.spon_code == spon_code).ToList();
-            List<PPcore.ViewModels.projects_project_supporter.projects_project_supporterViewModel> pjs = new List<PPcore.ViewModels.projects_project_supporter.projects_project_supporterViewModel>();
+            List<ViewModels.project.project_supporterViewModel> pjs = new List<ViewModels.project.project_supporterViewModel>();
             foreach (project_supporter ps in pss)
             {
                 var p = _context.project.SingleOrDefault(m => m.project_code == ps.project_code);
-                PPcore.ViewModels.projects_project_supporter.projects_project_supporterViewModel v = new PPcore.ViewModels.projects_project_supporter.projects_project_supporterViewModel();
+                ViewModels.project.project_supporterViewModel v = new ViewModels.project.project_supporterViewModel();
                 v.project = p;
                 v.support_budget = ps.support_budget;
                 pjs.Add(v);

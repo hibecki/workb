@@ -68,14 +68,13 @@ namespace PPcore.Controllers
             var ps = _context.project_course_register.Where(pp => pp.course_code == course_code).OrderBy(pp => pp.member_code).ToList();
             var c = _context.project_course.SingleOrDefault(cc => cc.course_code == course_code);
             var cdate = ((DateTime)c.course_begin).AddDays(course_day - 1);
-
-            List<PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel> pms = new List<PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel>();
+            List<ViewModels.project_daily_checklist.memberViewModel> pms = new List<ViewModels.project_daily_checklist.memberViewModel>();
 
             foreach (project_course_register p in ps)
             {
                 var m = _context.member.SingleOrDefault(mm => mm.member_code == p.member_code);
                 var pc = _context.project_daily_checklist.SingleOrDefault(pcc => (pcc.member_code == m.member_code) && (pcc.course_code == course_code) && (pcc.course_date == cdate));
-                PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel pd = new PPcore.ViewModels.project_daily_checklist_member.project_daily_checklist_memberViewModel();
+                ViewModels.project_daily_checklist.memberViewModel pd = new ViewModels.project_daily_checklist.memberViewModel();
                 pd.member = m;
                 if (pc == null) { pd.attended = "N"; } else { pd.attended = "Y"; }
                 pms.Add(pd);

@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace PPcore.ViewModels.project_daily_checklist_member
+namespace PPcore.ViewModels.project_daily_checklist
 {
-    public class project_daily_checklist_memberViewModel
+    public class memberViewModel
     {
         public Models.member member { get; set; }
         [Display(Name = "เช็คชื่อเข้าอบรม")]

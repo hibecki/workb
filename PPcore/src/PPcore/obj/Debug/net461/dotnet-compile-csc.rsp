@@ -284,6 +284,6 @@
 "O:\workb\PPcore\src\PPcore\ViewModels\mem_product\mem_productViewModel.cs"
 "O:\workb\PPcore\src\PPcore\ViewModels\mem_site_visit\mem_site_visitViewModel.cs"
 "O:\workb\PPcore\src\PPcore\ViewModels\mem_train_record\mem_train_recordViewModel.cs"
-"O:\workb\PPcore\src\PPcore\ViewModels\projects_project_supporter\projects_project_supporterViewModel.cs"
+"O:\workb\PPcore\src\PPcore\ViewModels\project\project_supporterViewModel.cs"
 "O:\workb\PPcore\src\PPcore\ViewModels\project_course_register_member\project_course_register_memberViewModel.cs"
-"O:\workb\PPcore\src\PPcore\ViewModels\project_daily_checklist_member\project_daily_checklist_memberViewModel.cs"
+"O:\workb\PPcore\src\PPcore\ViewModels\project_daily_checklist\memberViewModel.cs"

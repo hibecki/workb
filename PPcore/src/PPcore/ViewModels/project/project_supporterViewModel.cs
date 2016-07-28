@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace PPcore.ViewModels.projects_project_supporter
+namespace PPcore.ViewModels.project
 {
-    public class projects_project_supporterViewModel
+    public class project_supporterViewModel
     {
         public Models.project project { get; set; }
 
