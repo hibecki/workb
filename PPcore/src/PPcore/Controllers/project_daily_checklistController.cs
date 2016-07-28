@@ -58,7 +58,9 @@ namespace PPcore.Controllers
                 }
                 ViewBag.course_day = new SelectList(items, "Value", "Text", "1");
             }
-            
+            ViewBag.cgroup_code = new SelectList(_context.course_group.Where(cg => cg.x_status != "N").OrderBy(cg => cg.cgroup_code), "cgroup_code", "cgroup_desc", 1);
+            ViewBag.active_member_join = _context.project_course_register.Where(pcr => pcr.course_code == project_course.course_code).Count();
+            ViewBag.passed_member = _context.project_course_register.Where(p => (p.course_code == project_course.course_code) && (p.course_grade >= project_course.passed_score)).Count();
             return View(project_course);
         }
 

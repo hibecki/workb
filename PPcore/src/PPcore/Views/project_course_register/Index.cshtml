@@ -36,7 +36,7 @@
                 </div>
 
                 <!-- /.panel-heading -->
-                <div style="position:absolute;left:250px;top:70px;"><span class="badge">จำนวนรายการทั้งหมด @ViewBag.countRecords รายการ</span></div>
+                <div style="position:absolute;left:250px;top:70px;"><span id="count_course" class="badge">จำนวนรายการทั้งหมด @ViewBag.countRecords รายการ</span></div>
                 <div class="panel-body">
                     <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
 
@@ -158,6 +158,13 @@
             }, 300);*@
             $('#ctype_code').trigger("change");
         });
+        function count_course() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("CountCourse", "project_course_register")?cgroup_code=' + $('#cgroup_code').val() + '&ctype_code=' + $('#ctype_code').val(),
+            }).done(function (resp) {
+                $('#count_course').text('จำนวนรายการทั้งหมด ' + resp.count + ' รายการ');
+            });
+        }
         function a_details_as_table() {
             $.ajax({
                 type: 'get', url: '@Url.Action("DetailsAsTableCourse", "project_course_register")?cgroup_code=' + $('#cgroup_code').val() + '&ctype_code=' + $('#ctype_code').val(),
@@ -172,13 +179,16 @@
                     { "targets": [5], "visible": false, "width": "70", "className": "dt-center" },
                     { "targets": [6], "visible": false, "className": "dt-center" },
                     { "targets": [7], "visible": false },
-                    { "targets": [8], "className": "dt-center" },
-                    { "targets": [9], "className": "dt-center" },
+                    { "targets": [8], "width": "70", "className": "dt-center" },
+                    { "targets": [9], "width": "70", "className": "dt-center" },
                     { "targets": [10], "visible": false, "className": "dt-center" },
-                    { "targets": [11], "width": "80", "className": "dt-center" },
+                    { "targets": [11], "width": "150", "className": "dt-center" },
+                    { "targets": [12], "width": "150", "className": "dt-center" },
+                    { "targets": [13], "width": "50", "className": "dt-center" },
                 ];
                 var table = setTable_default($('#a_table'), w);
                 table.$('tr:first').click();
+                count_course();
             });
         }
         @*$('#btnEdit').on('click', function () {
@@ -221,9 +231,14 @@
                     },
                     success: function (data) {
                         $('#confirm_modal').modal('hide');
-                        if (data.result != "fail") {
+                        if (data.result == "success") {
                             $('#alert_label').text('ลงทะเบียนเรียบร้อย');
                             $('#alert_modal_body').html('<div style="color:green">ระบบได้ทำการลงทะเบียน เลขที่บัตรประชาชน ' + data.cid + " เรียบร้อยแล้ว</div>");
+                            $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
+                            a_details_as_table();
+                        } else if (data.result == "full") {
+                            $('#alert_label').text('ขออภัยไม่สามารถลงทะเบียนเพิ่มได้');
+                            $('#alert_modal_body').html('<div style="color:red">ขออภัยไม่สามารถลงทะเบียนเพิ่มได้ เนื่องจากเกินจำนวนที่หลักสูตรสามารถรับได้</div>');
                             $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
                         } else {
                             $('#alert_label').text('เลขที่บัตรประชาชนผิดพลาด');

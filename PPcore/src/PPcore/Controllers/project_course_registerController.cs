@@ -26,16 +26,27 @@ namespace PPcore.Controllers
         public IActionResult Index()
         {
             prepareViewBag();
-            ViewBag.countRecords = _context.project_course.Count();
+            ViewBag.countRecords = _context.project_course.Where(pc => pc.x_status != "N").Count();
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult CountCourse(string cgroup_code, string ctype_code)
+        {
+            var c = _context.project_course.Where(m => (m.cgroup_code == cgroup_code && m.ctype_code == ctype_code && m.x_status != "N")).Count();
+            return Json(new { count = c });
         }
 
         [HttpGet]
         public IActionResult DetailsAsTableCourse(string cgroup_code, string ctype_code)
         {
-            //var p = _context.course.OrderBy(m => m.course_code);
-            var p = _context.project_course.Where(m => (m.cgroup_code == cgroup_code && m.ctype_code == ctype_code)).OrderBy(m => m.course_code);
-            return View(p.ToList());
+            var pcs = _context.project_course.Where(m => (m.cgroup_code == cgroup_code && m.ctype_code == ctype_code && m.x_status != "N")).OrderBy(m => m.course_code).ToList();
+            foreach (project_course p in pcs)
+            {
+                p.active_member_join = _context.project_course_register.Where(pcr => pcr.course_code == p.course_code).Count();
+            }
+
+            return View(pcs);
         }
 
         [HttpGet]
@@ -43,11 +54,11 @@ namespace PPcore.Controllers
         {
             var ps = _context.project_course_register.Where(pp => pp.course_code == course_code).OrderBy(pp => pp.member_code).ToList();
 
-            List<PPcore.ViewModels.project_course_register_member.project_course_register_memberViewModel> rs = new List<PPcore.ViewModels.project_course_register_member.project_course_register_memberViewModel>();
+            List<ViewModels.project_course_register.memberViewModel> rs = new List<ViewModels.project_course_register.memberViewModel>();
             foreach (project_course_register p in ps)
             {
                 var m = _context.member.SingleOrDefault(mm => mm.member_code == p.member_code);
-                var r = new PPcore.ViewModels.project_course_register_member.project_course_register_memberViewModel();
+                var r = new ViewModels.project_course_register.memberViewModel();
                 r.member = m;
                 r.course_grade = p.course_grade;
                 rs.Add(r);
@@ -67,14 +78,25 @@ namespace PPcore.Controllers
         {
             project_course c = _context.project_course.SingleOrDefault(cc => cc.id == new Guid(courseId));
             member m = _context.member.SingleOrDefault(mm => mm.cid_card == cid);
+            int countReg = _context.project_course_register.Where(cr => cr.course_code == c.course_code).Count();
+            int targetReg = 0;
+            if (c.target_member_join != null) { targetReg = (int)c.target_member_join; } else { targetReg = 999999999;  } 
             try
             {
-                project_course_register pcr = new project_course_register();
-                pcr.course_code = c.course_code;
-                pcr.member_code = m.member_code;
-                pcr.x_status = "Y";
-                _context.Add(pcr);
-                await _context.SaveChangesAsync();
+                if (countReg < targetReg)
+                {
+                    project_course_register pcr = new project_course_register();
+                    pcr.course_code = c.course_code;
+                    pcr.member_code = m.member_code;
+                    pcr.x_status = "Y";
+                    _context.Add(pcr);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    return Json(new { result = "full", cid = cid });
+                }
+
             }
             catch (Exception)
             {

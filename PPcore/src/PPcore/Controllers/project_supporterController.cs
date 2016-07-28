@@ -51,13 +51,22 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            var project_supporter = _context.project_supporter.Where(m => m.project_code == code);
+            var project_supporter = _context.project_supporter.Where(m => m.project_code == code).ToList();
             if (project_supporter == null)
             {
                 return NotFound();
             }
-
-            return View(project_supporter.ToList());
+            List<ViewModels.project_supporter.project_sponsorViewModel> v = new List<ViewModels.project_supporter.project_sponsorViewModel>();
+            foreach (project_supporter p in project_supporter)
+            {
+                var s = _context.project_sponsor.SingleOrDefault(m => m.spon_code == p.spon_code);
+                ViewModels.project_supporter.project_sponsorViewModel ps = new ViewModels.project_supporter.project_sponsorViewModel();
+                ps.project_supporter = p;
+                ps.spon_desc = s.spon_desc;
+                ps.confirm_date = s.confirm_date;
+                v.Add(ps);
+            }
+            return View(v);
         }
 
         [HttpPost]

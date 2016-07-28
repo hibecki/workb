@@ -14,9 +14,11 @@
             <th style="width:70px;">@Html.DisplayNameFor(model => model.cgroup_code)</th>
             <th>@Html.DisplayNameFor(model => model.ctype_code)</th>
             <th>@Html.DisplayNameFor(model => model.project_manager)</th>
-            <th>@Html.DisplayNameFor(model => model.course_begin)</th>
-            <th>@Html.DisplayNameFor(model => model.course_end)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.course_begin)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.course_end)</th>
             <th>@Html.DisplayNameFor(model => model.passed_member)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.target_member_join)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.active_member_join)</th>
             <th style="width:50px;">@Html.DisplayNameFor(model => model.x_status)</th>
             <th style="width:80px;">รายละเอียด</th>
         </tr>
@@ -38,6 +40,8 @@
                 <td>@Html.DisplayFor(modelItem => item.course_begin)</td>
                 <td>@Html.DisplayFor(modelItem => item.course_end)</td>
                 <td>@Html.DisplayFor(modelItem => item.passed_member)</td>
+                <td>@Html.DisplayFor(modelItem => item.target_member_join)</td>
+                <td>@Html.DisplayFor(modelItem => item.active_member_join)</td>
                 <td>@Html.x_status_text(item.x_status)</td>
                 <td id="cell-@Html.DisplayFor(modelItem => item.id)" style="text-align:center"><button class="btn btn-xs btn-panel-yellow" type="button" onclick="detailsClick('@Html.DisplayFor(modelItem => item.id)');">รายละเอียด</button></td>
             </tr>

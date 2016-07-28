@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace PPcore.ViewModels.project_course_register_member
+namespace PPcore.ViewModels.project_course_register
 {
-    public class project_course_register_memberViewModel
+    public class memberViewModel
     {
         public Models.member member { get; set; }
         [Display(Name = "ผลการอบรม")]

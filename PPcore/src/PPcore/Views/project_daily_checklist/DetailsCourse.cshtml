@@ -162,7 +162,7 @@
                                                 </div>
                                                 <div class="col-md-2 text-right"><label asp-for="active_member_join" class="control-label"></label></div>
                                                 <div class="col-md-4">
-                                                    <input asp-for="active_member_join" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <input asp-for="active_member_join" class="form-control" value="@ViewBag.active_member_join" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
                                                     <span asp-validation-for="active_member_join" class="text-danger" />
                                                 </div>
                                             </div>
@@ -171,16 +171,24 @@
                                             <div class="row">
                                                 <div class="col-md-2 text-right"><label asp-for="passed_member" class="control-label"></label></div>
                                                 <div class="col-md-4">
-                                                    <input asp-for="passed_member" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <input asp-for="passed_member" class="form-control" value="@ViewBag.passed_member" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
                                                     <span asp-validation-for="passed_member" class="text-danger" />
                                                 </div>
+                                                <div class="col-md-2 text-right"><label asp-for="passed_score" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="passed_score" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <span asp-validation-for="passed_score" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
                                                 <div class="col-md-2 text-right"><label asp-for="x_status" class="control-label"></label></div>
                                                 <div class="col-md-4">
                                                     <select asp-for="x_status" class="form-control" asp-items="@Html.x_status_SelectList()"></select>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
 
@@ -221,11 +229,28 @@
             $('input').prop("readonly", true);
             $('select').prop("disabled", true);
             $('button').prop("disabled", true);
+
+            $.ajax({
+                type: 'get', url: '@Url.Action("SelectBy", "course_type")' + '?cgroup_code=' + $('#cgroup_code').val(),
+            }).done(function (resp) {
+                if (resp == "") {
+                    $('#ctype_code').empty();
+                } else {
+                    $('#ctype_code').empty();
+                    $('#ctype_code').append(resp);
+                }
+            });
+            setTimeout(function () {
+                $('#ctype_code').val('@ViewBag.ctype_code');
+            }, 300);
+
             $('#course_day').prop("disabled", false);
             $('#course_day').off("change").on("change", function (e) {
                 a_details_as_table();
             });
             a_details_as_table();
+
+
         });
         function a_details_as_table() {
             $.ajax({

@@ -95,8 +95,15 @@ namespace PPcore.Controllers
             {
                 return NotFound();
             }
-            ViewBag.active_member_join = "1";
-            ViewBag.passed_member = "1";
+            int countJoin = 0; int countPassed = 0;
+            var ps = _context.project_course.Where(pss => pss.project_code == project.project_code).ToList();
+            foreach (project_course p in ps)
+            {
+                countJoin += _context.project_course_register.Where(pcr => pcr.course_code == p.course_code).Count();
+                countPassed += _context.project_course_register.Where(pcrr => (pcrr.course_code == p.course_code) && (pcrr.course_grade >= p.passed_score)).Count();
+            }
+            ViewBag.active_member_join = countJoin;
+            ViewBag.passed_member = countPassed;
             return View(project);
         }
 
