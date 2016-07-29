@@ -759,7 +759,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.cid_card_pic).HasColumnType("varchar(30)");
 
-                entity.Property(e => e.cid_type).HasColumnType("char(1)");
+                entity.Property(e => e.income).HasColumnType("char(1)");
 
                 entity.Property(e => e.district_code).HasColumnType("char(8)");
 

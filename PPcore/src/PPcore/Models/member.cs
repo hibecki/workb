@@ -74,8 +74,8 @@ namespace PPcore.Models
 
 
         public string nationality { get; set; }
-        [Display(Name = "ประเภทบัตร")]
-        public string cid_type { get; set; }
+        [Display(Name = "รายได้ต่อเดือน")]
+        public string income { get; set; }
         //[Display(Name = "เลขประจำตัวประชาชน")]
         //[Display(Name = "เลขบัตรประชาชน/พาสปอร์ต")]
         [Display(Name = "เลขบัตรประชาชน")]
