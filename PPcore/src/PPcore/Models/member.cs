@@ -10,7 +10,7 @@ namespace PPcore.Models
         public string mem_password { get; set; }
 
         [Display(Name = "รหัสสมาชิก")]
-        [Required(ErrorMessage = "กรุณากรอกข้อมูล")]
+        //[Required(ErrorMessage = "กรุณากรอกข้อมูล")]
         //[StringLength(13, MinimumLength = 13, ErrorMessage = "กรุณากรอกหมายเลข 13 หลัก")]
         //[RegularExpression("([1-9][0-9]*)", ErrorMessage = "กรุณากรอกเฉพาะหมายเลข")]
         public string member_code { get; set; }

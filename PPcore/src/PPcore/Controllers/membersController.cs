@@ -29,20 +29,21 @@ namespace PPcore.Controllers
 
             //ViewBag.sex = new SelectList(new[] { new { Value = "F", Text = "Female" }, new { Value = "M", Text = "Male" }, new { Value = "A", Text = "Alternative" } }, "Value", "Text", "F");
             ViewBag.sex = new SelectList(new[] { new { Value = "F", Text = "หญิง" }, new { Value = "M", Text = "ชาย" } }, "Value", "Text", "F");
-            ViewBag.mem_title = new SelectList(new[] { new { Value = "นาย", Text = "นาย" }, new { Value = "นาง", Text = "นาง" }, new { Value = "นางสาว", Text = "นางสาว" } }, "Value", "Text", "นาย");
+            ViewBag.mem_title = new SelectList(new[] { new { Value = "0", Text = "" }, new { Value = "นาย", Text = "นาย" }, new { Value = "นาง", Text = "นาง" }, new { Value = "นางสาว", Text = "นางสาว" } }, "Value", "Text", "0");
 
             //ViewBag.cid_type = new SelectList(new[] { new { Value = "C", Text = "บัตรประชาชน" }, new { Value = "H", Text = "สำเนาทะเบียนบ้าน" }, new { Value = "P", Text = "Passport" } }, "Value", "Text", "F");
-            ViewBag.cid_type = new SelectList(new[] { new { Value = "C", Text = "บัตรประชาชน" }, new { Value = "P", Text = "Passport" } }, "Value", "Text", "F");
-            ViewBag.marry_status = new SelectList(new[] { new { Value = "N", Text = "โสด" }, new { Value = "Y", Text = "สมรส" } }, "Value", "Text");
+            //ViewBag.cid_type = new SelectList(new[] { new { Value = "C", Text = "บัตรประชาชน" }, new { Value = "P", Text = "Passport" } }, "Value", "Text", "F");
+            ViewBag.marry_status = new SelectList(new[] { new { Value = "", Text = "" }, new { Value = "N", Text = "โสด" }, new { Value = "Y", Text = "สมรส" } }, "Value", "Text", "");
             ViewBag.zone = new SelectList(new[] { new { Value = "M", Text = "กลาง" }, new { Value = "N", Text = "เหนือ" }, new { Value = "E", Text = "ตะวันออก" }, new { Value = "W", Text = "ตะวันตก" }, new { Value = "S", Text = "ใต้" }, new { Value = "L", Text = "ตะวันออกเฉียงเหนือ" } }, "Value", "Text");
 
-            ViewBag.mem_group = new SelectList(_context.mem_group.OrderBy(g => g.mem_group_code), "mem_group_code", "mem_group_desc", "2  ");
+            ViewBag.mem_group = new SelectList(_context.mem_group.OrderBy(g => g.mem_group_code), "mem_group_code", "mem_group_desc", "0  ");
             //ViewBag.mem_type = new SelectList(_context.mem_type.OrderBy(t => t.mem_group_code).OrderBy(t => t.mem_type_code), "mem_type_code", "mem_type_desc", "3  ");
-            ViewBag.mem_level = new SelectList(_context.mem_level.OrderBy(t => t.mlevel_code), "mlevel_code", "mlevel_desc", "3  ");
-            ViewBag.mem_status = new SelectList(_context.mem_status.OrderBy(s => s.mstatus_code), "mstatus_code", "mstatus_desc", "1  ");
+            ViewBag.mem_level = new SelectList(_context.mem_level.OrderBy(t => t.mlevel_code), "mlevel_code", "mlevel_desc", "0  ");
+            ViewBag.mem_status = new SelectList(_context.mem_status.OrderBy(s => s.mstatus_code), "mstatus_code", "mstatus_desc", "0  ");
+            ViewBag.income = new SelectList(new[] { new { Value = "", Text = "" }, new { Value = "A", Text = "น้อยกว่า 10,000 บาท" }, new { Value = "B", Text = "10,000 ถึง 20,000 บาท" }, new { Value = "C", Text = "20,000 ถึง 30,000 บาท" }, new { Value = "D", Text = "มากกว่า 30,000 บาท" } }, "Value", "Text", "");
 
             ViewBag.ini_country = new SelectList(_context.ini_country.OrderBy(c => c.country_code), "country_code", "country_desc", "66");
-            ViewBag.ini_province = new SelectList(_context.ini_province.OrderBy(p => p.province_code), "province_code", "pro_desc", "10000000");
+            ViewBag.ini_province = new SelectList(_context.ini_province.OrderBy(p => p.province_code), "province_code", "pro_desc", "0       ");
 
         }
 
@@ -96,6 +97,7 @@ namespace PPcore.Controllers
             ViewBag.subdistrictCode = member.subdistrict_code;
             ViewBag.districtCode = member.district_code;
             //ViewBag.provinceCode = member.province_code;
+            ViewBag.incomeCode = member.income;
 
             prepareViewBag();
             return View(member);
@@ -929,6 +931,7 @@ namespace PPcore.Controllers
             if (ModelState.IsValid)
             {
                 member.x_status = "Y";
+                if (member.title == "0") { member.title = null; }
                 if ((!string.IsNullOrEmpty(member.mem_photo)) && (member.mem_photo.Substring(0, 1) != "M"))
                 {
                     var fileName = member.mem_photo.Substring(9);
@@ -1018,7 +1021,7 @@ namespace PPcore.Controllers
             ViewBag.subdistrictCode = member.subdistrict_code;
             ViewBag.districtCode = member.district_code;
             //ViewBag.provinceCode = member.province_code;
-
+            ViewBag.incomeCode = member.income;
 
 
             prepareViewBag();
@@ -1029,12 +1032,12 @@ namespace PPcore.Controllers
         // POST: members/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("title,occupation,mail_address,facebook,line,mem_password,member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,id,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone")] member member)
+        public IActionResult Edit(string id, [Bind("income,title,occupation,mail_address,facebook,line,mem_password,member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,id,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone")] member member)
         {
             if (ModelState.IsValid)
             {
                 member.x_status = "Y";
-
+                if (member.title == "0") { member.title = null; }
                 if ((!string.IsNullOrEmpty(member.mem_photo)) && (member.mem_photo.Substring(0,1) != "M"))
                 {
                     var fileName = member.mem_photo.Substring(9);

@@ -672,6 +672,7 @@ namespace PPcore.Models
                 entity.Property(e => e.member_code).HasColumnType("varchar(30)");
 
                 entity.Property(e => e.course_grade).HasColumnType("char(1)");
+                entity.Property(e => e.course_desc).HasColumnType("nvarchar(100)");
 
                 entity.Property(e => e.id).HasDefaultValueSql("newid()");
 

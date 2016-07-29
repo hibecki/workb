@@ -2,7 +2,9 @@
     Layout = "~/Views/Shared/_LayoutMember.cshtml";
 }
 
-@model IEnumerable<PPcore.ViewModels.mem_train_record.mem_train_recordViewModel>
+@*@model IEnumerable<PPcore.ViewModels.mem_train_record.mem_train_recordViewModel>*@
+
+@model IEnumerable<PPcore.Models.mem_train_record>
 
 @{
 
@@ -30,10 +32,15 @@
                 <thead>
                     <tr>
                         <th>ลำดับ</th>
-                        <th style="display:none">@Html.DisplayNameFor(model => model.mem_train_record.id)</th>
+                        @*<th style="display:none">@Html.DisplayNameFor(model => model.mem_train_record.id)</th>*@
+                        <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
+
                         @*<th>@Html.DisplayNameFor(model => model.mem_train_record.course_code)</th>*@
-                        <th>@Html.DisplayNameFor(model => model.project_course.course_desc)</th>
-                        <th>@Html.DisplayNameFor(model => model.mem_train_record.course_grade)</th>
+
+                        @*<th>@Html.DisplayNameFor(model => model.project_course.course_desc)</th>*@
+                        <th>@Html.DisplayNameFor(model => model.course_desc)</th>
+
+                        @*<th>@Html.DisplayNameFor(model => model.mem_train_record.course_grade)</th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -43,10 +50,15 @@
                         countOrder++;
                         <tr>
                             <td>@countOrder</td>
-                            <td style="display:none">@Html.DisplayFor(modelItem => item.mem_train_record.id)</td>
+                            @*<td style="display:none">@Html.DisplayFor(modelItem => item.mem_train_record.id)</td>*@
+                            <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
+
                             @*<td>@Html.DisplayFor(modelItem => item.mem_train_record.course_code)</td>*@
-                            <td>@Html.DisplayFor(modelItem => item.project_course.course_desc)</td>
-                            <td>@Html.DisplayFor(modelItem => item.cgrade_desc)</td>
+
+                            @*<td>@Html.DisplayFor(modelItem => item.project_course.course_desc)</td>*@
+                            <td>@Html.DisplayFor(modelItem => item.course_desc)</td>
+
+                            @*<td>@Html.DisplayFor(modelItem => item.cgrade_desc)</td>*@
                         </tr>
                     }
                 </tbody>
@@ -66,7 +78,8 @@
                         <h4 class="modal-title" id="mem_train_recordModalLabel" style="vertical-align:middle;"></h4>
                     </div>
                     <div class="modal-body container-fluid">
-                        @{ await Html.RenderPartialAsync("ViewInput",new PPcore.ViewModels.mem_train_record.mem_train_recordViewModel()); }
+                        @*@{ await Html.RenderPartialAsync("ViewInput",new PPcore.ViewModels.mem_train_record.mem_train_recordViewModel()); }*@
+                        @{ await Html.RenderPartialAsync("ViewInput", new PPcore.Models.mem_train_record()); }
                     </div>
                 <!-- /.modal-content -->
             </div>
@@ -97,7 +110,8 @@
                 $('#mem_train_recordModalLabel').text('เพิ่มประวัติการอบรม');
                 $('#mem_train_recordSubmit').html('บันทึก');
                 $("#mem_train_record_course_code").prop('disabled', false);
-                $("#project_course_course_desc").prop('disabled', false);
+                //$("#project_course_course_desc").prop('disabled', false);
+                $("#course_desc").prop('disabled', false);
                 $("#mem_train_record_course_grade").prop('disabled', false);
                 $("#mem_train_recordSubmit").unbind("click").bind("click", function (e) {
                     e.preventDefault();
@@ -109,7 +123,8 @@
                                 data: {
                                 memberId: "@ViewBag.memberId",
                                 course_code: $("#mem_train_record_course_code").val(),
-                                course_desc: $("#project_course_course_desc").val(),
+                                //course_desc: $("#project_course_course_desc").val(),
+                                course_desc: $("#course_desc").val(),
                                 course_grade: $("#mem_train_record_course_grade").val()
                                 },
                             success: function (data) {
@@ -120,7 +135,8 @@
                 });
 
                 $("#mem_train_record_course_code").val('');
-                $("#project_course_course_desc").val('');
+                //$("#project_course_course_desc").val('');
+                $("#course_desc").val('');
                 $("#mem_train_recordForm").clearValidation();
                 $('#mem_train_recordModal').modal({ backdrop: 'static', keyboard: false });
             });
@@ -134,11 +150,13 @@
                     url: "@Url.Action("Edit","mem_train_record")" + "/" + datarow[1],
                     success: function (data) {
                         $("#mem_train_record_course_code").val(data.course_code);
-                        $("#project_course_course_desc").val(data.course_desc);
+                        //$("#project_course_course_desc").val(data.course_desc);
+                        $("#course_desc").val(data.course_desc);
                         $("#mem_train_record_course_grade").val(data.course_grade);
                         $("#mem_train_record_course_grade").change();
                         $("#mem_train_record_course_code").prop('disabled', false);
-                        $("#project_course_course_desc").prop('disabled', false);
+                        //$("#project_course_course_desc").prop('disabled', false);
+                        $("#course_desc").prop('disabled', false);
                         $("#mem_train_record_course_grade").prop('disabled', false);
                         $("#mem_train_recordSubmit").unbind("click").bind("click", function (e) {
                             e.preventDefault();
@@ -148,7 +166,8 @@
                                     id: datarow[1],
                                     memberId: "@ViewBag.memberId",
                                     course_code: $("#mem_train_record_course_code").val(),
-                                    course_desc: $("#project_course_course_desc").val(),
+                                    //course_desc: $("#project_course_course_desc").val(),
+                                    course_desc: $("#course_desc").val(),
                                     course_grade: $("#mem_train_record_course_grade").val()
                                 },
                                 url: "@Url.Action("Edit","mem_train_record")",
@@ -172,17 +191,20 @@
                     url: "@Url.Action("Details","mem_train_record")" + "/" + datarow[1],
                     success: function (data) {
                         $("#mem_train_record_course_code").val(data.course_code);
-                        $("#project_course_course_desc").val(data.course_desc);
+                        //$("#project_course_course_desc").val(data.course_desc);
+                        $("#course_desc").val(data.course_desc);
                         $("#mem_train_record_course_grade").val(data.course_grade);
                         $("#mem_train_record_course_grade").change();
                         $("#mem_train_record_course_code").prop('disabled', true);
-                        $("#project_course_course_desc").prop('disabled', true);
+                        //$("#project_course_course_desc").prop('disabled', true);
+                        $("#course_desc").prop('disabled', true);
                         $("#mem_train_record_course_grade").prop('disabled', true);
                         $("#mem_train_recordSubmit").click(function (e) {
                             e.preventDefault();
                             $('#mem_train_recordModal').modal('hide');
                             $("#mem_train_record_course_code").prop('disabled', false);
-                            $("#project_course_course_desc").prop('disabled', false);
+                            //$("#project_course_course_desc").prop('disabled', false);
+                            $("#course_desc").prop('disabled', false);
                             $("#mem_train_record_course_grade").prop('disabled', false);
                         });
                         $('#mem_train_recordModal').modal({ backdrop: 'static', keyboard: false });

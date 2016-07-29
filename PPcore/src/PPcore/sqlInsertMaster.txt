@@ -9,6 +9,7 @@ INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('A','Good
 INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('B','Pass',newid(),'Y');
 INSERT INTO course_grade (cgrade_code,cgrade_desc,id,x_status) VALUES ('F','Fail',newid(),'Y');
 
+INSERT INTO [dbo].[mem_group] ([mem_group_code], [mem_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'0  ', N'', N'Y', NULL, NULL, N'af549d9b-3408-42d6-9c55-a852839fb497');
 INSERT INTO [dbo].[mem_group] ([mem_group_code], [mem_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1  ', N'ผู้นำพลังปัญญา', N'Y', NULL, NULL, N'5d012928-0f41-4545-874a-197c95242f72');
 INSERT INTO [dbo].[mem_group] ([mem_group_code], [mem_group_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'2  ', N'สมาชิกเครือข่าย', N'Y', NULL, NULL, N'7df0b28f-abe4-46d8-96d0-330c92da0bec');
 
@@ -16,6 +17,7 @@ INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VA
 INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','2',N'ผู้บริหารกลุ่ม',newid(),'Y');
 INSERT INTO mem_type (mem_group_code,mem_type_code,mem_type_desc,id,x_status) VALUES ('1','3',N'สมาชิก',newid(),'Y');
 
+INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'0', N'', N'Y', NULL, NULL, N'88bf6048-e142-4be6-a94d-3059cfece3e9');
 INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1001', N'ระดับ 1 กรุงเทพมหานคร', N'Y', NULL, NULL, N'381d57ad-78ae-45e8-85a0-ed6b16bd46cc');
 INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1002', N'ระดับ 2 กรุงเทพมหานคร', N'Y', NULL, NULL, N'558a8ff4-4cda-4064-b967-f5d0f6329365');
 INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1003', N'ระดับ 3 กรุงเทพมหานคร', N'Y', NULL, NULL, N'fcca350b-c9ea-4f85-8995-997f0d327b19');
@@ -248,7 +250,7 @@ INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note
 INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'9702', N'ระดับ 2 บึงกาฬ', N'Y', NULL, NULL, N'199c937b-5932-4dd6-8311-9834b8f4d4f7');
 INSERT INTO [dbo].[mem_level] ([mlevel_code], [mlevel_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'9703', N'ระดับ 3 บึงกาฬ', N'Y', NULL, NULL, N'096eedce-fb97-4f37-b992-560b00c70afc');
 
-
+INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'0  ', N'', N'Y', NULL, NULL, N'd52e6c3e-38c0-4a39-b55c-dd677f5f6461');
 INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'1  ', N'กำลังศึกษา', N'Y', NULL, NULL, N'd26a9077-7064-49b1-b46b-8fcdd05f5464');
 INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'2  ', N'พักการศึกษาชั่วคราว', N'Y', NULL, NULL, N'e8c3c6dd-930c-496c-a310-d81901db74b8');
 INSERT INTO [dbo].[mem_status] ([mstatus_code], [mstatus_desc], [x_status], [x_note], [x_log], [id]) VALUES (N'3  ', N'พ้นสภาพการศึกษา', N'Y', NULL, NULL, N'a0ed9458-165f-422e-a8b4-87522e339107');
@@ -684,6 +686,8 @@ INSERT [ini_list_zip] ([province_code], [country_code], [district_code], [subdis
 INSERT [ini_list_zip] ([province_code], [country_code], [district_code], [subdistrict_code], [zip_code], [x_status], [x_note], [x_log], [id]) VALUES (N'20000000', 66, N'20100000', N'20100600', N'20270', NULL, NULL, NULL, N'9a8a061e-7801-4545-b06b-5781269518ce')
 INSERT [ini_list_zip] ([province_code], [country_code], [district_code], [subdistrict_code], [zip_code], [x_status], [x_note], [x_log], [id]) VALUES (N'20000000', 66, N'20110000', N'20110100', N'20240', NULL, NULL, NULL, N'94681408-d0b6-4eec-af59-e6d3c4a73cb3')
 INSERT [ini_list_zip] ([province_code], [country_code], [district_code], [subdistrict_code], [zip_code], [x_status], [x_note], [x_log], [id]) VALUES (N'20000000', 66, N'20110000', N'20110200', N'20240', NULL, NULL, NULL, N'd38b8d5c-9a44-425f-96a1-4f3156ec393e')
+
+INSERT INTO [dbo].[ini_province] ([country_code], [province_code], [pro_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'0       ', N'', NULL, NULL, NULL, NULL, N'c927967c-c507-4603-b919-08078038f65d')
 INSERT [ini_province] ([country_code], [province_code], [pro_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'10000000', N'กรุงเทพมหานคร', NULL, NULL, NULL, NULL, N'67e7dc9e-5dde-41d0-b755-b8dfdd5a19b5')
 INSERT [ini_province] ([country_code], [province_code], [pro_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'11000000', N'สมุทรปราการ', NULL, NULL, NULL, NULL, N'9d05e13b-6aa4-4a14-ae9f-3c1845bb1fd1')
 INSERT [ini_province] ([country_code], [province_code], [pro_desc], [area_part], [x_status], [x_note], [x_log], [id]) VALUES (66, N'12000000', N'นนทบุรี', NULL, NULL, NULL, NULL, N'd2b46d3a-e3c8-4d26-a160-43ae0b0e221e')

@@ -12,6 +12,8 @@ namespace PPcore.Models
         public string member_code { get; set; }
         [Display(Name = "ระดับเกรด")]
         public string course_grade { get; set; }
+        [Display(Name = "ชื่อ หลักสูตรอบรม")]
+        public string course_desc { get; set; }
         public string x_status { get; set; }
         public string x_note { get; set; }
         public string x_log { get; set; }

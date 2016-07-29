@@ -146,6 +146,10 @@
                                     <input asp-for="occupation" class="form-control" />
                                     <span asp-validation-for="occupation" class="text-danger" />
                                 </div>
+                                <div class="col-md-2 text-right"><label asp-for="income" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="income" class="form-control" asp-items="@ViewBag.income"></select>
+                                </div>
                             </div>
                         </div>
 

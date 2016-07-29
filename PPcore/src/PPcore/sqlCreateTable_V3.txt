@@ -429,6 +429,7 @@ create table mem_train_record (
    course_code          varchar(30)          not null,
    member_code          varchar(30)          not null,
    course_grade         char(1)              null,
+   course_desc			nvarchar(100)        null,
    x_status             char(1)              null,
    x_note               nvarchar(50)         null,
    x_log                nvarchar(500)        null,
