@@ -33,18 +33,35 @@ namespace PPcore.Controllers
 
             //ViewBag.cid_type = new SelectList(new[] { new { Value = "C", Text = "บัตรประชาชน" }, new { Value = "H", Text = "สำเนาทะเบียนบ้าน" }, new { Value = "P", Text = "Passport" } }, "Value", "Text", "F");
             //ViewBag.cid_type = new SelectList(new[] { new { Value = "C", Text = "บัตรประชาชน" }, new { Value = "P", Text = "Passport" } }, "Value", "Text", "F");
-            ViewBag.marry_status = new SelectList(new[] { new { Value = "", Text = "" }, new { Value = "N", Text = "โสด" }, new { Value = "Y", Text = "สมรส" } }, "Value", "Text", "");
+            ViewBag.marry_status = new SelectList(new[] { new { Value = "0", Text = "" }, new { Value = "N", Text = "โสด" }, new { Value = "Y", Text = "สมรส" } }, "Value", "Text", "0");
             ViewBag.zone = new SelectList(new[] { new { Value = "M", Text = "กลาง" }, new { Value = "N", Text = "เหนือ" }, new { Value = "E", Text = "ตะวันออก" }, new { Value = "W", Text = "ตะวันตก" }, new { Value = "S", Text = "ใต้" }, new { Value = "L", Text = "ตะวันออกเฉียงเหนือ" } }, "Value", "Text");
 
-            ViewBag.mem_group = new SelectList(_context.mem_group.OrderBy(g => g.mem_group_code), "mem_group_code", "mem_group_desc", "0  ");
+            //ViewBag.mem_group = new SelectList(_context.mem_group.OrderBy(g => g.mem_group_code), "mem_group_code", "mem_group_desc", "0  ");
+            var mg = _context.mem_group.OrderBy(g => g.mem_group_code).Select(x => new { Value = x.mem_group_code, Text = x.mem_group_desc }).ToList();
+            mg.Insert(0, (new { Value = "0", Text = "" }));
+            ViewBag.mem_group = new SelectList(mg.AsEnumerable(), "Value", "Text", "0");
+
             //ViewBag.mem_type = new SelectList(_context.mem_type.OrderBy(t => t.mem_group_code).OrderBy(t => t.mem_type_code), "mem_type_code", "mem_type_desc", "3  ");
-            ViewBag.mem_level = new SelectList(_context.mem_level.OrderBy(t => t.mlevel_code), "mlevel_code", "mlevel_desc", "0  ");
-            ViewBag.mem_status = new SelectList(_context.mem_status.OrderBy(s => s.mstatus_code), "mstatus_code", "mstatus_desc", "0  ");
+
+            //ViewBag.mem_level = new SelectList(_context.mem_level.OrderBy(t => t.mlevel_code), "mlevel_code", "mlevel_desc", "0  ");
+            var ml = _context.mem_level.OrderBy(tt => tt.mlevel_code).Select(tt => new { Value = tt.mlevel_code, Text = tt.mlevel_desc }).ToList();
+            ml.Insert(0, (new { Value = "0", Text = "" }));
+            ViewBag.mem_level = new SelectList(ml.AsEnumerable(), "Value", "Text", "0");
+
+            //ViewBag.mem_status = new SelectList(_context.mem_status.OrderBy(s => s.mstatus_code), "mstatus_code", "mstatus_desc", "0  ");
+            var ms = _context.mem_status.OrderBy(ss => ss.mstatus_code).Select(ss => new { Value = ss.mstatus_code, Text = ss.mstatus_desc }).ToList();
+            ms.Insert(0, (new { Value = "0", Text = "" }));
+            ViewBag.mem_status = new SelectList(ms.AsEnumerable(), "Value", "Text", "0");
+
+
             ViewBag.income = new SelectList(new[] { new { Value = "", Text = "" }, new { Value = "A", Text = "น้อยกว่า 10,000 บาท" }, new { Value = "B", Text = "10,000 ถึง 20,000 บาท" }, new { Value = "C", Text = "20,000 ถึง 30,000 บาท" }, new { Value = "D", Text = "มากกว่า 30,000 บาท" } }, "Value", "Text", "");
 
             ViewBag.ini_country = new SelectList(_context.ini_country.OrderBy(c => c.country_code), "country_code", "country_desc", "66");
-            ViewBag.ini_province = new SelectList(_context.ini_province.OrderBy(p => p.province_code), "province_code", "pro_desc", "0       ");
 
+            //ViewBag.ini_province = new SelectList(_context.ini_province.OrderBy(p => p.province_code), "province_code", "pro_desc", "0       ");
+            var ip = _context.ini_province.OrderBy(p => p.province_code).Select(p => new { Value = p.province_code, Text = p.pro_desc }).ToList();
+            ip.Insert(0, (new { Value = "0", Text = "" }));
+            ViewBag.ini_province = new SelectList(ip.AsEnumerable(), "Value", "Text", "0");
         }
 
         public membersController(PalangPanyaDBContext context, IConfiguration configuration, IHostingEnvironment env)
@@ -932,6 +949,11 @@ namespace PPcore.Controllers
             {
                 member.x_status = "Y";
                 if (member.title == "0") { member.title = null; }
+                if (member.marry_status == "0") { member.marry_status = null; }
+                if (member.mem_group_code == "0") { member.mem_group_code = null; }
+                if (member.mlevel_code == "0") { member.mlevel_code = null; }
+                if (member.mstatus_code == "0") { member.mstatus_code = null; }
+                if (member.province_code == "0") { member.province_code = null; }
                 if ((!string.IsNullOrEmpty(member.mem_photo)) && (member.mem_photo.Substring(0, 1) != "M"))
                 {
                     var fileName = member.mem_photo.Substring(9);
@@ -1038,6 +1060,11 @@ namespace PPcore.Controllers
             {
                 member.x_status = "Y";
                 if (member.title == "0") { member.title = null; }
+                if (member.marry_status == "0") { member.marry_status = null; }
+                if (member.mem_group_code == "0") { member.mem_group_code = null; }
+                if (member.mlevel_code == "0") { member.mlevel_code = null; }
+                if (member.mstatus_code == "0") { member.mstatus_code = null; }
+                if (member.province_code == "0") { member.province_code = null; }
                 if ((!string.IsNullOrEmpty(member.mem_photo)) && (member.mem_photo.Substring(0,1) != "M"))
                 {
                     var fileName = member.mem_photo.Substring(9);
