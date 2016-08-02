@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PPcore.Data;
 using PPcore.Models;
 using PPcore.Services;
 using System.Collections.Generic;
@@ -23,6 +25,7 @@ namespace PPcore
                 .AddEnvironmentVariables();
             if (env.IsDevelopment())
             {
+                builder.AddUserSecrets();
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
             Configuration = builder.Build();
@@ -40,6 +43,14 @@ namespace PPcore
 
             services.AddDbContext<PalangPanyaDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddSingleton(Configuration);
 
             // Add framework services.
@@ -71,6 +82,8 @@ namespace PPcore
 
             app.UseStaticFiles();
 
+            app.UseIdentity();
+
             /**
             var supportedCultures = new[]
             {
@@ -90,7 +103,7 @@ namespace PPcore
                 SupportedUICultures = supportedCultures
             });
             **/
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
