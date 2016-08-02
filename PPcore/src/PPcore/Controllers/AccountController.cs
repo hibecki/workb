@@ -46,6 +46,7 @@ namespace PPcore.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
         {
             DateTime bd = Convert.ToDateTime(birthdate);
@@ -100,7 +101,15 @@ namespace PPcore.Controllers
                     cid_card_pic = pic_image.image_code;
                 }
                 _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_password,mem_photo,cid_card_pic) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + password + "','" + mem_photo + "','" + cid_card_pic + "')");
+
+                var user = new ApplicationUser { UserName = cid_card, Email = email };
+                _userManager.CreateAsync(user, password);
+
                 SendEmail(email, cid_card, password);
+                _signInManager.SignInAsync(user, isPersistent: false);
+                _logger.LogInformation(3, "User created a new account with password.");
+
+                //SendEmail(email, cid_card, password);
             }
             catch (SqlException ex)
             {
