@@ -15,6 +15,7 @@ namespace PPcore
             System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
             System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("th-TH");
 
+            
             //.UseUrls("http://0.0.0.0:80")
             var host = new WebHostBuilder()
                 .UseKestrel()
