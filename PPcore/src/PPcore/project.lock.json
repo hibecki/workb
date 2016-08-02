@@ -128,7 +128,7 @@
           "lib/net45/Microsoft.AI.ServerTelemetryChannel.dll": {}
         }
       },
-      "Microsoft.AspNet.WebApi.Client/5.2.2": {
+      "Microsoft.AspNet.WebApi.Client/5.2.3": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "6.0.4"
@@ -2153,6 +2153,19 @@
           "lib/net45/_._": {}
         }
       },
+      "System.Drawing.Primitives/4.0.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Drawing",
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net45/System.Drawing.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Drawing.Primitives.dll": {}
+        }
+      },
       "System.Dynamic.Runtime/4.0.11": {
         "type": "package",
         "frameworkAssemblies": [
@@ -2817,11 +2830,12 @@
         "lib/net45/Microsoft.AI.ServerTelemetryChannel.dll"
       ]
     },
-    "Microsoft.AspNet.WebApi.Client/5.2.2": {
-      "sha512": "YVq+s0WeXrPxJk57CoElbtMYf95j76uJcW6nue3Cs4eIer9sgUp4rasSo0gALX3ls1Zf2jMceOLik9X/sJyrwA==",
+    "Microsoft.AspNet.WebApi.Client/5.2.3": {
+      "sha512": "3kiI8peSXbXHDDrRuo+QaX0iCEVRe0nvn2dBDRw656uPX32UalbBlSIDUDlJxu05eau4tnuhsikiUuugvvoUoQ==",
       "type": "package",
+      "path": "Microsoft.AspNet.WebApi.Client/5.2.3",
       "files": [
-        "Microsoft.AspNet.WebApi.Client.5.2.2.nupkg.sha512",
+        "Microsoft.AspNet.WebApi.Client.5.2.3.nupkg.sha512",
         "Microsoft.AspNet.WebApi.Client.nuspec",
         "lib/net45/System.Net.Http.Formatting.dll",
         "lib/net45/System.Net.Http.Formatting.xml",
@@ -5161,6 +5175,21 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "System.Drawing.Primitives/4.0.0": {
+      "sha512": "9lVRG1voBwzLGZkf1XFJrobdZDZ5ZHMU4FVTbXAbzehpN90yYgkUeo9GoEYdvkt/EXaaHZJAeuffXP4JBbY+Ig==",
+      "type": "package",
+      "path": "System.Drawing.Primitives/4.0.0",
+      "files": [
+        "System.Drawing.Primitives.4.0.0.nupkg.sha512",
+        "System.Drawing.Primitives.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/net45/System.Drawing.Primitives.dll",
+        "lib/netstandard1.1/System.Drawing.Primitives.dll",
+        "ref/net45/System.Drawing.Primitives.dll",
+        "ref/netstandard1.1/System.Drawing.Primitives.dll"
+      ]
+    },
     "System.Dynamic.Runtime/4.0.11": {
       "sha512": "DxpEHu3F5ObB1bPublsVn2RZhtD+eWuGKV5k/FXBl/u9k62ajM53gk0R87Zp9vJ7f3CtZzTna30xIkhKvbWYPg==",
       "type": "package",
@@ -7376,7 +7405,7 @@
   "projectFileDependencyGroups": {
     "": [
       "Microsoft.ApplicationInsights.AspNetCore >= 1.0.0",
-      "Microsoft.AspNet.WebApi.Client >= 5.2.2",
+      "Microsoft.AspNet.WebApi.Client >= 5.2.3",
       "Microsoft.AspNetCore.Authentication.Cookies >= 1.0.0",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 1.0.0",
@@ -7399,6 +7428,7 @@
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Tools >= 1.0.0-preview2-final",
       "Microsoft.VisualStudio.Web.CodeGenerators.Mvc >= 1.0.0-preview2-final",
+      "System.Drawing.Primitives >= 4.0.0",
       "iTextSharp >= 5.5.9"
     ],
     ".NETFramework,Version=v4.6.1": []

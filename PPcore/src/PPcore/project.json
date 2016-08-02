@@ -1,6 +1,7 @@
 {
   "userSecretsId": "aspnet-ASPNetCore_NetFramework-ca300480-39de-4db0-9633-f11ef32ad8f2",
   "dependencies": {
+    "System.Drawing.Primitives": "4.0.0",
     "iTextSharp": "5.5.9",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
@@ -40,7 +41,7 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.AspNet.WebApi.Client": "5.2.2"
+    "Microsoft.AspNet.WebApi.Client": "5.2.3"
   },
 
   "tools": {

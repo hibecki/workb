@@ -64,12 +64,12 @@
                             <div class="row">
                                 <div class="col-md-2 text-right"><label asp-for="fname" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <input asp-for="fname" class="form-control" onkeypress="return !(event.charCode >= 48 && event.charCode <= 57)" />
+                                    <input asp-for="fname" class="form-control" onkeypress="return !(event.charCode >= 48 && event.charCode <= 57)" autocomplete="off" />
                                     <span asp-validation-for="fname" class="text-danger" />
                                 </div>
                                 <div class="col-md-2 text-right"><label asp-for="lname" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <input asp-for="lname" class="form-control" onkeypress="return !(event.charCode >= 48 && event.charCode <= 57)" />
+                                    <input asp-for="lname" class="form-control" onkeypress="return !(event.charCode >= 48 && event.charCode <= 57)" autocomplete="off" />
                                     <span asp-validation-for="lname" class="text-danger" />
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                                 </div>*@
                                 <div class="col-md-2 text-right"><label asp-for="cid_card" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <input asp-for="cid_card" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="$('#member_code').val($('#cid_card').val());" maxlength="13"/>
+                                    <input asp-for="cid_card" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="$('#member_code').val($('#cid_card').val());" maxlength="13" autocomplete="off"/>
                                     <span asp-validation-for="cid_card" class="text-danger" />
                                 </div>
                             </div>
@@ -143,7 +143,7 @@
                             <div class="row">
                                 <div class="col-md-2 text-right"><label asp-for="occupation" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <input asp-for="occupation" class="form-control" />
+                                    <input asp-for="occupation" class="form-control" autocomplete="off" />
                                     <span asp-validation-for="occupation" class="text-danger" />
                                 </div>
                                 <div class="col-md-2 text-right"><label asp-for="income" class="control-label"></label></div>
@@ -254,7 +254,7 @@
 
                                     <div class="col-md-2 text-right"><label asp-for="zip_code" class="control-label"></label></div>
                                     <div class="col-md-4">
-                                        <input asp-for="zip_code" class="form-control" onkeyup="setTextCAddress()" />
+                                        <input asp-for="zip_code" class="form-control" onkeyup="setTextCAddress()" autocomplete="off" />
                                         <span asp-validation-for="zip_code" class="text-danger" />
                                     </div>
                                 </div>
@@ -345,7 +345,7 @@
                                     <div class="row">
                                         <div class="col-md-2 text-right"> </div>
                                         <div class="col-md-10">
-                                            <input asp-for="mail_address" class="form-control" readonly="readonly" />
+                                            <input asp-for="mail_address" class="form-control" readonly="readonly" autocomplete="off" />
                                             <span asp-validation-for="mail_address" class="text-danger" />
                                         </div>
                                     </div>
@@ -360,12 +360,12 @@
                                     <div class="row">
                                         <div class="col-md-2 text-right"><label asp-for="mobile" class="control-label"></label></div>
                                         <div class="col-md-4">
-                                            <input asp-for="mobile" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) " /> @*|| (event.charCode == 32) || (event.charCode == 45)*@
+                                            <input asp-for="mobile" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) " autocomplete="off" /> @*|| (event.charCode == 32) || (event.charCode == 45)*@
                                             <span asp-validation-for="mobile" class="text-danger" />
                                         </div>
                                         <div class="col-md-2 text-right"><label asp-for="tel" class="control-label"></label></div>
                                         <div class="col-md-4">
-                                            <input asp-for="tel" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) " /> @*|| (event.charCode == 32) || (event.charCode == 45)
+                                            <input asp-for="tel" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) " autocomplete="off" /> @*|| (event.charCode == 32) || (event.charCode == 45)
                                             <span asp-validation-for="tel" class="text-danger" />*@
                                         </div>
                                     </div>
@@ -374,12 +374,12 @@
                                     <div class="row">
                                         <div class="col-md-2 text-right"><label asp-for="fax" class="control-label"></label></div>
                                         <div class="col-md-4">
-                                            <input asp-for="fax" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />  @*|| (event.charCode == 32) || (event.charCode == 45)*@
+                                            <input asp-for="fax" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" autocomplete="off" />  @*|| (event.charCode == 32) || (event.charCode == 45)*@
                                             <span asp-validation-for="fax" class="text-danger" />
                                         </div>
                                         <div class="col-md-2 text-right"><label asp-for="facebook" class="control-label"></label></div>
                                         <div class="col-md-4">
-                                            <input asp-for="facebook" class="form-control" />
+                                            <input asp-for="facebook" class="form-control" autocomplete="off" />
                                             <span asp-validation-for="facebook" class="text-danger" />
                                         </div>
                                     </div>
@@ -388,12 +388,12 @@
                                     <div class="row">
                                         <div class="col-md-2 text-right"><label asp-for="email" class="control-label"></label></div>
                                         <div class="col-md-4">
-                                            <input asp-for="email" class="form-control" />
+                                            <input asp-for="email" class="form-control" autocomplete="off" />
                                             <span asp-validation-for="email" class="text-danger" />
                                         </div>
                                         <div class="col-md-2 text-right"><label asp-for="line" class="control-label"></label></div>
                                         <div class="col-md-4">
-                                            <input asp-for="line" class="form-control" />
+                                            <input asp-for="line" class="form-control" autocomplete="off" />
                                             <span asp-validation-for="line" class="text-danger" />
                                         </div>
                                     </div>

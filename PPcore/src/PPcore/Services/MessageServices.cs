@@ -9,12 +9,38 @@ namespace PPcore.Services
 {
     public class AuthMessageSender : IEmailSender
     {
-        public Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message)
+        {
+            try
+            {
+                using (var msg = new MailMessage("info@palangpanya.com", email))
+                {
+                    msg.Subject = subject;
+                    msg.Body = message;
+                    using (SmtpClient client = new SmtpClient
+                    {
+                        EnableSsl = false,
+                        Host = "mail.palangpanya.com",
+                        Port = 25,
+                        Credentials = new NetworkCredential("info@palangpanya.com", "mfmHD9A2Ws")
+                    })
+                    {
+                        await client.SendMailAsync(msg);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public Task SendEmail(string email, string subject, string message)
         {
             int res = -1;
             try
             {
-                using (var msg = new MailMessage("info@palangpanya.com",email))
+                using (var msg = new MailMessage("info@palangpanya.com", email))
                 {
                     msg.Subject = subject;
                     msg.Body = message;
@@ -30,7 +56,8 @@ namespace PPcore.Services
                         res = 0;
                     }
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 res = e.HResult;
             }

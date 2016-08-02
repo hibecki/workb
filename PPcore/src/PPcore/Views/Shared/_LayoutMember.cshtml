@@ -163,11 +163,13 @@
             if (act != "Create") {
                 if ("@ViewBag.memPhoto") {
                     $('#waitMemPhoto').hide(); $('#emptyMemPhoto').hide();
-                    $('#picMemPhotoSrc').attr('src', '/@ViewBag.images_member/@ViewBag.memPhoto'); $('#picMemPhoto').show();
+                    //$('#picMemPhotoSrc').attr('src', '/@ViewBag.images_member/@ViewBag.memPhoto'); $('#picMemPhoto').show();
+                    $('#picMemPhotoSrc').attr('src', '@Url.Action("image","pic_image")/@ViewBag.memPhoto'); $('#picMemPhoto').show();
                 }
                 if ("@ViewBag.cidCardPhoto") {
                     $('#waitCidCardPhoto').hide(); $('#emptyCidCardPhoto').hide();
-                    $('#picCidCardPhotoSrc').attr('src', '/@ViewBag.images_member/@ViewBag.cidCardPhoto'); $('#picCidCardPhoto').show();
+                    //$('#picCidCardPhotoSrc').attr('src', '/@ViewBag.images_member/@ViewBag.cidCardPhoto'); $('#picCidCardPhoto').show();
+                    $('#picCidCardPhotoSrc').attr('src', '@Url.Action("image","pic_image")/@ViewBag.cidCardPhoto'); $('#picCidCardPhoto').show();
                 }
                 $('#btnPrint').show();
                 $('#income').val('@ViewBag.incomeCode');

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETFramework,Version=v4.6.1/",
-    "signature": "ce6c41ddcdb0a908849f2a0a4981aa38b262f2a4"
+    "signature": "995f6a966dc17d678ca5d7694e0c12b7e479fdfb"
   },
   "compilationOptions": {
     "defines": [
@@ -17,6 +17,7 @@
     ".NETFramework,Version=v4.6.1": {
       "PPcore/1.0.0": {
         "dependencies": {
+          "System.Drawing.Primitives": "4.0.0",
           "iTextSharp": "5.5.9",
           "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
@@ -36,7 +37,7 @@
           "Microsoft.Extensions.Logging.Debug": "1.0.0",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
           "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
-          "Microsoft.AspNet.WebApi.Client": "5.2.2"
+          "Microsoft.AspNet.WebApi.Client": "5.2.3"
         },
         "compile": {
           "PPcore.exe": {}
@@ -104,7 +105,7 @@
           "lib/net45/Microsoft.AI.ServerTelemetryChannel.dll": {}
         }
       },
-      "Microsoft.AspNet.WebApi.Client/5.2.2": {
+      "Microsoft.AspNet.WebApi.Client/5.2.3": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
           "System.Net.Http": "4.0.0.0"
@@ -1161,6 +1162,15 @@
           ".NETFramework/v4.6.1/Facades/System.Diagnostics.Tools.dll": {}
         }
       },
+      "System.Drawing.Primitives/4.0.0": {
+        "dependencies": {
+          "System.Drawing": "4.0.0.0",
+          "mscorlib": "4.0.0.0"
+        },
+        "compile": {
+          "ref/net45/System.Drawing.Primitives.dll": {}
+        }
+      },
       "System.Dynamic.Runtime/4.0.10.0": {
         "compile": {
           ".NETFramework/v4.6.1/Facades/System.Dynamic.Runtime.dll": {}
@@ -1493,6 +1503,11 @@
           ".NETFramework/v4.6.1/System.ServiceModel.dll": {}
         }
       },
+      "System.Drawing/4.0.0.0": {
+        "compile": {
+          ".NETFramework/v4.6.1/System.Drawing.dll": {}
+        }
+      },
       "System.Numerics/4.0.0.0": {
         "compile": {
           ".NETFramework/v4.6.1/System.Numerics.dll": {}
@@ -1507,6 +1522,7 @@
     ".NETFramework,Version=v4.6.1/": {
       "PPcore/1.0.0": {
         "dependencies": {
+          "System.Drawing.Primitives": "4.0.0",
           "iTextSharp": "5.5.9",
           "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
@@ -1526,7 +1542,7 @@
           "Microsoft.Extensions.Logging.Debug": "1.0.0",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
           "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
-          "Microsoft.AspNet.WebApi.Client": "5.2.2"
+          "Microsoft.AspNet.WebApi.Client": "5.2.3"
         },
         "runtime": {
           "PPcore.exe": {}
@@ -1594,7 +1610,7 @@
           "lib/net45/Microsoft.AI.ServerTelemetryChannel.dll": {}
         }
       },
-      "Microsoft.AspNet.WebApi.Client/5.2.2": {
+      "Microsoft.AspNet.WebApi.Client/5.2.3": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
           "System.Net.Http": "4.0.0.0"
@@ -2629,6 +2645,15 @@
         }
       },
       "System.Diagnostics.Tools/4.0.0.0": {},
+      "System.Drawing.Primitives/4.0.0": {
+        "dependencies": {
+          "System.Drawing": "4.0.0.0",
+          "mscorlib": "4.0.0.0"
+        },
+        "runtime": {
+          "lib/net45/System.Drawing.Primitives.dll": {}
+        }
+      },
       "System.Dynamic.Runtime/4.0.10.0": {},
       "System.Globalization/4.0.10.0": {},
       "System.Interactive.Async/3.0.0": {
@@ -2817,6 +2842,7 @@
       "System.IdentityModel/4.0.0.0": {},
       "System.Net.Http.WebRequest/4.0.0.0": {},
       "System.ServiceModel/4.0.0.0": {},
+      "System.Drawing/4.0.0.0": {},
       "System.Numerics/4.0.0.0": {},
       "System.Runtime.Serialization/4.0.0.0": {}
     }
@@ -2867,10 +2893,10 @@
       "serviceable": true,
       "sha512": "sha512-cxvFUPc83qaPjvcr0cAT8EElPVvg+hSzCmCxSPEXRt5PnPGTafv/ra4sw8na/D3fQHmnMLuj1R0mMZiOLnSw9A=="
     },
-    "Microsoft.AspNet.WebApi.Client/5.2.2": {
+    "Microsoft.AspNet.WebApi.Client/5.2.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-YVq+s0WeXrPxJk57CoElbtMYf95j76uJcW6nue3Cs4eIer9sgUp4rasSo0gALX3ls1Zf2jMceOLik9X/sJyrwA=="
+      "sha512": "sha512-3kiI8peSXbXHDDrRuo+QaX0iCEVRe0nvn2dBDRw656uPX32UalbBlSIDUDlJxu05eau4tnuhsikiUuugvvoUoQ=="
     },
     "Microsoft.AspNetCore.Antiforgery/1.0.0": {
       "type": "package",
@@ -3387,6 +3413,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "System.Drawing.Primitives/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9lVRG1voBwzLGZkf1XFJrobdZDZ5ZHMU4FVTbXAbzehpN90yYgkUeo9GoEYdvkt/EXaaHZJAeuffXP4JBbY+Ig=="
+    },
     "System.Dynamic.Runtime/4.0.10.0": {
       "type": "referenceassembly",
       "serviceable": false,
@@ -3673,6 +3704,11 @@
       "sha512": ""
     },
     "System.ServiceModel/4.0.0.0": {
+      "type": "referenceassembly",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "System.Drawing/4.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

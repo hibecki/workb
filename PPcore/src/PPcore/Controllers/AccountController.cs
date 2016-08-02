@@ -14,12 +14,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using PPcore.Models.AccountViewModels;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace PPcore.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly PalangPanyaDBContext _context;
+        private readonly ApplicationDbContext _appcontext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -27,9 +30,10 @@ namespace PPcore.Controllers
         private IHostingEnvironment _env;
         private readonly ILogger _logger;
 
-        public AccountController(PalangPanyaDBContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public AccountController(PalangPanyaDBContext context, ApplicationDbContext appcontext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _context = context;
+            _appcontext = appcontext; ;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -47,7 +51,7 @@ namespace PPcore.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
+        public async Task<IActionResult> Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
         {
             DateTime bd = Convert.ToDateTime(birthdate);
             //birthdate = (bd.Year).ToString() + bd.Month.ToString() + bd.Day.ToString();
@@ -103,13 +107,19 @@ namespace PPcore.Controllers
                 _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_password,mem_photo,cid_card_pic) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + password + "','" + mem_photo + "','" + cid_card_pic + "')");
 
                 var user = new ApplicationUser { UserName = cid_card, Email = email };
-                _userManager.CreateAsync(user, password);
-
-                SendEmail(email, cid_card, password);
-                _signInManager.SignInAsync(user, isPersistent: false);
-                _logger.LogInformation(3, "User created a new account with password.");
-
-                //SendEmail(email, cid_card, password);
+                var result = await _userManager.CreateAsync(user, password);
+                
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Members");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation(3, "User created a new account with password.");
+                    SendEmail(email, cid_card, password);
+                }
+                else
+                {
+                    return Json(new { result = "fail", error_code = -1, error_message = "userManaget cannot create user!" });
+                }
             }
             catch (SqlException ex)
             {
@@ -135,45 +145,54 @@ namespace PPcore.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Login(string uname, string upwd)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+            ApplicationUser au = new ApplicationUser();
+            au.UserName = uname;
+            
+            var result = await _signInManager.PasswordSignInAsync(uname, upwd, false, lockoutOnFailure: false);
+            if (result.Succeeded)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult Login(string uname, string upwd)
-        {
-            var mb = _context.member.FromSql("select cid_card from member where cid_card = '" + uname + "' and mem_password = '" + upwd + "' and x_status = 'Y'");
-            if (mb.Count() == 0)
-            {
-                return Json(new { result = "fail" });
+                _logger.LogInformation(1, "User logged in.");
+                
+                return Json(new { result = "success" });
             }
             else
             {
-                return Json(new { result = "success" });
+                return Json(new { result = "fail" });
             }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateRole(string roleName)
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_appcontext), null, null, null, null, null);
+            if (!await roleManager.RoleExistsAsync("Administrators"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Administrators"));
+            }
+            if (!await roleManager.RoleExistsAsync("Operators"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Operators"));
+            }
+            if (!await roleManager.RoleExistsAsync("Members"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Members"));
+            }
+            if (!await roleManager.RoleExistsAsync(roleName))
+            {
+                await roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LogOff()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation(4, "User logged out.");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpPost]
@@ -190,34 +209,5 @@ namespace PPcore.Controllers
                 return Json(new { result = "fail" });
             }
         }
-
-        #region Helpers
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
-        private Task<ApplicationUser> GetCurrentUserAsync()
-        {
-            return _userManager.GetUserAsync(HttpContext.User);
-        }
-
-        private IActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-        }
-
-        #endregion
     }
 }
