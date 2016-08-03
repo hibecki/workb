@@ -272,5 +272,24 @@ namespace PPcore.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult DetailsAsTable(string type)
+        {
+            if (type == "A") //Administrators
+            {
+
+            }
+            else if (type == "O") //Operators
+            {
+
+            }
+            else if (type == "M") //Members
+            {
+
+            }
+            var cg = _context.course_group.OrderBy(m => m.cgroup_code);
+            return View(cg.ToList());
+        }
     }
 }
