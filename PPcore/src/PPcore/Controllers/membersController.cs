@@ -14,9 +14,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PPcore.Controllers
 {
+    [Authorize]
     public class membersController : Controller
     {
         private PalangPanyaDBContext _context;

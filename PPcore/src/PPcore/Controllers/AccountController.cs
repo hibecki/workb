@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace PPcore.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly PalangPanyaDBContext _context;
@@ -49,8 +49,49 @@ namespace PPcore.Controllers
             _emailSender.SendEmailAsync(email, title, body);
         }
 
+        public IActionResult RegisterMember()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpPost]
-        [AllowAnonymous]
+        public async Task<IActionResult> Login(string uname, string upwd, string ReturnUrl)
+        {
+            ApplicationUser au = new ApplicationUser();
+            au.UserName = uname;
+
+            var result = await _signInManager.PasswordSignInAsync(uname, upwd, false, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation(1, "User logged in.");
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+
+                //if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+                //{
+                //    //Re-check this if in case user try to get on page with correct authentication but wrong authorization
+                //    return Redirect(ReturnUrl);
+
+                //}
+                //else
+                //{
+                //    return RedirectToAction(nameof(HomeController.Index), "Home");
+                //    //return Json(new { result = "success" });
+                //}
+
+            }
+            else
+            {
+                return Json(new { result = "fail" });
+            }
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
         {
             DateTime bd = Convert.ToDateTime(birthdate);
@@ -63,10 +104,27 @@ namespace PPcore.Controllers
                 {
                     var fileName = mem_photo.Substring(9);
                     var fileExt = Path.GetExtension(fileName);
+
+                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), mem_photo);
+                    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
+                    //System.IO.File.Copy(s, d, true);
+                    //System.IO.File.Delete(s);
+
                     pic_image m = new pic_image();
                     m.image_code = "M" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
                     m.x_status = "Y";
                     m.image_name = fileName;
+                    string base64String = "";
+                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
+                    {
+                        using (MemoryStream mem = new MemoryStream())
+                        {
+                            image.Save(mem, image.RawFormat);
+                            byte[] imageBytes = mem.ToArray();
+                            base64String = Convert.ToBase64String(imageBytes);
+                        }
+                    }
+                    m.image_file = base64String;
 
                     m.ref_doc_type = "member";
                     m.ref_doc_code = cid_card; //member_code;
@@ -74,9 +132,6 @@ namespace PPcore.Controllers
                     _context.pic_image.Add(m);
                     _context.SaveChanges();
 
-                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), mem_photo);
-                    var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
-                    System.IO.File.Copy(s, d, true);
                     System.IO.File.Delete(s);
                     //clearImageUpload();
 
@@ -86,19 +141,33 @@ namespace PPcore.Controllers
                 {
                     var fileName = cid_card_pic.Substring(9);
                     var fileExt = Path.GetExtension(fileName);
+
+                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), cid_card_pic);
+                    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
+                    //System.IO.File.Copy(s, d, true);
+                    //System.IO.File.Delete(s);
+
                     pic_image pic_image = new pic_image();
                     pic_image.image_code = "C" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
                     pic_image.x_status = "Y";
                     pic_image.image_name = fileName;
+                    string base64String = "";
+                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
+                    {
+                        using (MemoryStream mem = new MemoryStream())
+                        {
+                            image.Save(mem, image.RawFormat);
+                            byte[] imageBytes = mem.ToArray();
+                            base64String = Convert.ToBase64String(imageBytes);
+                        }
+                    }
+                    pic_image.image_file = base64String;
                     pic_image.ref_doc_type = "cidcard";
                     pic_image.ref_doc_code = cid_card; //member_code;
                     fileName = pic_image.image_code;
                     _context.pic_image.Add(pic_image);
                     _context.SaveChanges();
 
-                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), cid_card_pic);
-                    var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
-                    System.IO.File.Copy(s, d, true);
                     System.IO.File.Delete(s);
                     //clearImageUpload();
 
@@ -143,28 +212,7 @@ namespace PPcore.Controllers
             return Json(new { result = "success" });
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(string uname, string upwd)
-        {
-            ApplicationUser au = new ApplicationUser();
-            au.UserName = uname;
-            
-            var result = await _signInManager.PasswordSignInAsync(uname, upwd, false, lockoutOnFailure: false);
-            if (result.Succeeded)
-            {
-                _logger.LogInformation(1, "User logged in.");
-                
-                return Json(new { result = "success" });
-            }
-            else
-            {
-                return Json(new { result = "fail" });
-            }
-        }
-
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> CreateRole(string roleName)
         {
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_appcontext), null, null, null, null, null);

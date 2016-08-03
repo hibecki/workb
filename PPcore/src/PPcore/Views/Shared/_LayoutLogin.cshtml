@@ -86,7 +86,7 @@
             $(document).ready(function () {
                 var con = '@ViewContext.RouteData.Values["controller"]';
                 var act = '@ViewContext.RouteData.Values["action"]';
-                if (act == "Register") {
+                if (act == "RegisterMember") {
                     $.datepicker.regional['th'] = {
                         dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
                         yearRange: "-100:+0", yearOffSet: 543, beforeShow: dateDefault
