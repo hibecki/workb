@@ -138,7 +138,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>&nbsp;&nbsp;User : @User.FindFirst("fullName")
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>&nbsp;&nbsp;User : @User.FindFirst("fullName").Value
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         @if (await AuthorizationService.AuthorizeAsync(User, "AdministratorRights"))
