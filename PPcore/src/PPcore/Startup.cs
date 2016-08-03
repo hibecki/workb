@@ -61,6 +61,12 @@ namespace PPcore
 
             services.AddSingleton(Configuration);
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdministratorRights", policy => policy.RequireRole("Administrators"));
+                options.AddPolicy("OperationRights", policy => policy.RequireRole("Administrators", "Operators"));
+            });
+
             // Add framework services.
             services.AddMvc();
 

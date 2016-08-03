@@ -134,7 +134,8 @@
                         url: '@Url.Action("Login", "Account")' + "?uname=" + uname + "&upwd=" + upwd,
                     }).done(function (resp) {
                         if (resp.result == "success") {
-                            window.location.replace("@Url.Action("Index","members")");
+                            //window.location.replace("@Url.Action("Index","members")");
+                            window.location.replace("@Url.Action("Index","Home")");
                         } else if (resp.result == "fail") {
                             $('#loginMsg').text('ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
                             $('#loginModal').modal({ backdrop: 'static', keyboard: false });

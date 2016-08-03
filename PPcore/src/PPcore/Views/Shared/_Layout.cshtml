@@ -50,83 +50,87 @@
                 <a class="navbar-brand" href="@Url.Action("Index", "members")"><img class="center-block" src="~/images/logonew.jpg" style="height:inherit;margin-top:-15px;" /></a>
             </div>
 
-            <ul class="nav navbar-top-links navbar-left">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-caret-down"></i>&nbsp;&nbsp;สมาชิก
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="@Url.Action("Create", "members")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;เพิ่มสมาชิก</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "members")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;ข้อมูลสมาชิก</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="dropdown-toggle" href="@Url.Action("Index", "albums")">
-                        <i class="fa fa-caret-down"></i>&nbsp;&nbsp;ภาพกิจกรรม
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-toggle" href="@Url.Action("Index", "videos")">
-                        <i class="fa fa-caret-down"></i>&nbsp;&nbsp;คลิปกิจกรรม
-                    </a>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-caret-down"></i>&nbsp;&nbsp;โครงการอบรม
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="@Url.Action("Index", "course_group")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;กลุ่มหลักสูตร</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "project_sponsor")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;ผู้สนับสนุน</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "projects")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;โครงการ และผู้สนับสนุน</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("CourseIndex", "project_course")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;หลักสูตรอบรม</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "instructors")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;วิทยากร</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "train_place")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;สถานที่จัดอบรม</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "project_course_register")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;ลงทะเบียนเข้าอบรม</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "project_daily_checklist")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;เช็คชื่อเข้าอบรม</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-caret-down"></i>&nbsp;&nbsp;ผลิตผลสมาชิก
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="@Url.Action("Index", "product_group")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;กลุ่มผลิตผลและประเภทผลิตผล</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="dropdown-toggle" href="@Url.Action("EMailAllMembers", "news")">
-                        <i class="fa fa-caret-down"></i>&nbsp;&nbsp;ส่งข่าว EMail
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-toggle" href="http://api.palangpanya.com/report">
-                        <i class="fa fa-caret-down"></i>&nbsp;&nbsp;รายงานข้อมูล
-                    </a>
-                </li>
-                
-            </ul>
+            @if (await AuthorizationService.AuthorizeAsync(User, "OperationRights"))
+            {
+                <ul class="nav navbar-top-links navbar-left">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-caret-down"></i>&nbsp;&nbsp;สมาชิก
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Create", "members")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;เพิ่มสมาชิก</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "members")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;ข้อมูลสมาชิก</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle" href="@Url.Action("Index", "albums")">
+                            <i class="fa fa-caret-down"></i>&nbsp;&nbsp;ภาพกิจกรรม
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle" href="@Url.Action("Index", "videos")">
+                            <i class="fa fa-caret-down"></i>&nbsp;&nbsp;คลิปกิจกรรม
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-caret-down"></i>&nbsp;&nbsp;โครงการอบรม
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Index", "course_group")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;กลุ่มหลักสูตร</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "project_sponsor")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;ผู้สนับสนุน</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "projects")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;โครงการ และผู้สนับสนุน</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("CourseIndex", "project_course")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;หลักสูตรอบรม</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "instructors")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;วิทยากร</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "train_place")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;สถานที่จัดอบรม</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "project_course_register")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;ลงทะเบียนเข้าอบรม</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "project_daily_checklist")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;เช็คชื่อเข้าอบรม</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-caret-down"></i>&nbsp;&nbsp;ผลิตผลสมาชิก
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Index", "product_group")"><i class="fa fa-caret-right"></i>&nbsp;&nbsp;กลุ่มผลิตผลและประเภทผลิตผล</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle" href="@Url.Action("EMailAllMembers", "news")">
+                            <i class="fa fa-caret-down"></i>&nbsp;&nbsp;ส่งข่าว EMail
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle" href="http://api.palangpanya.com/report">
+                            <i class="fa fa-caret-down"></i>&nbsp;&nbsp;รายงานข้อมูล
+                        </a>
+                    </li>
+
+                </ul>
+
+            }
 
 
 
@@ -134,14 +138,17 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>&nbsp;&nbsp;User : admin
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>&nbsp;&nbsp;User : @User.FindFirst("fullName")
                     </a>
                     <ul class="dropdown-menu dropdown-user">
+                        @if (await AuthorizationService.AuthorizeAsync(User, "AdministratorRights"))
+                        {
+                            <li>
+                                <a href="#"><i class="fa fa-user fa-fw"></i> Manage User</a>
+                            </li>
+                        }
                         <li>
-                            <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li>

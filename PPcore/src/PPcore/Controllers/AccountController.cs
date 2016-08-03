@@ -70,8 +70,9 @@ namespace PPcore.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation(1, "User logged in.");
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-
+                
+                //return RedirectToAction(nameof(HomeController.Index), "Home");
+                return Json(new { result = "success" });
                 //if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
                 //{
                 //    //Re-check this if in case user try to get on page with correct authentication but wrong authorization
@@ -181,6 +182,8 @@ namespace PPcore.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "Members");
+                    System.Security.Claims.Claim cl = new System.Security.Claims.Claim("fullName", fname + " " + lname);
+                    await _userManager.AddClaimAsync(user, cl);
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
                     SendEmail(email, cid_card, password);
@@ -238,6 +241,13 @@ namespace PPcore.Controllers
         [HttpGet]
         public async Task<IActionResult> LogOff()
         {
+            //var user = new ApplicationUser { UserName = "admin", Email = "info@palangpanya.com" };
+            //var result = await _userManager.CreateAsync(user, "admin1");
+            //if (result.Succeeded)
+            //{
+            //    await _userManager.AddToRoleAsync(user, "Administrators");
+            //}
+
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");

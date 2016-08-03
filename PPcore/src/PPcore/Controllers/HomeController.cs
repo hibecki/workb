@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PPcore.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System;
 
 namespace PPcore.Controllers
 {
@@ -16,8 +19,6 @@ namespace PPcore.Controllers
 
         public IActionResult Index()
         {
-            var mcode = User.Identity.Name;
-            var m = _context.member;
             return RedirectToAction(nameof(membersController.Index), "members");
         }
     }

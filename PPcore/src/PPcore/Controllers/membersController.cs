@@ -77,9 +77,24 @@ namespace PPcore.Controllers
         // GET: members
         public IActionResult Index()
         {
-            var palangPanyaDBContext = _context.member; //.Include(m => m.ini_list_zip).Include(m => m.mem_).Include(m => m.mlevel_codeNavigation).Include(m => m.mstatus_codeNavigation);
-            ViewBag.countRecords = palangPanyaDBContext.Count();
-            return View(palangPanyaDBContext.OrderByDescending(m => m.rowversion).ToList());
+            if (User.IsInRole("Administrators") || User.IsInRole("Operators"))
+            {
+                var pp = _context.member; //.Include(m => m.ini_list_zip).Include(m => m.mem_).Include(m => m.mlevel_codeNavigation).Include(m => m.mstatus_codeNavigation);
+                ViewBag.countRecords = pp.Count();
+                return View(pp.OrderByDescending(m => m.rowversion).ToList());
+            }
+            else if (User.IsInRole("Members"))
+            {
+                var mcode = User.Identity.Name;
+                var m = _context.member.SingleOrDefault(mm => mm.member_code == mcode);
+                var mid = m.id;
+                return RedirectToAction(nameof(membersController.Edit) + "/" + mid, "members");
+            }
+            else
+            {
+                return RedirectToAction(nameof(AccountController.Login), "Account");
+            }
+
         }
 
         // GET: members/Details/5
@@ -1212,6 +1227,7 @@ namespace PPcore.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> uploadMemPhoto(ICollection<IFormFile> fileMemPhoto)
         {
             var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);
@@ -1239,6 +1255,7 @@ namespace PPcore.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> uploadCidCardPhoto(ICollection<IFormFile> fileCidCardPhoto)
         {
             var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);
