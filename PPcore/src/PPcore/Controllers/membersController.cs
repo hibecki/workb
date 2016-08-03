@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using PPcore.Services;
 
 namespace PPcore.Controllers
 {
@@ -22,6 +24,9 @@ namespace PPcore.Controllers
     public class membersController : Controller
     {
         private PalangPanyaDBContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailSender _emailSender;
         private IConfiguration _configuration;
         private IHostingEnvironment _env;
 
@@ -67,11 +72,21 @@ namespace PPcore.Controllers
             ViewBag.ini_province = new SelectList(ip.AsEnumerable(), "Value", "Text", "0");
         }
 
-        public membersController(PalangPanyaDBContext context, IConfiguration configuration, IHostingEnvironment env)
+        public membersController(PalangPanyaDBContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
             _configuration = configuration;
             _env = env;
+        }
+
+        public void SendEmail(string email, string username, string password)
+        {
+            var title = "พลังปัญญา";
+            var body = "ชื่อผู้ใช้งาน: " + username + "\nรหัสผ่าน: " + password;
+            _emailSender.SendEmailAsync(email, title, body);
         }
 
         // GET: members
@@ -1055,8 +1070,35 @@ namespace PPcore.Controllers
 
                     member.cid_card_pic = pic_image.image_code;
                 }
+                string password = member.cid_card.Substring(member.cid_card.Length - 4);
+                var user = new ApplicationUser { UserName = member.cid_card, Email = member.email };
+                _userManager.CreateAsync(user, password);
+                _userManager.AddToRoleAsync(user, "Members");
+                System.Security.Claims.Claim cl = new System.Security.Claims.Claim("fullName", member.fname + " " + member.lname);
+                _userManager.AddClaimAsync(user, cl);
+                _signInManager.SignInAsync(user, isPersistent: false);
+                SendEmail(member.email, member.cid_card, password);
+
+                //var result = await _userManager.CreateAsync(user, password);
+
+                //if (result.Succeeded)
+                //{
+                //    await _userManager.AddToRoleAsync(user, "Members");
+                //    System.Security.Claims.Claim cl = new System.Security.Claims.Claim("fullName", fname + " " + lname);
+                //    await _userManager.AddClaimAsync(user, cl);
+                //    await _signInManager.SignInAsync(user, isPersistent: false);
+                //    _logger.LogInformation(3, "User created a new account with password.");
+                //    SendEmail(email, cid_card, password);
+                //}
+                //else
+                //{
+                //    return Json(new { result = "fail", error_code = -1, error_message = "userManaget cannot create user!" });
+                //}
+
                 _context.member.Add(member);
                 _context.SaveChanges();
+
+
                 return RedirectToAction("Index");
             }
 
@@ -1239,8 +1281,13 @@ namespace PPcore.Controllers
                 {
                     fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     fileExt = Path.GetExtension(fileName);
+
                     //fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length))) + fileExt;
-                    fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length)));
+                    //fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length)));
+
+                    fileName = fileName.Substring(0, fileName.Length - fileExt.Length);
+                    fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length))) + fileExt;
+
                     using (var SourceStream = file.OpenReadStream())
                     {
                         using (var fileStream = new FileStream(Path.Combine(uploads, filePrefix + fileName), FileMode.Create))
@@ -1269,7 +1316,11 @@ namespace PPcore.Controllers
                     fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     fileExt = Path.GetExtension(fileName);
                     //fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length))) + fileExt;
-                    fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length)));
+                    //fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length)));
+
+                    fileName = fileName.Substring(0, fileName.Length - fileExt.Length);
+                    fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length))) + fileExt;
+
                     using (var SourceStream = file.OpenReadStream())
                     {
                         using (var fileStream = new FileStream(Path.Combine(uploads, filePrefix + fileName), FileMode.Create))
