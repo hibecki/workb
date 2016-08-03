@@ -528,7 +528,7 @@ namespace PPtest.Controllers
             var social_app_data = "Line ID: roongnapa2016, Facebook: roongnapa2016";
             var texta_address = "55/261 โครงการสุโขทัย อเวนิว 99 ถ.บอนด์สตรีท";
             var textb_address = "ต.บางพูด อ.ปากเกร็ด จ.นนทบุรี 11120";
-            var textc_address = "";
+            //var textc_address = "";
 
             List<listTraining> train = new List<listTraining>();
             train.Add(new listTraining { rec_no = "1", code = "10110", desc = "การแปรรูปผลิตภัณฑ์", grade = "Good" });
