@@ -1121,11 +1121,3 @@ INSERT [ini_subdistrict] ([country_code], [province_code], [district_code], [sub
 
 
 
-INSERT INTO [dbo].[AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName]) VALUES (N'1e31e20c-7e40-4cd8-a91d-c0407e4ae293', N'3423d155-6fbf-4074-984a-5a95d2351c80', N'Administrators', N'ADMINISTRATORS');
-INSERT INTO [dbo].[AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName]) VALUES (N'50d9a832-081c-43b0-895f-9b4308439cc6', N'c943ccc0-8430-4bd1-a3b3-f25a353b0aaf', N'Members', N'MEMBERS');
-INSERT INTO [dbo].[AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName]) VALUES (N'b4a94a42-7f6c-4e28-b12f-45a8b328c74a', N'4dd39888-4e74-45ec-8cbf-e137ee03668f', N'Operators', N'OPERATORS');
-INSERT INTO [dbo].[AspNetUsers] ([Id], [AccessFailedCount], [ConcurrencyStamp], [Email], [EmailConfirmed], [LockoutEnabled], [LockoutEnd], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [SecurityStamp], [TwoFactorEnabled], [UserName]) VALUES (N'194f13a4-6a2b-4fb2-845a-4e8b870a7e70', 0, N'9f8d5744-f66d-4774-9fda-d4c3f01bcd3a', N'info@palangpanya.com', 0, 1, NULL, N'INFO@PALANGPANYA.COM', N'ADMIN', N'AQAAAAEAACcQAAAAEKByZMipC8eRc8mgDArUlL8Lx6mRFRkGtbW3HLQINSLfNbWEPqbcfxlvLOkXhH17Ww==', NULL, 0, N'af223dea-65fb-4424-9944-79f3896f2a35', 0, N'admin');
-INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'194f13a4-6a2b-4fb2-845a-4e8b870a7e70', N'1e31e20c-7e40-4cd8-a91d-c0407e4ae293');
-SET IDENTITY_INSERT [dbo].[AspNetUserClaims] ON
-INSERT INTO [dbo].[AspNetUserClaims] ([Id], [ClaimType], [ClaimValue], [UserId]) VALUES (1, N'fullName', N'Administrator', N'194f13a4-6a2b-4fb2-845a-4e8b870a7e70');
-SET IDENTITY_INSERT [dbo].[AspNetUserClaims] OFF
