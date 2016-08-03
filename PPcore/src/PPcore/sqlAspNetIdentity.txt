@@ -172,6 +172,7 @@ ALTER TABLE [dbo].[AspNetUserRoles]
     ADD CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
 
 
+/* Username/Password admin/admin1 */
 INSERT INTO [dbo].[AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName]) VALUES (N'1e31e20c-7e40-4cd8-a91d-c0407e4ae293', N'3423d155-6fbf-4074-984a-5a95d2351c80', N'Administrators', N'ADMINISTRATORS');
 INSERT INTO [dbo].[AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName]) VALUES (N'50d9a832-081c-43b0-895f-9b4308439cc6', N'c943ccc0-8430-4bd1-a3b3-f25a353b0aaf', N'Members', N'MEMBERS');
 INSERT INTO [dbo].[AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName]) VALUES (N'b4a94a42-7f6c-4e28-b12f-45a8b328c74a', N'4dd39888-4e74-45ec-8cbf-e137ee03668f', N'Operators', N'OPERATORS');
