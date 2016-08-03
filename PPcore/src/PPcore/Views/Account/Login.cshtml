@@ -28,7 +28,7 @@
                 </div>
 
                 <button class="btn btn-default btn-panel-yellow pull-left" type="button" style="width:120px" onclick="location.href='@Url.Action("RegisterMember", "Account")'">สมัครสมาชิก</button>
-                <button class="btn btn-default btn-panel-yellow pull-right" type="button" style="width:120px" onclick="login();">เข้าสู่ระบบ</button>
+                <button class="btn btn-default btn-panel-yellow pull-right" type="submit" style="width:120px" onclick="login();" formaction='javascript:login();'>เข้าสู่ระบบ</button>
                 <div id="waitBtnConfirm" style="display:none;position:absolute;top:354px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">
                     <i class="fa fa-refresh fa-spin fa-2x" style="margin-top:3px;color:gray;" aria-hidden="true"></i>
                 </div>

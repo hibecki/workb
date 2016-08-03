@@ -433,7 +433,7 @@ namespace PPcore.Controllers
             memberInfoRow5.LockedWidth = true;
             memberInfoRow5.DefaultCell.VerticalAlignment = 1;
             memberInfoRow5.SetWidths(new float[] { 25f, 135f, 23f, 122f });
-            memberInfoRow5.AddCell(new PdfPCell(new Phrase("แฟ็กส์", cnb)) { Border = Rectangle.NO_BORDER });
+            memberInfoRow5.AddCell(new PdfPCell(new Phrase("แฟกซ์", cnb)) { Border = Rectangle.NO_BORDER });
             memberInfoRow5.AddCell(new PdfPCell(new Phrase(fax, cni)) { Border = Rectangle.NO_BORDER });
             memberInfoRow5.AddCell(new PdfPCell(new Phrase("อีเมล", cnb)) { Border = Rectangle.NO_BORDER });
             memberInfoRow5.AddCell(new PdfPCell(new Phrase(email, cni)) { Border = Rectangle.NO_BORDER });

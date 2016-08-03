@@ -70,7 +70,6 @@ namespace PPcore.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation(1, "User logged in.");
-                
                 //return RedirectToAction(nameof(HomeController.Index), "Home");
                 return Json(new { result = "success" });
                 //if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
@@ -184,7 +183,7 @@ namespace PPcore.Controllers
                     await _userManager.AddToRoleAsync(user, "Members");
                     System.Security.Claims.Claim cl = new System.Security.Claims.Claim("fullName", fname + " " + lname);
                     await _userManager.AddClaimAsync(user, cl);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
                     SendEmail(email, cid_card, password);
                 }
@@ -266,6 +265,12 @@ namespace PPcore.Controllers
             {
                 return Json(new { result = "fail" });
             }
+        }
+
+        [HttpGet]
+        public IActionResult Manage()
+        {
+            return View();
         }
     }
 }
