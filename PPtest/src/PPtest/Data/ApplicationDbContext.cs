@@ -19,25 +19,17 @@ namespace PPtest.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUser>().ForSqlServerToTable("Users");
-            builder.Entity<IdentityUserRole<string>>().ForSqlServerToTable("UserRoles");
-            builder.Entity<IdentityUserLogin<string>>().ForSqlServerToTable("UserLogins");
-            builder.Entity<IdentityUserClaim<string>>().ForSqlServerToTable("UserClaims");
-            builder.Entity<IdentityRole>().ForSqlServerToTable("Roles");
-
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
-            //builder.Entity().Map(c =>
+
+            //Also need to manual create table and add field
+            //builder.Entity<ApplicationUser>(b =>
             //{
-            //    c.ToTable("UserLogin");
-            //    c.Properties(p => new
-            //    {
-            //        p.UserId,
-            //        p.LoginProvider,
-            //        p.ProviderKey
-            //    });
-            //}).HasKey(p => new { p.LoginProvider, p.ProviderKey, p.UserId });
+            //    b.ToTable("SecUsers");
+            //    b.Property(u => u.FullName).HasMaxLength(256);
+            //});
+
         }
     }
 }
