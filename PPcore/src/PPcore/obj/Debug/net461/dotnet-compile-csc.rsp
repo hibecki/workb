@@ -292,6 +292,7 @@
 "O:\workb\PPcore\src\PPcore\Models\train_place.cs"
 "O:\workb\PPcore\src\PPcore\Services\IEmailSender.cs"
 "O:\workb\PPcore\src\PPcore\Services\MessageServices.cs"
+"O:\workb\PPcore\src\PPcore\ViewModels\Account\AccountViewModel.cs"
 "O:\workb\PPcore\src\PPcore\ViewModels\AccountViewModels\ExternalLoginConfirmationViewModel.cs"
 "O:\workb\PPcore\src\PPcore\ViewModels\AccountViewModels\ForgotPasswordViewModel.cs"
 "O:\workb\PPcore\src\PPcore\ViewModels\AccountViewModels\ResetPasswordViewModel.cs"
