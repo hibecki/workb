@@ -220,10 +220,15 @@ namespace PPcore.Controllers
             List<mem_train_record> mtrs = _context.mem_train_record.Where(mtr => (mtr.member_code == m.member_code) && (mtr.x_status == "Y")).OrderBy(mtr => mtr.course_code).ToList();
             foreach (mem_train_record mtr in mtrs)
             {
-                project_course pc = _context.project_course.SingleOrDefault(p => p.course_code == mtr.course_code);
-                course_grade cg = _context.course_grade.SingleOrDefault(c => c.cgrade_code == mtr.course_grade);
+                //Remove this because change business logic => mem_train_record is not related to project_course
+                //project_course pc = _context.project_course.SingleOrDefault(p => p.course_code == mtr.course_code);
+
+                //Remove this because it was removed from screen
+                //course_grade cg = _context.course_grade.SingleOrDefault(c => c.cgrade_code == mtr.course_grade);
+
                 count++;
-                train.Add(new listTraining { rec_no = count.ToString(), code = mtr.course_code, desc = pc.course_desc, grade = cg.cgrade_desc });
+                //train.Add(new listTraining { rec_no = count.ToString(), code = mtr.course_code, desc = pc.course_desc, grade = cg.cgrade_desc });
+                train.Add(new listTraining { rec_no = count.ToString(), code = mtr.course_code, desc = mtr.course_desc, grade = "" });
             }
 
             List<listInfo> visit = new List<listInfo>();
@@ -517,18 +522,25 @@ namespace PPcore.Controllers
             {
                 for (var i = 0; i < train.Count; i++)
                 {
-                    PdfPTable rowz = new PdfPTable(7);
+                    //PdfPTable rowz = new PdfPTable(7);
+                    PdfPTable rowz = new PdfPTable(3);
                     //rowz.DefaultCell.Border = Rectangle.NO_BORDER;
                     rowz.DefaultCell.VerticalAlignment = 1;
                     rowz.TotalWidth = 400f; rowz.LockedWidth = true;
-                    rowz.SetWidths(new float[] { 8f, 12f, 30f, 22f, 70f, 27f, 40f });
+                    //rowz.SetWidths(new float[] { 8f, 12f, 30f, 22f, 70f, 27f, 40f });
+                    rowz.SetWidths(new float[] { 8f, 22f, 179f });
                     rowz.AddCell(new PdfPCell(new Phrase(train[i].rec_no + ".", cnb)) { Border = Rectangle.NO_BORDER });
-                    rowz.AddCell(new PdfPCell(new Phrase("รหัส", cnb)) { Border = Rectangle.NO_BORDER });
-                    rowz.AddCell(new PdfPCell(new Phrase(train[i].code, cni)) { Border = Rectangle.NO_BORDER });
+
+                    //rowz.AddCell(new PdfPCell(new Phrase("รหัส", cnb)) { Border = Rectangle.NO_BORDER });
+                    //rowz.AddCell(new PdfPCell(new Phrase(train[i].code, cni)) { Border = Rectangle.NO_BORDER });
+
                     rowz.AddCell(new PdfPCell(new Phrase("หลักสูตร", cnb)) { Border = Rectangle.NO_BORDER });
                     rowz.AddCell(new PdfPCell(new Phrase(train[i].desc, cni)) { Border = Rectangle.NO_BORDER });
-                    rowz.AddCell(new PdfPCell(new Phrase("ระดับเกรด", cnb)) { Border = Rectangle.NO_BORDER });
-                    rowz.AddCell(new PdfPCell(new Phrase(train[i].grade, cni)) { Border = Rectangle.NO_BORDER });
+
+                    //Remove grade because business logic change to not have grade in mem_train_record
+                    //rowz.AddCell(new PdfPCell(new Phrase("ระดับเกรด", cnb)) { Border = Rectangle.NO_BORDER });
+                    //rowz.AddCell(new PdfPCell(new Phrase(train[i].grade, cni)) { Border = Rectangle.NO_BORDER });
+
                     cell = new PdfPCell(rowz); cell.HorizontalAlignment = 0; cell.Border = Rectangle.NO_BORDER; cell.PaddingLeft = 30f;
                     table.AddCell(cell);
                     table.AddCell("");
