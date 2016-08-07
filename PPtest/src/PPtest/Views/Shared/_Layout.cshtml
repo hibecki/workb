@@ -65,7 +65,15 @@
                             <li><a asp-controller="EMail" asp-action="send">test send mail</a></li>
                         </ul>
                     </li>
-
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Authentication & Authorization
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="AA" asp-action="Login">Login</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

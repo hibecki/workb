@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using PPtest.Data;
 using PPtest.Models;
 using PPtest.Services;
+using PPcore.Filters;
 
 namespace PPtest
 {
@@ -48,9 +49,34 @@ namespace PPtest
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(i => {
+                i.User.RequireUniqueEmail = false;
+                i.Password.RequireDigit = false;
+                i.Password.RequireLowercase = false;
+                i.Password.RequireUppercase = false;
+                i.Password.RequireNonAlphanumeric = false; ;
+                i.Password.RequiredLength = 1;
+                i.SignIn.RequireConfirmedEmail = false;
+                i.SignIn.RequireConfirmedPhoneNumber = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdministratorRights", policy => policy.RequireRole("Administrators"));
+                options.AddPolicy("OperationRights", policy => policy.RequireRole("Administrators", "Operators"));
+            });
+
+            // Add framework services.
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizationPPFilter());
+            });
 
             services.AddMvc();
 
