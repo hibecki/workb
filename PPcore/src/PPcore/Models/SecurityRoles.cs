@@ -8,6 +8,7 @@ namespace PPcore.Models
     public partial class SecurityRoles
     {
         public Guid RoleId { get; set; }
+        [Display(Name = "รายชื่อบทบาทและหน้าที่")]
         public string RoleName { get; set; }
 
         [Display(Name = "สร้างโดย")]

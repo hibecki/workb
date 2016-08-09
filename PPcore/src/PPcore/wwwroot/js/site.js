@@ -311,3 +311,30 @@ function setTable_PageN(tableId, w, n) {
 
     return d;
 }
+
+function setTableMinimal(tableId, w) {
+    var d = tableId.DataTable({
+        responsive: false,
+        "paging": false,
+        "searching": false,
+        "info": false,
+        "ordering": false,
+        "sZeroRecords": "ไม่เจอข้อมูลที่ค้นหา",
+        "sInfoEmpty": "ไม่พบรายการ",
+        bAutoWidth: false,
+        "columnDefs": w,
+        fixedColumns: true,
+        "autoWidth": false
+    });
+
+    tableId.find('tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            d.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+
+    return d;
+}

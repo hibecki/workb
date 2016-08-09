@@ -36,8 +36,8 @@ namespace PPcore
         {
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            //var connection = @"Server=(localdb)\ProjectsV13;Database=PalangPanyaDB;Trusted_Connection=True;";
-            //services.AddDbContext<PalangPanyaDBContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<SecurityDBContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<PalangPanyaDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

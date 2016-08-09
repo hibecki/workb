@@ -153,7 +153,9 @@
                             <li>
                                 <a href="@Url.Action("Manage", "Account")"><i class="fa fa-user fa-fw" ></i> จัดการผู้ใช้ระบบ</a>
                             </li>
-
+                        <li>
+                            <a href="@Url.Action("ManageRoles", "Security")"><i class="fa fa-sitemap fa-fw"></i> จัดการบทบาทและหน้าที่ของผู้ใช้ระบบ</a>
+                        </li>
                         <li>
                             <a href="#"><i class="fa fa-cog fa-fw"></i> การตั้งค่า</a>
                         </li>
@@ -211,7 +213,7 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
-    <br/>
+    @*<br/>*@
 
     @RenderSection("scripts", required: false)
 </body>

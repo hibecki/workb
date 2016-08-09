@@ -221,7 +221,6 @@ O:\workb\PPcore\src\PPcore\Controllers\course_instructorController.cs
 O:\workb\PPcore\src\PPcore\Controllers\course_train_placeController.cs
 O:\workb\PPcore\src\PPcore\Controllers\course_typeController.cs
 O:\workb\PPcore\src\PPcore\Controllers\HomeController.cs
-O:\workb\PPcore\src\PPcore\Controllers\initialController.cs
 O:\workb\PPcore\src\PPcore\Controllers\ini_configController.cs
 O:\workb\PPcore\src\PPcore\Controllers\ini_districtController.cs
 O:\workb\PPcore\src\PPcore\Controllers\ini_list_zipController.cs
@@ -247,6 +246,8 @@ O:\workb\PPcore\src\PPcore\Controllers\project_course_registerController.cs
 O:\workb\PPcore\src\PPcore\Controllers\project_daily_checklistController.cs
 O:\workb\PPcore\src\PPcore\Controllers\project_sponsorController.cs
 O:\workb\PPcore\src\PPcore\Controllers\project_supporterController.cs
+O:\workb\PPcore\src\PPcore\Controllers\SecurityController.cs
+O:\workb\PPcore\src\PPcore\Controllers\SecurityRolesController.cs
 O:\workb\PPcore\src\PPcore\Controllers\train_placeController.cs
 O:\workb\PPcore\src\PPcore\Controllers\videosController.cs
 O:\workb\PPcore\src\PPcore\Helpers\HtmlHelpers.cs
@@ -287,6 +288,11 @@ O:\workb\PPcore\src\PPcore\Models\project_course_register.cs
 O:\workb\PPcore\src\PPcore\Models\project_daily_checklist.cs
 O:\workb\PPcore\src\PPcore\Models\project_sponsor.cs
 O:\workb\PPcore\src\PPcore\Models\project_supporter.cs
+O:\workb\PPcore\src\PPcore\Models\SecurityDBContext.cs
+O:\workb\PPcore\src\PPcore\Models\SecurityMemberRoles.cs
+O:\workb\PPcore\src\PPcore\Models\SecurityMenus.cs
+O:\workb\PPcore\src\PPcore\Models\SecurityRoleMenus.cs
+O:\workb\PPcore\src\PPcore\Models\SecurityRoles.cs
 O:\workb\PPcore\src\PPcore\Models\train_place.cs
 O:\workb\PPcore\src\PPcore\Services\IEmailSender.cs
 O:\workb\PPcore\src\PPcore\Services\MessageServices.cs
