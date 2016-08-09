@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PPcore.Models;
 using PPcore.Services;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -24,7 +24,6 @@ namespace PPcore
                 .AddEnvironmentVariables();
             if (env.IsDevelopment())
             {
-                builder.AddUserSecrets();
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
             Configuration = builder.Build();
@@ -43,32 +42,15 @@ namespace PPcore
             services.AddDbContext<PalangPanyaDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>(i => {
-                i.User.RequireUniqueEmail = false;
-                i.Password.RequireDigit = false;
-                i.Password.RequireLowercase = false;
-                i.Password.RequireUppercase = false;
-                i.Password.RequireNonAlphanumeric = false; ;
-                i.Password.RequiredLength = 1;
-                i.SignIn.RequireConfirmedEmail = false;
-                i.SignIn.RequireConfirmedPhoneNumber = false;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
             services.AddSingleton(Configuration);
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AdministratorRights", policy => policy.RequireRole("Administrators"));
-                options.AddPolicy("OperationRights", policy => policy.RequireRole("Administrators", "Operators"));
-            });
 
             // Add framework services.
             services.AddMvc();
+
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.CookieName = ".PalangPanya";
+            });
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
         }
@@ -96,8 +78,6 @@ namespace PPcore
 
             app.UseStaticFiles();
 
-            app.UseIdentity();
-
             /**
             var supportedCultures = new[]
             {
@@ -117,6 +97,7 @@ namespace PPcore
                 SupportedUICultures = supportedCultures
             });
             **/
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

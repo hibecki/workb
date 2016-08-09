@@ -7,7 +7,6 @@ using System;
 
 namespace PPcore.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private PalangPanyaDBContext _context;

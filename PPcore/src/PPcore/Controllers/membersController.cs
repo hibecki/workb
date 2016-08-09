@@ -14,18 +14,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using PPcore.Services;
 
 namespace PPcore.Controllers
 {
-    [Authorize]
     public class membersController : Controller
     {
         private PalangPanyaDBContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private IConfiguration _configuration;
         private IHostingEnvironment _env;
@@ -72,11 +67,9 @@ namespace PPcore.Controllers
             ViewBag.ini_province = new SelectList(ip.AsEnumerable(), "Value", "Text", "0");
         }
 
-        public membersController(PalangPanyaDBContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
+        public membersController(PalangPanyaDBContext context, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
         {
             _context = context;
-            _userManager = userManager;
-            _signInManager = signInManager;
             _emailSender = emailSender;
             _configuration = configuration;
             _env = env;
@@ -92,23 +85,23 @@ namespace PPcore.Controllers
         // GET: members
         public IActionResult Index()
         {
-            if (User.IsInRole("Administrators") || User.IsInRole("Operators"))
-            {
+            //if (User.IsInRole("Administrators") || User.IsInRole("Operators"))
+            //{
                 var pp = _context.member; //.Include(m => m.ini_list_zip).Include(m => m.mem_).Include(m => m.mlevel_codeNavigation).Include(m => m.mstatus_codeNavigation);
                 ViewBag.countRecords = pp.Count();
                 return View(pp.OrderByDescending(m => m.rowversion).ToList());
-            }
-            else if (User.IsInRole("Members"))
-            {
-                var mcode = User.Identity.Name;
-                var m = _context.member.SingleOrDefault(mm => mm.member_code == mcode);
-                var mid = m.id;
-                return RedirectToAction(nameof(membersController.Edit) + "/" + mid, "members");
-            }
-            else
-            {
-                return RedirectToAction(nameof(AccountController.Login), "Account");
-            }
+            //}
+            //else if (User.IsInRole("Members"))
+            //{
+            //    var mcode = User.Identity.Name;
+            //    var m = _context.member.SingleOrDefault(mm => mm.member_code == mcode);
+            //    var mid = m.id;
+            //    return RedirectToAction(nameof(membersController.Edit) + "/" + mid, "members");
+            //}
+            //else
+            //{
+            //    return RedirectToAction(nameof(AccountController.Login), "Account");
+            //}
 
         }
 
@@ -1083,12 +1076,12 @@ namespace PPcore.Controllers
                     member.cid_card_pic = pic_image.image_code;
                 }
                 string password = member.cid_card.Substring(member.cid_card.Length - 4);
-                var user = new ApplicationUser { UserName = member.cid_card, Email = member.email };
-                _userManager.CreateAsync(user, password);
-                _userManager.AddToRoleAsync(user, "Members");
-                System.Security.Claims.Claim cl = new System.Security.Claims.Claim("fullName", member.fname + " " + member.lname);
-                _userManager.AddClaimAsync(user, cl);
-                _signInManager.SignInAsync(user, isPersistent: false);
+                //var user = new ApplicationUser { UserName = member.cid_card, Email = member.email };
+                //_userManager.CreateAsync(user, password);
+                //_userManager.AddToRoleAsync(user, "Members");
+               // System.Security.Claims.Claim cl = new System.Security.Claims.Claim("fullName", member.fname + " " + member.lname);
+                //_userManager.AddClaimAsync(user, cl);
+                //_signInManager.SignInAsync(user, isPersistent: false);
                 SendEmail(member.email, member.cid_card, password);
 
                 //var result = await _userManager.CreateAsync(user, password);
@@ -1281,7 +1274,6 @@ namespace PPcore.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> uploadMemPhoto(ICollection<IFormFile> fileMemPhoto)
         {
             var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);
@@ -1314,7 +1306,6 @@ namespace PPcore.Controllers
 
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> uploadCidCardPhoto(ICollection<IFormFile> fileCidCardPhoto)
         {
             var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);

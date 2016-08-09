@@ -1,4 +1,6 @@
-﻿SET ANSI_NULLS ON
+﻿  "userSecretsId": "aspnet-ASPNetCore_NetFramework-ca300480-39de-4db0-9633-f11ef32ad8f2",
+
+SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON

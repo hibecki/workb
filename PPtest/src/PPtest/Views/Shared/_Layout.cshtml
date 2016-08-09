@@ -73,6 +73,18 @@
                         <ul class="dropdown-menu">
                             <li><a asp-controller="AA" asp-action="Login">Login</a></li>
                         </ul>
+                    @if (await AuthorizationService.AuthorizeAsync(User, "OperationRights"))
+            		{
+                        <li>
+                        	<a asp-controller="AA" asp-action="Login">Test</a></li>
+                        </ul>
+            		}
+        		    @if (await AuthorizationService.AuthorizeAsync(User, "AdministratorRights"))
+                    {
+                    	<li>
+                        	<a asp-controller="AA" asp-action="Login">Test2</a></li>
+                        </ul>
+                    }
                     </li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
