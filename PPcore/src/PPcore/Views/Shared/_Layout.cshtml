@@ -132,7 +132,18 @@
 
 
 
-
+            @*<ul class="nav pull-right">
+                <li class="dropdown" id="menuLogin">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin">Login</a>
+                    <div class="dropdown-menu" style="padding:17px;">
+                        <form class="form" id="formLogin">
+                            <input name="username" id="username" type="text" placeholder="Username">
+                            <input name="password" id="password" type="password" placeholder="Password"><br>
+                            <button type="button" id="btnLogin" class="btn">Login</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>*@
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
@@ -149,26 +160,23 @@
                         }
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-
-                            <li>
-                                <a href="@Url.Action("Manage", "Account")"><i class="fa fa-user fa-fw" ></i> จัดการผู้ใช้ระบบ</a>
-                            </li>
                         <li>
-                            <a href="@Url.Action("ManageRoles", "Security")"><i class="fa fa-sitemap fa-fw"></i> จัดการบทบาทและหน้าที่ของผู้ใช้ระบบ</a>
+                            <a href="@Url.Action("ManageUsers", "Security")"><i class="fa fa-user fa-fw" ></i> จัดการผู้ใช้ระบบ</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ManageRoles", "Security")"><i class="fa fa-sitemap fa-fw"></i> จัดการกลุ่มของผู้ใช้ระบบ</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-cog fa-fw"></i> การตั้งค่า</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="@Url.Action("LogOff", "Account")"><i class="fa fa-sign-out fa-fw"></i> ออกจากระบบ</a>
+                            <a href="@Url.Action("LogOff", "Security")"><i class="fa fa-sign-out fa-fw"></i> ออกจากระบบ</a>
                         </li>
                     </ul>
-                    <!-- /.dropdown-user -->
                 </li>
-                <!-- /.dropdown -->
             </ul>
-            <!-- /.navbar-top-links -->
+
 
 
 

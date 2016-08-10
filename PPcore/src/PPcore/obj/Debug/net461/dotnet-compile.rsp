@@ -247,6 +247,7 @@ O:\workb\PPcore\src\PPcore\Controllers\project_daily_checklistController.cs
 O:\workb\PPcore\src\PPcore\Controllers\project_sponsorController.cs
 O:\workb\PPcore\src\PPcore\Controllers\project_supporterController.cs
 O:\workb\PPcore\src\PPcore\Controllers\SecurityController.cs
+O:\workb\PPcore\src\PPcore\Controllers\SecurityMemberRolesController.cs
 O:\workb\PPcore\src\PPcore\Controllers\SecurityRolesController.cs
 O:\workb\PPcore\src\PPcore\Controllers\train_placeController.cs
 O:\workb\PPcore\src\PPcore\Controllers\videosController.cs
@@ -306,3 +307,4 @@ O:\workb\PPcore\src\PPcore\ViewModels\project\project_supporterViewModel.cs
 O:\workb\PPcore\src\PPcore\ViewModels\project_course_register\memberViewModel.cs
 O:\workb\PPcore\src\PPcore\ViewModels\project_daily_checklist\memberViewModel.cs
 O:\workb\PPcore\src\PPcore\ViewModels\project_supporter\project_sponsorViewModel.cs
+O:\workb\PPcore\src\PPcore\ViewModels\SecurityRoles\memberViewModel.cs

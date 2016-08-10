@@ -6,151 +6,82 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PPcore.Models;
+using System.Data.SqlClient;
+using PPcore.ViewModels.SecurityRoles;
 
 namespace PPcore.Controllers
 {
     public class SecurityRolesController : Controller
     {
-        private readonly SecurityDBContext _context;
+        private readonly SecurityDBContext _scontext;
+        private readonly PalangPanyaDBContext _context;
 
-        public SecurityRolesController(SecurityDBContext context)
+        public SecurityRolesController(PalangPanyaDBContext context, SecurityDBContext scontext)
         {
-            _context = context;    
+            _context = context;
+            _scontext = scontext;    
         }
 
-        public async Task<IActionResult> DetailsAsTable()
-        {
-            return View(await _context.SecurityRoles.ToListAsync());
-        }
-
-        // GET: SecurityRoles
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.SecurityRoles.ToListAsync());
-        }
-
-        // GET: SecurityRoles/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var securityRoles = await _context.SecurityRoles.SingleOrDefaultAsync(m => m.RoleId == id);
-            if (securityRoles == null)
-            {
-                return NotFound();
-            }
-
-            return View(securityRoles);
-        }
-
-        // GET: SecurityRoles/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: SecurityRoles/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoleId,CreatedBy,CreatedDate,EditedBy,EditedDate,RoleName,x_log,x_note,x_status")] SecurityRoles securityRoles)
+        public async Task<IActionResult> CreateRole([Bind("RoleName")] SecurityRoles securityRoles)
         {
             if (ModelState.IsValid)
             {
                 securityRoles.RoleId = Guid.NewGuid();
-                _context.Add(securityRoles);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(securityRoles);
-        }
+                securityRoles.CreatedBy = Guid.NewGuid();
+                securityRoles.CreatedDate = DateTime.Now;
+                securityRoles.EditedBy = Guid.NewGuid();
+                securityRoles.x_status = "Y";
+                securityRoles.RoleName = securityRoles.RoleName.Trim();
 
-        // GET: SecurityRoles/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var securityRoles = await _context.SecurityRoles.SingleOrDefaultAsync(m => m.RoleId == id);
-            if (securityRoles == null)
-            {
-                return NotFound();
-            }
-            return View(securityRoles);
-        }
-
-        // POST: SecurityRoles/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("RoleId,CreatedBy,CreatedDate,EditedBy,EditedDate,RoleName,x_log,x_note,x_status")] SecurityRoles securityRoles)
-        {
-            if (id != securityRoles.RoleId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
+                _scontext.Add(securityRoles);
                 try
                 {
-                    _context.Update(securityRoles);
-                    await _context.SaveChangesAsync();
+                    await _scontext.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception e)
                 {
-                    if (!SecurityRolesExists(securityRoles.RoleId))
+                    //"Violation of UNIQUE KEY constraint 'UK_SecurityRoles'. Cannot insert duplicate key in object 'dbo.SecurityRoles'. The duplicate key value is (??????).\r\nThe statement has been terminated."
+                    if (e.InnerException.Message.Contains("UNIQUE"))
                     {
-                        return NotFound();
+                        return Json(new { result = "dup", RoleName = securityRoles.RoleName });
                     }
                     else
                     {
-                        throw;
+                        return Json(new { result = "fail" });
                     }
                 }
-                return RedirectToAction("Index");
+                return Json(new { result = "success" });
             }
-            return View(securityRoles);
+            return Json(new { result = "fail" });
         }
 
-        // GET: SecurityRoles/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> DetailsAsBlock()
         {
-            if (id == null)
+            List<memberViewModel> ms = new List<memberViewModel>();
+            var srs = await _scontext.SecurityRoles.Where(srr => srr.x_status != "N").OrderBy(srr => srr.CreatedDate).ToListAsync();
+            foreach (SecurityRoles sr in srs)
             {
-                return NotFound();
+                memberViewModel m = new memberViewModel();
+                m.SecurityRoles = sr;
+                m.memberCount = _scontext.SecurityMemberRoles.Where(smrr => smrr.RoleId == sr.RoleId).Count();
+                ms.Add(m);
             }
+            return View(ms);
+        }
 
-            var securityRoles = await _context.SecurityRoles.SingleOrDefaultAsync(m => m.RoleId == id);
-            if (securityRoles == null)
+        public async Task<IActionResult> DetailsAsSideMenu()
+        {
+            List<memberViewModel> ms = new List<memberViewModel>();
+            var srs = await _scontext.SecurityRoles.Where(srr => srr.x_status != "N").OrderBy(srr => srr.CreatedDate).ToListAsync();
+            foreach (SecurityRoles sr in srs)
             {
-                return NotFound();
+                memberViewModel m = new memberViewModel();
+                m.SecurityRoles = sr;
+                m.memberCount = _scontext.SecurityMemberRoles.Where(smrr => smrr.RoleId == sr.RoleId).Count();
+                ms.Add(m);
             }
-
-            return View(securityRoles);
-        }
-
-        // POST: SecurityRoles/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var securityRoles = await _context.SecurityRoles.SingleOrDefaultAsync(m => m.RoleId == id);
-            _context.SecurityRoles.Remove(securityRoles);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool SecurityRolesExists(Guid id)
-        {
-            return _context.SecurityRoles.Any(e => e.RoleId == id);
+            return View(ms);
         }
     }
 }

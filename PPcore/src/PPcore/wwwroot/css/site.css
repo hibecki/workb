@@ -666,11 +666,11 @@ textarea[data-val-required] {
 }
 
 .panel-dashboard-black a {
-    color: #FFC000;
+    color: #818181;
 }
 
 .panel-dashboard-black a:hover {
-    color: #313131;
+    color: #000;
 }
 
 .panel-dashboard-green {

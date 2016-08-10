@@ -42,6 +42,9 @@ GO
 ALTER TABLE SecurityRoles ADD CONSTRAINT PK_SecurityRoles PRIMARY KEY CLUSTERED (RoleId ASC);
 GO
 
+ALTER TABLE SecurityRoles ADD CONSTRAINT UK_SecurityRoles UNIQUE (RoleName);
+GO
+
 /*==============================================================*/
 /* Table: SecurityRoleMenus                                     */
 /*==============================================================*/
