@@ -18,11 +18,6 @@ namespace PPcore.Controllers
             _scontext = scontext;    
         }
 
-        public async Task<IActionResult> DetailsAsRoleMenu()
-        {
-            return View(await _scontext.SecurityRoles.Where(sr => sr.x_status != "N").OrderBy(sr => sr.CreatedDate).ToListAsync());
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateUser([Bind("UserId,RoleId,CreatedBy,CreatedDate,EditedBy,EditedDate,x_log,x_note,x_status")] SecurityMemberRoles securityMemberRoles)

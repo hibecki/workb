@@ -32,7 +32,7 @@ namespace PPcore.Controllers
         }
 
         [HttpGet]
-        public IActionResult ManageUsers()
+        public IActionResult ManageMembers()
         {
             return View();
         }

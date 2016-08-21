@@ -34,9 +34,12 @@ height:90vh;
 .txt-color-black { color: #000; }
 .txt-color-blue { color: #093D6A; }
 .txt-color-red { color: red; }
-.bg-color-green { background-color: #5cb85c; }
-.bg-color-blue { background-color:#093D6A; }
+
+.bg-color-black { background-color:#313131; }
+.bg-color-green { background-color: #5CB85C; }
+.bg-color-blue { background-color:#337AB7; } /*#093D6A;*/
 .bg-color-orange { background-color:#FFC000; }
+
 .box-login {
     border-radius: 10px;
     background-color:#093D6A;

@@ -70,6 +70,11 @@ namespace PPcore.Controllers
             return View(ms);
         }
 
+        public async Task<IActionResult> DetailsAsRoleMenu()
+        {
+            return View(await _scontext.SecurityRoles.Where(sr => sr.x_status != "N").OrderBy(sr => sr.CreatedDate).ToListAsync());
+        }
+
         public async Task<IActionResult> DetailsAsSideMenu()
         {
             List<memberViewModel> ms = new List<memberViewModel>();

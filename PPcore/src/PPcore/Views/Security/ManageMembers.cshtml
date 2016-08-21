@@ -73,9 +73,11 @@
                                 </div>
                             </div>
 
-                            <div class="panel-body" id="accountManageBody">
+                            <div class="panel-body">
                                 <div style="position:absolute;width:7px;height:230px;top:48px;left:250px;background-color:red;z-index:3;">&nbsp;</div>
-
+                                <div id="colorbar" style="height:7px;top:48px;left:250px;background-color:red;z-index:3;">&nbsp;</div>
+                                <h3 id="rolename">test</h3><hr/>
+                                <div id="accountManageBody"></div>
 
 
                             </div>
@@ -173,7 +175,7 @@
         }
         function aRoleMenu() {
             $.ajax({
-                type: 'get', url: '@Url.Action("DetailsAsRoleMenu", "SecurityMemberRoles")',
+                type: 'get', url: '@Url.Action("DetailsAsRoleMenu", "SecurityRoles")',
             }).done(function (resp) {
                 $('#aRoleMenu').html(resp);
             });
@@ -193,12 +195,27 @@
                 table.$('tr:first').click();
             });
         }
-        function aUserForm(utype) {
-            $.ajax({
-                type: 'get', url: '@Url.Action("CreateUser", "SecurityMemberRolesController")' + '?utype=' + utype,
-            }).done(function (resp) {
-                $('#a_create_form').html(resp);
-            });
+        function aUserForm(utype, rname) {
+            if (utype > 3) {
+                $('#btnCreate').html('&nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่มผู้ใช้กลุ่ม ' + rname + '&nbsp;&nbsp;&nbsp;');
+                $('#btnCreate').show();
+                $('#rolename').text(rname);
+                $('#colorbar').addClass('bg-color-orange');
+            } else if (utype == 3) {
+                $('#btnCreate').hide();
+                $('#rolename').text(rname);
+                $('#colorbar').addClass('bg-color-green');
+            } else if (utype == 2) {
+                $('#btnCreate').html('&nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่มผู้ใช้กลุ่ม ' + rname + '&nbsp;&nbsp;&nbsp;');
+                $('#btnCreate').show();
+                $('#rolename').text(rname);
+                $('#colorbar').addClass('bg-color-blue');
+            } else if (utype == 1) {
+                $('#btnCreate').html('&nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่มผู้ใช้กลุ่ม '+rname+'&nbsp;&nbsp;&nbsp;');
+                $('#btnCreate').show();
+                $('#rolename').text(rname);
+                $('#colorbar').addClass('bg-color-black');
+            }
         }
         function createUser(utype) {
             if (utype == 'A') {

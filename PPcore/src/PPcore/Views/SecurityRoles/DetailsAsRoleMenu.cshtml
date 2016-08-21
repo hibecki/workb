@@ -1,0 +1,13 @@
+﻿@model IEnumerable<PPcore.Models.SecurityRoles>
+@{
+    Layout = null;
+}
+
+@{ var utype = 0;}
+@foreach (var item in Model)
+{
+    utype++;
+    <li id="menu_@utype" style="cursor:pointer;"> @*onMouseOver="this.style.backgroundColor = '@bcolor';" onmouseout="this.style.backgroundColor = 'tranparent';"*@
+        <a onclick="aUserForm(@utype, '@Html.DisplayFor(modelItem => item.RoleName)')">&nbsp;&nbsp;&nbsp;@Html.DisplayFor(modelItem => item.RoleName)</a>
+    </li>
+}
