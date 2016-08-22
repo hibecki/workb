@@ -12,10 +12,33 @@ namespace PPcore.Controllers
     public class SecurityMemberRolesController : Controller
     {
         private readonly SecurityDBContext _scontext;
+        private readonly PalangPanyaDBContext _context;
 
-        public SecurityMemberRolesController(SecurityDBContext scontext)
+        public SecurityMemberRolesController(SecurityDBContext scontext, PalangPanyaDBContext context)
         {
-            _scontext = scontext;    
+            _scontext = scontext;
+            _context = context;
+        }
+
+        [HttpGet]
+        public IActionResult DetailsAsTable(int utype)
+        {
+            Guid rid = Guid.Empty;
+            var srs = _scontext.SecurityRoles.Where(sr => sr.x_status != "N").OrderBy(sr => sr.CreatedDate).ToList();
+            var c = 0;
+            foreach (SecurityRoles sero in srs)
+            {
+                c++;
+                if (c == utype) { rid = sero.RoleId; }
+            }
+
+            var smrs = _scontext.SecurityMemberRoles.Where(smr => (smr.x_status != "N") && (smr.RoleId == rid)).ToList();
+            foreach (SecurityMemberRoles seme in smrs)
+            {
+
+            }
+            var cg = _context.course_group.OrderBy(m => m.cgroup_code);
+            return View(cg.ToList());
         }
 
         [HttpPost]

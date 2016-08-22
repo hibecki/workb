@@ -8,6 +8,7 @@
 {
     utype++;
     <li id="menu_@utype" style="cursor:pointer;"> @*onMouseOver="this.style.backgroundColor = '@bcolor';" onmouseout="this.style.backgroundColor = 'tranparent';"*@
+        <div id="bar_@utype" style="position:absolute;height:40px;width:14px;">&nbsp;</div>
         <a onclick="aUserForm(@utype, '@Html.DisplayFor(modelItem => item.RoleName)')">&nbsp;&nbsp;&nbsp;@Html.DisplayFor(modelItem => item.RoleName)</a>
     </li>
 }
