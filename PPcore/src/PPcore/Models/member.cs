@@ -8,6 +8,8 @@ namespace PPcore.Models
     {
         [HiddenInput]
         public string mem_password { get; set; }
+        public string mem_username { get; set; }
+        public Guid mem_roleid { get; set; }
 
         [Display(Name = "รหัสสมาชิก")]
         //[Required(ErrorMessage = "กรุณากรอกข้อมูล")]

@@ -2,7 +2,6 @@
 /* Table: SecurityMemberRoles                                   */
 /*==============================================================*/
 
-/*
 CREATE TABLE SecurityMemberRoles (
 	MemberId uniqueidentifier NOT NULL,
     RoleId uniqueidentifier NOT NULL,
@@ -24,7 +23,6 @@ GO
 
 ALTER TABLE SecurityMemberRoles ADD CONSTRAINT PK_SecurityMemberRoles PRIMARY KEY CLUSTERED (MemberId ASC, RoleId ASC);
 GO
-*/
 
 /*==============================================================*/
 /* Table: SecurityRoles                                         */

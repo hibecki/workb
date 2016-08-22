@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PPcore.ViewModels.member.SecurityMemberRolesViewModel>
+@{
+    Layout = null;
+}
+
+
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.mem_username)</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.memberId)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.CreatedDate)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.CreatedByUserName)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.EditedDate)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.EditedByUserName)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0;}
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.mem_username)</td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.memberId)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedByUserName)</td>
+                <td>@Html.DisplayFor(modelItem => item.EditedDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.EditedByUserName)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

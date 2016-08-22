@@ -298,6 +298,7 @@
 "D:\workb\PPcore\src\PPcore\ViewModels\Account\AccountViewModel.cs"
 "D:\workb\PPcore\src\PPcore\ViewModels\course_instructor\instructorViewModel.cs"
 "D:\workb\PPcore\src\PPcore\ViewModels\course_train_place\train_placeViewModel.cs"
+"D:\workb\PPcore\src\PPcore\ViewModels\member\SecurityMemberRolesViewModel.cs"
 "D:\workb\PPcore\src\PPcore\ViewModels\mem_product\mem_productViewModel.cs"
 "D:\workb\PPcore\src\PPcore\ViewModels\mem_site_visit\mem_site_visitViewModel.cs"
 "D:\workb\PPcore\src\PPcore\ViewModels\mem_train_record\mem_train_recordViewModel.cs"
@@ -305,5 +306,4 @@
 "D:\workb\PPcore\src\PPcore\ViewModels\project_course_register\memberViewModel.cs"
 "D:\workb\PPcore\src\PPcore\ViewModels\project_daily_checklist\memberViewModel.cs"
 "D:\workb\PPcore\src\PPcore\ViewModels\project_supporter\project_sponsorViewModel.cs"
-"D:\workb\PPcore\src\PPcore\ViewModels\SecurityMemberRoles\memberViewModel.cs"
 "D:\workb\PPcore\src\PPcore\ViewModels\SecurityRoles\memberViewModel.cs"

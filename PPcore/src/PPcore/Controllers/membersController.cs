@@ -21,6 +21,7 @@ namespace PPcore.Controllers
     public class membersController : Controller
     {
         private PalangPanyaDBContext _context;
+        private SecurityDBContext _scontext;
         private readonly IEmailSender _emailSender;
         private IConfiguration _configuration;
         private IHostingEnvironment _env;
@@ -67,9 +68,10 @@ namespace PPcore.Controllers
             ViewBag.ini_province = new SelectList(ip.AsEnumerable(), "Value", "Text", "0");
         }
 
-        public membersController(PalangPanyaDBContext context, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
+        public membersController(PalangPanyaDBContext context, SecurityDBContext scontext,IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
         {
             _context = context;
+            _scontext = scontext;
             _emailSender = emailSender;
             _configuration = configuration;
             _env = env;
@@ -1387,6 +1389,33 @@ namespace PPcore.Controllers
                 t.Add(new tab { name = "mem_product", value = 0 });
             }
             return Json(JsonConvert.SerializeObject(t));
+        }
+
+        [HttpGet]
+        public IActionResult DetailsAsTableSecurity(string roleId)
+        {
+            var ms = _context.member.Where(mss => (mss.mem_roleid == new Guid(roleId)) && (mss.x_status != "N")).OrderBy(mss => mss.mem_username).ToList();
+            List<PPcore.ViewModels.member.SecurityMemberRolesViewModel> mvs = new List<ViewModels.member.SecurityMemberRolesViewModel>();
+            foreach (member m in ms)
+            {
+                PPcore.ViewModels.member.SecurityMemberRolesViewModel mv = new PPcore.ViewModels.member.SecurityMemberRolesViewModel();
+                mv.memberId = m.id;
+                mv.mem_username = m.mem_username;
+                var mr = _scontext.SecurityMemberRoles.SingleOrDefault(s => s.UserId == m.id);
+                mv.CreatedDate = mr.CreatedDate;
+                mv.CreatedBy = mr.CreatedBy;
+                mv.EditedDate = mr.EditedDate;
+                mv.EditedBy = mr.EditedBy;
+
+                var mc = _context.member.SingleOrDefault(mcc => mcc.id == mv.CreatedBy);
+                mv.CreatedByUserName = mc.mem_username;
+
+                var me = _context.member.SingleOrDefault(mee => mee.id == mv.EditedBy);
+                mv.EditedByUserName = me.mem_username;
+
+                mvs.Add(mv);
+            }
+            return View(mvs);
         }
 
         private class listTraining
