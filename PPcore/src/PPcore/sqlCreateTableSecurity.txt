@@ -6,9 +6,9 @@ CREATE TABLE SecurityMemberRoles (
 	MemberId uniqueidentifier NOT NULL,
     RoleId uniqueidentifier NOT NULL,
 	CreatedBy uniqueidentifier NOT NULL,
-	CreatedDate DATETIME NOT NULL,
+	CreatedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	EditedBy uniqueidentifier NOT NULL,
-	EditedDate DATETIME not null default CURRENT_TIMESTAMP,
+	EditedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	x_status char(1) null,
 	x_note nvarchar(50) null,
 	x_log nvarchar(500) null

@@ -14,8 +14,8 @@ namespace PPcore.Models
         {
             modelBuilder.Entity<SecurityMemberRoles>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.RoleId }).HasName("PK_SecurityMemberRoles");
-                entity.Property(e => e.UserId).HasColumnType("uniqueidentifier");
+                entity.HasKey(e => new { e.MemberId, e.RoleId }).HasName("PK_SecurityMemberRoles");
+                entity.Property(e => e.MemberId).HasColumnType("uniqueidentifier");
                 entity.Property(e => e.RoleId).HasColumnType("uniqueidentifier");
 
                 entity.Property(e => e.CreatedBy).HasColumnType("uniqueidentifier");

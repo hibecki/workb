@@ -129,7 +129,7 @@
     <script>
         $(document).ready(function () {
             aRoleMenu();
-            a_details_as_table("A");
+            aUserTable('17822a90-1029-454a-b4c7-f631c9ca6c7d');
             $('#usernameDropdown').off('click').on('click', function (e) {
                 e.stopPropagation();
             });
@@ -182,9 +182,9 @@
                 aUserForm(3, 'Members');
             });
         }
-        function a_details_as_table(utype) {
+        function aUserTable(roleId) {
             $.ajax({
-                type: 'get', url: '@Url.Action("DetailsAsTable", "SecurityMemberRoles")'+'?utype='+utype,
+                type: 'get', url: '@Url.Action("DetailsAsTableSecurity", "members")' + '?roleId=' + roleId,
             }).done(function (resp) {
                 $('#memberBody').html(resp);
                 var w = [

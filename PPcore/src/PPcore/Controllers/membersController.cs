@@ -87,24 +87,9 @@ namespace PPcore.Controllers
         // GET: members
         public IActionResult Index()
         {
-            //if (User.IsInRole("Administrators") || User.IsInRole("Operators"))
-            //{
-                var pp = _context.member; //.Include(m => m.ini_list_zip).Include(m => m.mem_).Include(m => m.mlevel_codeNavigation).Include(m => m.mstatus_codeNavigation);
-                ViewBag.countRecords = pp.Count();
-                return View(pp.OrderByDescending(m => m.rowversion).ToList());
-            //}
-            //else if (User.IsInRole("Members"))
-            //{
-            //    var mcode = User.Identity.Name;
-            //    var m = _context.member.SingleOrDefault(mm => mm.member_code == mcode);
-            //    var mid = m.id;
-            //    return RedirectToAction(nameof(membersController.Edit) + "/" + mid, "members");
-            //}
-            //else
-            //{
-            //    return RedirectToAction(nameof(AccountController.Login), "Account");
-            //}
-
+            var pp = _context.member.Where(ppp => (ppp.mem_role_id == new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d")) && (ppp.x_status != "N"));
+            ViewBag.countRecords = pp.Count();
+            return View(pp.OrderByDescending(m => m.rowversion).ToList());
         }
 
         // GET: members/Details/5
@@ -1077,7 +1062,11 @@ namespace PPcore.Controllers
 
                     member.cid_card_pic = pic_image.image_code;
                 }
+                member.mem_username = member.cid_card;
                 string password = member.cid_card.Substring(member.cid_card.Length - 4);
+                member.mem_password = password;
+                member.mem_role_id = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d");
+
                 //var user = new ApplicationUser { UserName = member.cid_card, Email = member.email };
                 //_userManager.CreateAsync(user, password);
                 //_userManager.AddToRoleAsync(user, "Members");
@@ -1105,6 +1094,16 @@ namespace PPcore.Controllers
                 _context.member.Add(member);
                 _context.SaveChanges();
 
+                SecurityMemberRoles smr = new SecurityMemberRoles();
+                smr.MemberId = member.id;
+                smr.RoleId = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d");
+                //smr.CreatedDate = DateTime.Now;
+                smr.CreatedBy = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d");
+                //smr.EditedDate = DateTime.Now;
+                smr.EditedBy = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d");
+                smr.x_status = "Y";
+                _scontext.SecurityMemberRoles.Add(smr);
+                _scontext.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -1394,24 +1393,25 @@ namespace PPcore.Controllers
         [HttpGet]
         public IActionResult DetailsAsTableSecurity(string roleId)
         {
-            var ms = _context.member.Where(mss => (mss.mem_roleid == new Guid(roleId)) && (mss.x_status != "N")).OrderBy(mss => mss.mem_username).ToList();
+            var ms = _context.member.Where(mss => (mss.mem_role_id == new Guid(roleId)) && (mss.x_status != "N")).OrderBy(mss => mss.mem_username).ToList();
             List<PPcore.ViewModels.member.SecurityMemberRolesViewModel> mvs = new List<ViewModels.member.SecurityMemberRolesViewModel>();
             foreach (member m in ms)
             {
                 PPcore.ViewModels.member.SecurityMemberRolesViewModel mv = new PPcore.ViewModels.member.SecurityMemberRolesViewModel();
                 mv.memberId = m.id;
                 mv.mem_username = m.mem_username;
-                var mr = _scontext.SecurityMemberRoles.SingleOrDefault(s => s.UserId == m.id);
+                var mr = _scontext.SecurityMemberRoles.SingleOrDefault(s => s.MemberId == m.id);
                 mv.CreatedDate = mr.CreatedDate;
                 mv.CreatedBy = mr.CreatedBy;
                 mv.EditedDate = mr.EditedDate;
                 mv.EditedBy = mr.EditedBy;
 
                 var mc = _context.member.SingleOrDefault(mcc => mcc.id == mv.CreatedBy);
-                mv.CreatedByUserName = mc.mem_username;
+                if (mc != null) { mv.CreatedByUserName = mc.mem_username; } else { mv.CreatedByUserName = ""; }
+                
 
                 var me = _context.member.SingleOrDefault(mee => mee.id == mv.EditedBy);
-                mv.EditedByUserName = me.mem_username;
+                if (me != null) { mv.EditedByUserName = me.mem_username; } else { mv.EditedByUserName = ""; }
 
                 mvs.Add(mv);
             }

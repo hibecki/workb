@@ -24,11 +24,11 @@ namespace PPcore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateUser([Bind("UserId,RoleId,CreatedBy,CreatedDate,EditedBy,EditedDate,x_log,x_note,x_status")] SecurityMemberRoles securityMemberRoles)
+        public async Task<IActionResult> CreateUser([Bind("MemberId,RoleId,CreatedBy,CreatedDate,EditedBy,EditedDate,x_log,x_note,x_status")] SecurityMemberRoles securityMemberRoles)
         {
             if (ModelState.IsValid)
             {
-                securityMemberRoles.UserId = Guid.NewGuid();
+                securityMemberRoles.MemberId = Guid.NewGuid();
                 _scontext.Add(securityMemberRoles);
                 await _scontext.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -51,7 +51,7 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var securityMemberRoles = await _scontext.SecurityMemberRoles.SingleOrDefaultAsync(m => m.UserId == id);
+            var securityMemberRoles = await _scontext.SecurityMemberRoles.SingleOrDefaultAsync(m => m.MemberId == id);
             if (securityMemberRoles == null)
             {
                 return NotFound();
@@ -64,9 +64,9 @@ namespace PPcore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("UserId,RoleId,CreatedBy,CreatedDate,EditedBy,EditedDate,x_log,x_note,x_status")] SecurityMemberRoles securityMemberRoles)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MemberId,RoleId,CreatedBy,CreatedDate,EditedBy,EditedDate,x_log,x_note,x_status")] SecurityMemberRoles securityMemberRoles)
         {
-            if (id != securityMemberRoles.UserId)
+            if (id != securityMemberRoles.MemberId)
             {
                 return NotFound();
             }
@@ -80,7 +80,7 @@ namespace PPcore.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SecurityMemberRolesExists(securityMemberRoles.UserId))
+                    if (!SecurityMemberRolesExists(securityMemberRoles.MemberId))
                     {
                         return NotFound();
                     }
@@ -102,7 +102,7 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var securityMemberRoles = await _scontext.SecurityMemberRoles.SingleOrDefaultAsync(m => m.UserId == id);
+            var securityMemberRoles = await _scontext.SecurityMemberRoles.SingleOrDefaultAsync(m => m.MemberId == id);
             if (securityMemberRoles == null)
             {
                 return NotFound();
@@ -116,7 +116,7 @@ namespace PPcore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var securityMemberRoles = await _scontext.SecurityMemberRoles.SingleOrDefaultAsync(m => m.UserId == id);
+            var securityMemberRoles = await _scontext.SecurityMemberRoles.SingleOrDefaultAsync(m => m.MemberId == id);
             _scontext.SecurityMemberRoles.Remove(securityMemberRoles);
             await _scontext.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -124,7 +124,7 @@ namespace PPcore.Controllers
 
         private bool SecurityMemberRolesExists(Guid id)
         {
-            return _scontext.SecurityMemberRoles.Any(e => e.UserId == id);
+            return _scontext.SecurityMemberRoles.Any(e => e.MemberId == id);
         }
     }
 }

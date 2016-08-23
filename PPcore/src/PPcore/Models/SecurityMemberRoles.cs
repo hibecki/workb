@@ -7,7 +7,7 @@ namespace PPcore.Models
 {
     public partial class SecurityMemberRoles
     {
-        public Guid UserId { get; set; }
+        public Guid MemberId { get; set; }
         public Guid RoleId { get; set; }
 
         [Display(Name = "สร้างโดย")]
