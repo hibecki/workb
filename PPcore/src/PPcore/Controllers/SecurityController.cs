@@ -32,30 +32,6 @@ namespace PPcore.Controllers
         }
 
         [HttpGet]
-        public IActionResult ManageMembers()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult ManageRoles()
-        {
-            return View();
-        }
-
-        public void SendEmail(string email, string username, string password)
-        {
-            var title = "พลังปัญญา";
-            var body = "ชื่อผู้ใช้งาน: " + username + "\nรหัสผ่าน: " + password;
-            _emailSender.SendEmailAsync(email, title, body);
-        }
-
-        public IActionResult RegisterMember()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public IActionResult Login()
         {
             return View();
@@ -93,6 +69,49 @@ namespace PPcore.Controllers
 
         //    return Json(new { result = "success" });
         //}
+
+        [HttpGet]
+        public async Task<IActionResult> LogOff()
+        {
+            //var user = new ApplicationUser { UserName = "admin", Email = "info@palangpanya.com" };
+            //var result = await _userManager.CreateAsync(user, "admin1");
+            //if (result.Succeeded)
+            //{
+            //    await _userManager.AddToRoleAsync(user, "Administrators");
+            //}
+
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation(4, "User logged out.");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [HttpGet]
+        public IActionResult ManageMembers()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ManageRoles()
+        {
+            return View();
+        }
+
+        public void SendEmail(string email, string username, string password)
+        {
+            var title = "พลังปัญญา";
+            var body = "ชื่อผู้ใช้งาน: " + username + "\nรหัสผ่าน: " + password;
+            _emailSender.SendEmailAsync(email, title, body);
+        }
+
+        public IActionResult RegisterMember()
+        {
+            return View();
+        }
+
+
+
+
 
         [HttpPost]
         //public async Task<IActionResult> Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
@@ -169,20 +188,7 @@ namespace PPcore.Controllers
         //    return RedirectToAction(nameof(HomeController.Index), "Home");
         //}
 
-        //[HttpGet]
-        //public async Task<IActionResult> LogOff()
-        //{
-        //    //var user = new ApplicationUser { UserName = "admin", Email = "info@palangpanya.com" };
-        //    //var result = await _userManager.CreateAsync(user, "admin1");
-        //    //if (result.Succeeded)
-        //    //{
-        //    //    await _userManager.AddToRoleAsync(user, "Administrators");
-        //    //}
 
-        //    await _signInManager.SignOutAsync();
-        //    _logger.LogInformation(4, "User logged out.");
-        //    return RedirectToAction(nameof(HomeController.Index), "Home");
-        //}
 
         [HttpPost]
         public IActionResult ForgetPwd(string uname, string upwd)

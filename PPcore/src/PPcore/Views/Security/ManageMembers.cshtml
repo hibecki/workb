@@ -273,5 +273,30 @@
         }
 
         }
+
+        function suspendClick(id) {
+            if (!$('#status-' + id).hasClass("btn-panel-green-attended")) {
+                suspend(id,'Y');
+                $('#status-' + id).html("&nbsp;<i class='fa fa-check-square-o' aria-hidden='true'></i> ใช้งาน&nbsp;");
+                $('#status-' + id).removeClass('btn-panel-red').addClass('btn-panel-green-attended');
+            } else {
+                suspend(id, 'N');
+                $('#status-' + id).html("<i class='fa fa-square-o' aria-hidden='true'></i> ระงับการใช้งาน");
+                $('#status-' + id).removeClass('btn-panel-green-attended').addClass('btn-panel-red');
+            }
+
+        }
+        function suspend(id, status) {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "@Url.Action("Suspend", "SecurityMemberRoles")",
+                data: {
+                    id: id, status: status
+                },
+                success: function (data) {
+                }
+            });
+        }
     </script>
 }

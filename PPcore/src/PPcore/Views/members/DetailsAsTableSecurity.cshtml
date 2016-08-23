@@ -31,13 +31,13 @@
                 <td style="text-align:center">
                     @if (item.Status == "Y")
                     {
-                        <button id="status-@Html.DisplayFor(modelItem => item.memberId)" class="btn btn-xs btn-panel-green-attended" type="button" onclick="attendClick('@Html.DisplayFor(modelItem => item.memberId)');">
+                        <button id="status-@Html.DisplayFor(modelItem => item.memberId)" class="btn btn-xs btn-panel-green-attended" type="button" onclick="suspendClick('@Html.DisplayFor(modelItem => item.memberId)');">
                             &nbsp;<i class='fa fa-check-square-o' aria-hidden='true'></i> ใช้งาน&nbsp;
                         </button>
                     }
                     else
                     {
-                        <button id="status-@Html.DisplayFor(modelItem => item.memberId)" class="btn btn-xs btn-panel-red" type="button" onclick="attendClick('@Html.DisplayFor(modelItem => item.memberId)');">
+                        <button id="status-@Html.DisplayFor(modelItem => item.memberId)" class="btn btn-xs btn-panel-red" type="button" onclick="suspendClick('@Html.DisplayFor(modelItem => item.memberId)');">
                             <i class='fa fa-square-o' aria-hidden='true'></i> ระงับการใช้งาน
                         </button>
                     }

@@ -43,12 +43,6 @@ namespace PPcore.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
         //[HttpPost]
         //public async Task<IActionResult> Login(string uname, string upwd, string ReturnUrl)
         //{
@@ -226,21 +220,6 @@ namespace PPcore.Controllers
         //    {
         //        await roleManager.CreateAsync(new IdentityRole(roleName));
         //    }
-        //    return RedirectToAction(nameof(HomeController.Index), "Home");
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> LogOff()
-        //{
-        //    //var user = new ApplicationUser { UserName = "admin", Email = "info@palangpanya.com" };
-        //    //var result = await _userManager.CreateAsync(user, "admin1");
-        //    //if (result.Succeeded)
-        //    //{
-        //    //    await _userManager.AddToRoleAsync(user, "Administrators");
-        //    //}
-
-        //    await _signInManager.SignOutAsync();
-        //    _logger.LogInformation(4, "User logged out.");
         //    return RedirectToAction(nameof(HomeController.Index), "Home");
         //}
 
