@@ -1393,7 +1393,7 @@ namespace PPcore.Controllers
         [HttpGet]
         public IActionResult DetailsAsTableSecurity(string roleId)
         {
-            var ms = _context.member.Where(mss => (mss.mem_role_id == new Guid(roleId)) && (mss.x_status != "N")).OrderBy(mss => mss.mem_username).ToList();
+            var ms = _context.member.Where(mss => mss.mem_role_id == new Guid(roleId)).OrderBy(mss => mss.mem_username).ToList();
             List<PPcore.ViewModels.member.SecurityMemberRolesViewModel> mvs = new List<ViewModels.member.SecurityMemberRolesViewModel>();
             foreach (member m in ms)
             {
@@ -1405,6 +1405,7 @@ namespace PPcore.Controllers
                 mv.CreatedBy = mr.CreatedBy;
                 mv.EditedDate = mr.EditedDate;
                 mv.EditedBy = mr.EditedBy;
+                mv.Status = mr.x_status;
 
                 var mc = _context.member.SingleOrDefault(mcc => mcc.id == mv.CreatedBy);
                 if (mc != null) { mv.CreatedByUserName = mc.mem_username; } else { mv.CreatedByUserName = ""; }

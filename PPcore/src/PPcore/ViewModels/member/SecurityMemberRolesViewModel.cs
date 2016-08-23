@@ -14,7 +14,7 @@ namespace PPcore.ViewModels.member
 
         [Display(Name = "วันที่สร้าง")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy hh:mm:ss}")]
         public DateTime CreatedDate { get; set; }
 
         [Display(Name = "สร้างโดย")]
@@ -23,11 +23,14 @@ namespace PPcore.ViewModels.member
 
         [Display(Name = "วันที่แก้ไข")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy hh:mm:ss}")]
         public DateTime EditedDate { get; set; }
 
         [Display(Name = "แก้ไขโดย")]
         public string EditedByUserName { get; set; }
         public Guid EditedBy { get; set; }
+
+        [Display(Name = "สถานะ")]
+        public string Status { get; set; }
     }
 }
