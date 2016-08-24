@@ -50,17 +50,24 @@ namespace PPcore.Controllers
                 HttpContext.Session.SetString("roleId", m.mem_role_id.ToString());
                 HttpContext.Session.SetString("username", m.mem_username);
                 HttpContext.Session.SetString("displayname", (m.fname + " " + m.lname).Trim());
-
+                
+                var memberId = HttpContext.Session.GetString("memberId");
                 var roleId = HttpContext.Session.GetString("roleId");
+                var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == new Guid(memberId));
+                smr.LoggedInDate = DateTime.Now;
+                _scontext.Update(smr);
+                await _scontext.SaveChangesAsync();
+
+                var returnUrl = Url.Action("Login", "Security");
                 if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Administrators role
                 {
-                    return RedirectToAction(nameof(membersController.Index), "members");
+                    returnUrl = Url.Action("Index", "members");
                 }
                 else
                 {
-                    return RedirectToAction(nameof(SecurityController.ManageMembers), "Security");
+                    returnUrl = Url.Action("ManageMembers", "Security");
                 }
-                //return Json(new { result = "success" });
+                return Json(new { result = "success", url = returnUrl });
             }
             else
             {
@@ -72,12 +79,16 @@ namespace PPcore.Controllers
         public async Task<IActionResult> LogOff()
         {
             var memberId = HttpContext.Session.GetString("memberId");
-            var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == new Guid(memberId));
-            smr.LoggedOutDate = DateTime.Now;
-            _scontext.Update(smr);
-            await _scontext.SaveChangesAsync();
+            if (memberId != null)
+            {
+                var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == new Guid(memberId));
+                smr.LoggedOutDate = DateTime.Now;
+                _scontext.Update(smr);
+                await _scontext.SaveChangesAsync();
 
-            HttpContext.Session.Clear();
+                HttpContext.Session.Clear();
+
+            }
 
             _logger.LogInformation(4, "User: " + memberId + " logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");

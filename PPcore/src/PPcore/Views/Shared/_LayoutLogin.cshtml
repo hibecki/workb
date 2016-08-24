@@ -138,7 +138,8 @@
                         url: '@Url.Action("Login", "Security")' + "?uname=" + uname + "&upwd=" + upwd,
                     }).done(function (resp) {
                         if (resp.result == "success") {
-                            window.location.replace("@Url.Action("Index","members")");
+                            window.location.replace(resp.url);
+                            //window.location.replace("@Url.Action("Index","members")");
                             //window.location.replace("@Url.Action("Index","Home")");
                         } else if (resp.result == "fail") {
                             $('#waitBtnConfirm').hide();
