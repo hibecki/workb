@@ -7368,6 +7368,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 1.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer.Design >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 1.0.0-preview2-final",
+      "Microsoft.Extensions.Caching.Memory >= 1.0.0",
       "Microsoft.Extensions.Configuration.EnvironmentVariables >= 1.0.0",
       "Microsoft.Extensions.Configuration.Json >= 1.0.0",
       "Microsoft.Extensions.Configuration.UserSecrets >= 1.0.0",

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
 using PPcore.Models;
 using PPcore.Services;
 using System;
@@ -46,7 +47,7 @@ namespace PPcore
 
             // Add framework services.
             services.AddMvc();
-
+            //services.AddCaching();
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.CookieName = ".PalangPanya";

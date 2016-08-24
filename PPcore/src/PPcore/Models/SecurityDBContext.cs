@@ -14,14 +14,16 @@ namespace PPcore.Models
         {
             modelBuilder.Entity<SecurityMemberRoles>(entity =>
             {
-                entity.HasKey(e => new { e.MemberId, e.RoleId }).HasName("PK_SecurityMemberRoles");
+                entity.HasKey(e => e.MemberId).HasName("PK_SecurityMemberRoles");
                 entity.Property(e => e.MemberId).HasColumnType("uniqueidentifier");
-                entity.Property(e => e.RoleId).HasColumnType("uniqueidentifier");
 
                 entity.Property(e => e.CreatedBy).HasColumnType("uniqueidentifier");
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
                 entity.Property(e => e.EditedBy).HasColumnType("uniqueidentifier");
-                entity.Property(e => e.EditedDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");
+                entity.Property(e => e.EditedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.LoggedInDate).HasColumnType("datetime");
+                entity.Property(e => e.LoggedOutDate).HasColumnType("datetime");
 
                 entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
                 entity.Property(e => e.x_note).HasColumnType("nvarchar(50)");

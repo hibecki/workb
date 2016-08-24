@@ -11,20 +11,21 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace PPcore.Controllers
 {
     public class SecurityController : Controller
     {
-        private readonly SecurityDBContext _context;
+        private readonly SecurityDBContext _scontext;
         private readonly IEmailSender _emailSender;
         private IConfiguration _configuration;
         private IHostingEnvironment _env;
         private readonly ILogger _logger;
 
-        public SecurityController(SecurityDBContext context, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public SecurityController(SecurityDBContext scontext, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            _context = context;
+            _scontext = scontext;
             _emailSender = emailSender;
             _configuration = configuration;
             _env = env;
@@ -79,8 +80,21 @@ namespace PPcore.Controllers
             //{
             //    await _userManager.AddToRoleAsync(user, "Administrators");
             //}
+            //_scontext.SecurityMemberRoles.SingleOrDefault();
 
-            await _signInManager.SignOutAsync();
+
+            HttpContext.Session.SetString("memberId", "b493c72b-39dd-4c79-adab-5cbfa88a982e");
+            HttpContext.Session.SetString("username", "Administrator");
+            HttpContext.Session.SetString("fullname", "Administrator");
+
+            var memberId = HttpContext.Session.GetString("memberId");
+            var username = HttpContext.Session.GetString("username");
+
+            var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == new Guid(memberId));
+            smr.LoggedOutDate = DateTime.Now;
+            _scontext.Update(smr);
+            await _scontext.SaveChangesAsync();
+
             _logger.LogInformation(4, "User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
@@ -124,7 +138,7 @@ namespace PPcore.Controllers
             try
             {
 
-                _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_password,mem_photo,cid_card_pic) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + password + "','" + mem_photo + "','" + cid_card_pic + "')");
+                _scontext.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_password,mem_photo,cid_card_pic) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + password + "','" + mem_photo + "','" + cid_card_pic + "')");
 
                 //var user = new ApplicationUser { UserName = cid_card, Email = email };
                 //var result = await _userManager.CreateAsync(user, password);

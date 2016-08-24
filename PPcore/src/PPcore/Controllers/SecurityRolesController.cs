@@ -64,7 +64,8 @@ namespace PPcore.Controllers
             {
                 memberViewModel m = new memberViewModel();
                 m.SecurityRoles = sr;
-                m.memberCount = _scontext.SecurityMemberRoles.Where(smrr => smrr.RoleId == sr.RoleId).Count();
+                
+                m.memberCount = _context.member.Where(mm => mm.mem_role_id == sr.RoleId).Count();
                 ms.Add(m);
             }
             return View(ms);
@@ -83,7 +84,7 @@ namespace PPcore.Controllers
             {
                 memberViewModel m = new memberViewModel();
                 m.SecurityRoles = sr;
-                m.memberCount = _scontext.SecurityMemberRoles.Where(smrr => smrr.RoleId == sr.RoleId).Count();
+                m.memberCount = _context.member.Where(mm => mm.mem_role_id == sr.RoleId).Count();
                 ms.Add(m);
             }
             return View(ms);

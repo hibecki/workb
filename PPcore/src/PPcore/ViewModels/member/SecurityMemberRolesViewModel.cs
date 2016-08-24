@@ -8,9 +8,12 @@ namespace PPcore.ViewModels.member
 {
     public class SecurityMemberRolesViewModel
     {
+        public Guid memberId { get; set; }
+
         [Display(Name = "ชื่อผู้ใช้")]
         public string mem_username { get; set; }
-        public Guid memberId { get; set; }
+        [Display(Name = "ชื่อที่แสดง")]
+        public string displayname { get; set; }
 
         [Display(Name = "วันที่สร้าง")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")]
@@ -29,6 +32,13 @@ namespace PPcore.ViewModels.member
         [Display(Name = "แก้ไขโดย")]
         public string EditedByUserName { get; set; }
         public Guid EditedBy { get; set; }
+
+        [Display(Name = "วันที่เข้าใช้ล่าสุด")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
+        public DateTime LoggedInDate { get; set; }
+        [Display(Name = "วันที่ออกระบบล่าสุด")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
+        public DateTime LoggedOutDate { get; set; }
 
         [Display(Name = "สถานะ")]
         public string Status { get; set; }

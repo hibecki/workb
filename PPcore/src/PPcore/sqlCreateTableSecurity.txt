@@ -4,24 +4,27 @@
 
 CREATE TABLE SecurityMemberRoles (
 	MemberId uniqueidentifier NOT NULL,
-    RoleId uniqueidentifier NOT NULL,
+    -- RoleId uniqueidentifier NOT NULL,
 	CreatedBy uniqueidentifier NOT NULL,
-	CreatedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CreatedDate DATETIME NOT NULL,
 	EditedBy uniqueidentifier NOT NULL,
-	EditedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	EditedDate DATETIME NOT NULL,
+	LoggedInDate DATETIME NULL,
+	LoggedOutDate DATETIME NULL,
 	x_status char(1) null,
 	x_note nvarchar(50) null,
 	x_log nvarchar(500) null
 );
 GO
 
-CREATE NONCLUSTERED INDEX IX_SecurityMemberRoles_RoleId ON SecurityMemberRoles(RoleId ASC);
-GO
+--CREATE NONCLUSTERED INDEX IX_SecurityMemberRoles_RoleId ON SecurityMemberRoles(RoleId ASC);
+--GO
 
 CREATE NONCLUSTERED INDEX IX_SecurityMemberRoles_MemberId ON SecurityMemberRoles(MemberId ASC);
 GO
 
-ALTER TABLE SecurityMemberRoles ADD CONSTRAINT PK_SecurityMemberRoles PRIMARY KEY CLUSTERED (MemberId ASC, RoleId ASC);
+--ALTER TABLE SecurityMemberRoles ADD CONSTRAINT PK_SecurityMemberRoles PRIMARY KEY CLUSTERED (MemberId ASC, RoleId ASC);
+ALTER TABLE SecurityMemberRoles ADD CONSTRAINT PK_SecurityMemberRoles PRIMARY KEY (MemberId);
 GO
 
 /*==============================================================*/

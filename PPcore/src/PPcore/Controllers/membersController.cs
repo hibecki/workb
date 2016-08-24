@@ -68,7 +68,7 @@ namespace PPcore.Controllers
             ViewBag.ini_province = new SelectList(ip.AsEnumerable(), "Value", "Text", "0");
         }
 
-        public membersController(PalangPanyaDBContext context, SecurityDBContext scontext,IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
+        public membersController(PalangPanyaDBContext context, SecurityDBContext scontext, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
         {
             _context = context;
             _scontext = scontext;
@@ -1094,13 +1094,13 @@ namespace PPcore.Controllers
                 _context.member.Add(member);
                 _context.SaveChanges();
 
+                var sessionMemberId = HttpContext.Session.GetString("memberId");
                 SecurityMemberRoles smr = new SecurityMemberRoles();
                 smr.MemberId = member.id;
-                smr.RoleId = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d");
-                //smr.CreatedDate = DateTime.Now;
-                smr.CreatedBy = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d");
-                //smr.EditedDate = DateTime.Now;
-                smr.EditedBy = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d");
+                smr.CreatedDate = DateTime.Now;
+                smr.CreatedBy = new Guid(sessionMemberId);
+                smr.EditedDate = DateTime.Now;
+                smr.EditedBy = new Guid(sessionMemberId);
                 smr.x_status = "Y";
                 _scontext.SecurityMemberRoles.Add(smr);
                 _scontext.SaveChanges();
@@ -1395,17 +1395,23 @@ namespace PPcore.Controllers
         {
             var ms = _context.member.Where(mss => mss.mem_role_id == new Guid(roleId)).OrderBy(mss => mss.mem_username).ToList();
             List<PPcore.ViewModels.member.SecurityMemberRolesViewModel> mvs = new List<ViewModels.member.SecurityMemberRolesViewModel>();
-            foreach (member m in ms)
+            foreach (member mem in ms)
             {
                 PPcore.ViewModels.member.SecurityMemberRolesViewModel mv = new PPcore.ViewModels.member.SecurityMemberRolesViewModel();
-                mv.memberId = m.id;
-                mv.mem_username = m.mem_username;
-                var mr = _scontext.SecurityMemberRoles.SingleOrDefault(s => s.MemberId == m.id);
-                mv.CreatedDate = mr.CreatedDate;
-                mv.CreatedBy = mr.CreatedBy;
-                mv.EditedDate = mr.EditedDate;
-                mv.EditedBy = mr.EditedBy;
-                mv.Status = mr.x_status;
+                mv.memberId = mem.id;
+                mv.mem_username = mem.mem_username;
+                mv.displayname = (mem.fname + " " + mem.lname).Trim();
+
+                var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == mem.id);
+
+                mv.LoggedInDate = smr.LoggedInDate;
+                mv.LoggedOutDate = smr.LoggedOutDate;
+                mv.CreatedDate = smr.CreatedDate;
+                mv.CreatedBy = smr.CreatedBy;
+                mv.EditedDate = smr.EditedDate;
+                mv.EditedBy = smr.EditedBy;
+                mv.Status = smr.x_status;
+
 
                 var mc = _context.member.SingleOrDefault(mcc => mcc.id == mv.CreatedBy);
                 if (mc != null) { mv.CreatedByUserName = mc.mem_username; } else { mv.CreatedByUserName = ""; }

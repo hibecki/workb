@@ -149,9 +149,9 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>&nbsp;&nbsp;ชื่อผู้ใช้ : 
-                        @{var FullNameByte = new Byte[256]; if (Context.Session.TryGetValue("fullName", out FullNameByte))
+                        @{var DisplayNameByte = new Byte[256]; if (Context.Session.TryGetValue("displayname", out DisplayNameByte))
                             {
-                                string result = System.Text.Encoding.UTF8.GetString(FullNameByte); @result 
+                                string result = System.Text.Encoding.UTF8.GetString(DisplayNameByte); @result 
                             }
                             else
                             {
