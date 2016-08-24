@@ -1414,11 +1414,11 @@ namespace PPcore.Controllers
 
 
                 var mc = _context.member.SingleOrDefault(mcc => mcc.id == mv.CreatedBy);
-                if (mc != null) { mv.CreatedByUserName = mc.mem_username; } else { mv.CreatedByUserName = ""; }
+                if (mc != null) { mv.CreatedByUserName = (mc.fname + " " + mc.lname).Trim(); } else { mv.CreatedByUserName = ""; }
                 
 
                 var me = _context.member.SingleOrDefault(mee => mee.id == mv.EditedBy);
-                if (me != null) { mv.EditedByUserName = me.mem_username; } else { mv.EditedByUserName = ""; }
+                if (me != null) { mv.EditedByUserName = (me.fname + " " + me.lname).Trim(); } else { mv.EditedByUserName = ""; }
 
                 mvs.Add(mv);
             }

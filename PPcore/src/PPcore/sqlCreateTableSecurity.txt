@@ -20,8 +20,8 @@ GO
 --CREATE NONCLUSTERED INDEX IX_SecurityMemberRoles_RoleId ON SecurityMemberRoles(RoleId ASC);
 --GO
 
-CREATE NONCLUSTERED INDEX IX_SecurityMemberRoles_MemberId ON SecurityMemberRoles(MemberId ASC);
-GO
+--CREATE NONCLUSTERED INDEX IX_SecurityMemberRoles_MemberId ON SecurityMemberRoles(MemberId ASC);
+--GO
 
 --ALTER TABLE SecurityMemberRoles ADD CONSTRAINT PK_SecurityMemberRoles PRIMARY KEY CLUSTERED (MemberId ASC, RoleId ASC);
 ALTER TABLE SecurityMemberRoles ADD CONSTRAINT PK_SecurityMemberRoles PRIMARY KEY (MemberId);

@@ -33,12 +33,12 @@ namespace PPcore.ViewModels.member
         public string EditedByUserName { get; set; }
         public Guid EditedBy { get; set; }
 
-        [Display(Name = "วันที่เข้าใช้ล่าสุด")]
+        [Display(Name = "เข้าใช้ล่าสุด")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
-        public DateTime LoggedInDate { get; set; }
-        [Display(Name = "วันที่ออกระบบล่าสุด")]
+        public DateTime? LoggedInDate { get; set; }
+        [Display(Name = "ออกจากระบบล่าสุด")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
-        public DateTime LoggedOutDate { get; set; }
+        public DateTime? LoggedOutDate { get; set; }
 
         [Display(Name = "สถานะ")]
         public string Status { get; set; }

@@ -17,14 +17,16 @@ namespace PPcore.Controllers
 {
     public class SecurityController : Controller
     {
+        private readonly PalangPanyaDBContext _context;
         private readonly SecurityDBContext _scontext;
         private readonly IEmailSender _emailSender;
         private IConfiguration _configuration;
         private IHostingEnvironment _env;
         private readonly ILogger _logger;
 
-        public SecurityController(SecurityDBContext scontext, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public SecurityController(PalangPanyaDBContext context,SecurityDBContext scontext, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _context = context;
             _scontext = scontext;
             _emailSender = emailSender;
             _configuration = configuration;
@@ -38,38 +40,23 @@ namespace PPcore.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Login(string uname, string upwd, string ReturnUrl)
-        //{
-        //    //ApplicationUser au = new ApplicationUser();
-        //    //au.UserName = uname;
-
-        //    //var result = await _signInManager.PasswordSignInAsync(uname, upwd, false, lockoutOnFailure: false);
-        //    //if (result.Succeeded)
-        //    //{
-        //    //    _logger.LogInformation(1, "User logged in.");
-        //    //    //return RedirectToAction(nameof(HomeController.Index), "Home");
-        //    //    return Json(new { result = "success" });
-        //    //    //if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
-        //    //    //{
-        //    //    //    //Re-check this if in case user try to get on page with correct authentication but wrong authorization
-        //    //    //    return Redirect(ReturnUrl);
-
-        //    //    //}
-        //    //    //else
-        //    //    //{
-        //    //    //    return RedirectToAction(nameof(HomeController.Index), "Home");
-        //    //    //    //return Json(new { result = "success" });
-        //    //    //}
-
-        //    //}
-        //    //else
-        //    //{
-        //    //    return Json(new { result = "fail" });
-        //    //}
-
-        //    return Json(new { result = "success" });
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Login(string uname, string upwd)
+        {
+            var m = await _context.member.SingleOrDefaultAsync(mm => (mm.mem_username == uname.Trim()) && (mm.mem_password == upwd.Trim()));
+            if (m != null)
+            {
+                HttpContext.Session.SetString("memberId", m.id.ToString());
+                HttpContext.Session.SetString("roleId", m.mem_role_id.ToString());
+                HttpContext.Session.SetString("username", m.mem_username);
+                HttpContext.Session.SetString("displayname", (m.fname + " " + m.lname).Trim());
+                return Json(new { result = "success" });
+            }
+            else
+            {
+                return Json(new { result = "fail" });
+            }
+        }
 
         [HttpGet]
         public async Task<IActionResult> LogOff()
@@ -82,18 +69,13 @@ namespace PPcore.Controllers
             //}
             //_scontext.SecurityMemberRoles.SingleOrDefault();
 
-
-            HttpContext.Session.SetString("memberId", "b493c72b-39dd-4c79-adab-5cbfa88a982e");
-            HttpContext.Session.SetString("username", "Administrator");
-            HttpContext.Session.SetString("fullname", "Administrator");
-
             var memberId = HttpContext.Session.GetString("memberId");
-            var username = HttpContext.Session.GetString("username");
-
             var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == new Guid(memberId));
             smr.LoggedOutDate = DateTime.Now;
             _scontext.Update(smr);
             await _scontext.SaveChangesAsync();
+
+            HttpContext.Session.Clear();
 
             _logger.LogInformation(4, "User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");

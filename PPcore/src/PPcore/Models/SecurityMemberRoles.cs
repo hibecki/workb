@@ -13,7 +13,6 @@ namespace PPcore.Models
         public Guid CreatedBy { get; set; }
 
         [Display(Name = "วันที่สร้าง")]
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
         public DateTime CreatedDate { get; set; }
 
@@ -21,18 +20,15 @@ namespace PPcore.Models
         public Guid EditedBy { get; set; }
 
         [Display(Name = "วันที่แก้ไข")]
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
         public DateTime EditedDate { get; set; }
 
         [Display(Name = "วันที่เข้าใช้ล่าสุด")]
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
-        public DateTime LoggedInDate { get; set; }
+        public DateTime? LoggedInDate { get; set; }
         [Display(Name = "วันที่ออกระบบล่าสุด")]
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
-        public DateTime LoggedOutDate { get; set; }
+        public DateTime? LoggedOutDate { get; set; }
 
         public string x_status { get; set; }
         public string x_note { get; set; }
