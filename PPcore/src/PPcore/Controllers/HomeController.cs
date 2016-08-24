@@ -4,6 +4,7 @@ using PPcore.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace PPcore.Controllers
 {
@@ -18,7 +19,8 @@ namespace PPcore.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction(nameof(membersController.Index), "members");
+            return RedirectToAction(nameof(SecurityController.Login), "Security");
+            //return RedirectToAction(nameof(membersController.Index), "members");
         }
     }
 }

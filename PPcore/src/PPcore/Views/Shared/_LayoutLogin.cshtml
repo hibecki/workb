@@ -135,11 +135,11 @@
                 if ((uname != '') && (upwd != '')) {
                     $.ajax({
                         type: 'post',
-                        url: '@Url.Action("Login", "Account")' + "?uname=" + uname + "&upwd=" + upwd,
+                        url: '@Url.Action("Login", "Security")' + "?uname=" + uname + "&upwd=" + upwd,
                     }).done(function (resp) {
                         if (resp.result == "success") {
-                            //window.location.replace("@Url.Action("Index","members")");
-                            window.location.replace("@Url.Action("Index","Home")");
+                            window.location.replace("@Url.Action("Index","members")");
+                            //window.location.replace("@Url.Action("Index","Home")");
                         } else if (resp.result == "fail") {
                             $('#waitBtnConfirm').hide();
                             $('#loginMsg').text('ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');

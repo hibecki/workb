@@ -50,7 +50,17 @@ namespace PPcore.Controllers
                 HttpContext.Session.SetString("roleId", m.mem_role_id.ToString());
                 HttpContext.Session.SetString("username", m.mem_username);
                 HttpContext.Session.SetString("displayname", (m.fname + " " + m.lname).Trim());
-                return Json(new { result = "success" });
+
+                var roleId = HttpContext.Session.GetString("roleId");
+                if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Administrators role
+                {
+                    return RedirectToAction(nameof(membersController.Index), "members");
+                }
+                else
+                {
+                    return RedirectToAction(nameof(SecurityController.ManageMembers), "Security");
+                }
+                //return Json(new { result = "success" });
             }
             else
             {
@@ -61,14 +71,6 @@ namespace PPcore.Controllers
         [HttpGet]
         public async Task<IActionResult> LogOff()
         {
-            //var user = new ApplicationUser { UserName = "admin", Email = "info@palangpanya.com" };
-            //var result = await _userManager.CreateAsync(user, "admin1");
-            //if (result.Succeeded)
-            //{
-            //    await _userManager.AddToRoleAsync(user, "Administrators");
-            //}
-            //_scontext.SecurityMemberRoles.SingleOrDefault();
-
             var memberId = HttpContext.Session.GetString("memberId");
             var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == new Guid(memberId));
             smr.LoggedOutDate = DateTime.Now;
@@ -77,7 +79,7 @@ namespace PPcore.Controllers
 
             HttpContext.Session.Clear();
 
-            _logger.LogInformation(4, "User logged out.");
+            _logger.LogInformation(4, "User: " + memberId + " logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
