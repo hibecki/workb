@@ -216,7 +216,6 @@
 --resource:"D:\workb\PPcore\src\PPcore\obj\Debug\net461\PPcoredotnet-compile.deps.json",PPcore.deps.json
 D:\workb\PPcore\src\PPcore\Program.cs
 D:\workb\PPcore\src\PPcore\Startup.cs
-D:\workb\PPcore\src\PPcore\Controllers\AccountController.cs
 D:\workb\PPcore\src\PPcore\Controllers\albumsController.cs
 D:\workb\PPcore\src\PPcore\Controllers\course_groupController.cs
 D:\workb\PPcore\src\PPcore\Controllers\course_instructorController.cs
@@ -254,6 +253,7 @@ D:\workb\PPcore\src\PPcore\Controllers\SecurityRolesController.cs
 D:\workb\PPcore\src\PPcore\Controllers\train_placeController.cs
 D:\workb\PPcore\src\PPcore\Controllers\videosController.cs
 D:\workb\PPcore\src\PPcore\Helpers\HtmlHelpers.cs
+D:\workb\PPcore\src\PPcore\Helpers\Utils.cs
 D:\workb\PPcore\src\PPcore\Models\album.cs
 D:\workb\PPcore\src\PPcore\Models\course_grade.cs
 D:\workb\PPcore\src\PPcore\Models\course_group.cs

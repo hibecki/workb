@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using PPcore.Helpers;
 
 namespace PPcore.Controllers
 {
@@ -43,31 +44,40 @@ namespace PPcore.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string uname, string upwd)
         {
-            var m = await _context.member.SingleOrDefaultAsync(mm => (mm.mem_username == uname.Trim()) && (mm.mem_password == upwd.Trim()));
+            upwd = Utils.EncodeMd5(upwd.Trim());
+            var m = await _context.member.SingleOrDefaultAsync(mm => (mm.mem_username == uname.Trim()) && (mm.mem_password == upwd));
             if (m != null)
             {
-                HttpContext.Session.SetString("memberId", m.id.ToString());
-                HttpContext.Session.SetString("roleId", m.mem_role_id.ToString());
-                HttpContext.Session.SetString("username", m.mem_username);
-                HttpContext.Session.SetString("displayname", (m.fname + " " + m.lname).Trim());
-                
-                var memberId = HttpContext.Session.GetString("memberId");
-                var roleId = HttpContext.Session.GetString("roleId");
-                var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == new Guid(memberId));
-                smr.LoggedInDate = DateTime.Now;
-                _scontext.Update(smr);
-                await _scontext.SaveChangesAsync();
-
-                var returnUrl = Url.Action("Login", "Security");
-                if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Administrators role
+                var smr = await _scontext.SecurityMemberRoles.SingleOrDefaultAsync(smrr => (smrr.MemberId == m.id) && (smrr.x_status != "N"));
+                if (smr != null)
                 {
-                    returnUrl = Url.Action("Index", "members");
+                    HttpContext.Session.SetString("memberId", m.id.ToString());
+                    HttpContext.Session.SetString("roleId", m.mem_role_id.ToString());
+                    HttpContext.Session.SetString("username", m.mem_username);
+                    HttpContext.Session.SetString("displayname", (m.fname + " " + m.lname).Trim());
+
+                    var memberId = HttpContext.Session.GetString("memberId");
+                    var roleId = HttpContext.Session.GetString("roleId");
+
+                    smr.LoggedInDate = DateTime.Now;
+                    _scontext.Update(smr);
+                    await _scontext.SaveChangesAsync();
+
+                    var returnUrl = Url.Action("Login", "Security");
+                    if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Administrators role
+                    {
+                        returnUrl = Url.Action("Index", "members");
+                    }
+                    else
+                    {
+                        returnUrl = Url.Action("ManageMembers", "Security");
+                    }
+                    return Json(new { result = "success", url = returnUrl });
                 }
                 else
                 {
-                    returnUrl = Url.Action("ManageMembers", "Security");
+                    return Json(new { result = "fail" });
                 }
-                return Json(new { result = "success", url = returnUrl });
             }
             else
             {
@@ -113,10 +123,7 @@ namespace PPcore.Controllers
             _emailSender.SendEmailAsync(email, title, body);
         }
 
-        public IActionResult RegisterMember()
-        {
-            return View();
-        }
+
 
 
 

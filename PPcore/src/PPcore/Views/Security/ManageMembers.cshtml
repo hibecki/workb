@@ -34,7 +34,7 @@
                                         <button id="btnCreate" type="button" class="btn btn-default dropdown-toggle btn-panel-yellow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:none"></button>
                                         <div class="dropdown-menu" id="usernameDropdown">
                                             <div style="height:11px;margin-top:-5px;border-top-left-radius:inherit;border-top-right-radius:inherit;"></div>
-                                            <input id="utype" type="text" style="display:none">
+                                            <input id="utype" type="text" style="display:none" /><input id="uRoleId" type="text" style="display:none" />
                                             <form style="width:250px;margin-left:10px;margin-right:10px;">
                                                 <div style="color:#313131;margin-top:10px;margin-bottom:-10px;" id="userTitle"></div>
                                                 <hr />
@@ -60,7 +60,7 @@
 
                                                 <span id="userMsg" class="text-danger" style="display:none;margin-top:-10px;margin-left:50px;position:absolute"></span>
                                                 <br />
-                                                <button type="button" id="btnCreateUser" class="btn btn-default btn-panel-yellow" onclick="createUser($('#utype').val());">&nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;</button>
+                                                <button type="button" id="btnCreateUser" class="btn btn-default btn-panel-yellow" onclick="createUser();">&nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;</button>
                                                 <br />
                                             </form>
                                         </div>
@@ -112,7 +112,7 @@
                 <div id="a_body"></div>
                 <br /><br />
                 <div class="pull-right" style="margin-top:-2px;">
-                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true" onclick="window.location.href = '@Url.Action("EMailAllMembers", "news")';">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
                 </div>
             </div>
 
@@ -129,7 +129,6 @@
     <script>
         $(document).ready(function () {
             aRoleMenu();
-            aUserTable('17822a90-1029-454a-b4c7-f631c9ca6c7d');
             $('#usernameDropdown').off('click').on('click', function (e) {
                 e.stopPropagation();
             });
@@ -159,32 +158,23 @@
                 }
             });
         });
-        function isInputEmpty() {
-            var isEmpty = false;
-            if ($('#topic').val()) {
-                $('#topic-msg').hide(); isEmpty = false;
-            } else {
-                $('#topic-msg').show(); isEmpty = true;
-            }
-            if ($('#content').val()) {
-                $('#content-msg').hide(); isEmpty = false;
-            } else {
-                $('#content-msg').show(); isEmpty = true;
-            }
-            return isEmpty;
-        }
         function aRoleMenu() {
             $.ajax({
                 type: 'get', url: '@Url.Action("DetailsAsRoleMenu", "SecurityRoles")',
             }).done(function (resp) {
                 $('#aRoleMenu').html(resp);
-                $('#utype').val(3);
-                aUserForm(3, 'Members');
+                $("#menua_3").trigger("click");
             });
+        }
+        function aUsersByRole(roleId, utype, rname) {
+            aUserForm(utype, rname);
+            aUserTable(roleId);
+            $('#utype').val(utype);
+            $('#uRoleId').val(roleId);
         }
         function aUserTable(roleId) {
             $.ajax({
-                type: 'get', url: '@Url.Action("DetailsAsTableSecurity", "members")' + '?roleId=' + roleId,
+                type: 'get', url: '@Url.Action("SecurityDetailsAsTable", "members")' + '?roleId=' + roleId,
             }).done(function (resp) {
                 $('#memberBody').html(resp);
                 var w = [
@@ -228,52 +218,46 @@
                 $('#bar_' + $('#utype').val()).removeClass();
                 $('#bar_' + utype).removeClass().addClass('bg-color-black');
             }
-            $('#utype').val(utype);
         }
-        function createUser(utype) {
-            if (utype == 'A') {
-                alert("test");
-
-            }
-            else if (utype == 'O')
-            {
-
-            
-            }
-
-            $('#rolenameMsg').hide();
-            if ($('#rolename').val()) {
-                $.ajax({
-                    async: true,
-                    type: "POST",
-                    url: "@Url.Action("CreateRole", "SecurityRoles")",
-                    data: {
-                    RoleName: $('#rolename').val()
-                    },
-                success: function (data) {
-                    if (data.result == "dup") {
-                        $('#rolenameMsg').text('ตรวจพบชื่อกลุ่มซ้ำ');
-                        $('#rolenameMsg').show();
-                    } else if (data.result == "success") {
-                        $('#rolename').val(''); $('#rolenameMsg').hide();
-                        window.location.href = '@Url.Action("ManageRoles", "Security")';
-                    } else {
-                        $('#rolenameMsg').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
-                        $('#rolenameMsg').show();
+        function createUser() {
+            $('#uname').val($('#uname').val().trim()); $('#upwd').val($('#upwd').val().trim()); $('#upwdrepeat').val($('#upwdrepeat').val().trim());
+            if ($('#uname').val() && $('#upwd').val() && $('#upwdrepeat').val()) {
+                if ($('#upwd').val() == $('#upwdrepeat').val()) {
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        url: "@Url.Action("SecurityCreateUser", "members")",
+                        data: {
+                        roleId: $('#uRoleId').val(),
+                        uname: $('#uname').val(),
+                        upwd: $('#upwd').val(),
+                        },
+                    success: function (data) {
+                        if (data.result == "dup") {
+                            $('#a_label').text('ตรวจพบชื่อผู้ใช้ซ้ำ');
+                            $('#a_body').text('ตรวจพบชื่อผู้ใช้ซ้ำ กรุณาลองใหม่');
+                            $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                        } else if (data.result == "success") {
+                            $('#uname').val(''); $('#upwd').val(''); $('#upwdrepeat').val('');
+                            aUserTable($('#uRoleId').val());
+                        } else {
+                            $('#a_label').text('ตรวจพบความผิดพลาด');
+                            $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
+                            $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                        }
                     }
+                    });
+                } else {
+                    $('#a_label').text('กรุณาป้อนรหัสผ่าน');
+                    $('#a_body').text('รหัสผ่านไม่ตรงกัน กรุณาป้อนใหม่อีกครั้ง');
+                    $('#a_modal').modal({ backdrop: 'static', keyboard: false });
                 }
-            });
-            //$('#a_label').text('ระบบได้ทำการจัดส่งอีเมลเรียบร้อย');
-            //$('#a_body').text('ระบบได้ทำการจัดส่งอีเมลเรียบร้อยแล้ว');
-            //$('#a_modal').modal({ backdrop: 'static', keyboard: false });
-            //
-        }
-        else
-        {
-                    $('#rolenameMsg').text('กรุณากรอกข้อมูล');
-        $('#rolenameMsg').show();
-        }
 
+            } else {
+                $('#a_label').text('กรุณากรอกข้อมูล');
+                $('#a_body').text('กรุณากรอกข้อมูลให้ครบถ้วน');
+                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+            }
         }
 
         function suspendClick(id) {
@@ -297,7 +281,7 @@
                     id: id, status: status
                 },
                 success: function (data) {
-
+                    aUserTable($('#uRoleId').val());
                 }
             });
         }

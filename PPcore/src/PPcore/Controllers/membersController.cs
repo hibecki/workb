@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using PPcore.Services;
+using PPcore.Helpers;
+using System.Data.SqlClient;
 
 namespace PPcore.Controllers
 {
@@ -977,8 +979,6 @@ namespace PPcore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public IActionResult Create([Bind("member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,social_app_data,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone")] member member)
-
-
         public IActionResult Create(member member)
         {
             if (ModelState.IsValid)
@@ -1064,8 +1064,8 @@ namespace PPcore.Controllers
                 }
                 member.mem_username = member.cid_card;
                 string password = member.cid_card.Substring(member.cid_card.Length - 4);
-                member.mem_password = password;
-                member.mem_role_id = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d");
+                member.mem_password = Utils.EncodeMd5(password);
+                member.mem_role_id = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d"); //Role member
 
                 //var user = new ApplicationUser { UserName = member.cid_card, Email = member.email };
                 //_userManager.CreateAsync(user, password);
@@ -1390,8 +1390,134 @@ namespace PPcore.Controllers
             return Json(JsonConvert.SerializeObject(t));
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        //public async Task<IActionResult> Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
+        public IActionResult Register(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
+        {
+            DateTime bd = Convert.ToDateTime(birthdate);
+            //birthdate = (bd.Year).ToString() + bd.Month.ToString() + bd.Day.ToString();
+            birthdate = (bd.Year).ToString() + bd.ToString("MMdd");
+            string password = cid_card.Substring(cid_card.Length - 4);
+            string passwordMD5 = Utils.EncodeMd5(password);
+            try
+            {
+                if ((!string.IsNullOrEmpty(mem_photo)) && (mem_photo.Substring(0, 1) != "M"))
+                {
+                    var fileName = mem_photo.Substring(9);
+                    var fileExt = Path.GetExtension(fileName);
+
+                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), mem_photo);
+                    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
+                    //System.IO.File.Copy(s, d, true);
+                    //System.IO.File.Delete(s);
+
+                    pic_image m = new pic_image();
+                    m.image_code = "M" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
+                    m.x_status = "Y";
+                    m.image_name = fileName;
+                    string base64String = "";
+                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
+                    {
+                        using (MemoryStream mem = new MemoryStream())
+                        {
+                            image.Save(mem, image.RawFormat);
+                            byte[] imageBytes = mem.ToArray();
+                            base64String = Convert.ToBase64String(imageBytes);
+                        }
+                    }
+                    m.image_file = base64String;
+
+                    m.ref_doc_type = "member";
+                    m.ref_doc_code = cid_card; //member_code;
+                    fileName = m.image_code;
+                    _context.pic_image.Add(m);
+                    _context.SaveChanges();
+
+                    System.IO.File.Delete(s);
+                    //clearImageUpload();
+
+                    mem_photo = m.image_code;
+                }
+                if ((!string.IsNullOrEmpty(cid_card_pic)) && (cid_card_pic.Substring(0, 1) != "C"))
+                {
+                    var fileName = cid_card_pic.Substring(9);
+                    var fileExt = Path.GetExtension(fileName);
+
+                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), cid_card_pic);
+                    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
+                    //System.IO.File.Copy(s, d, true);
+                    //System.IO.File.Delete(s);
+
+                    pic_image pic_image = new pic_image();
+                    pic_image.image_code = "C" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
+                    pic_image.x_status = "Y";
+                    pic_image.image_name = fileName;
+                    string base64String = "";
+                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
+                    {
+                        using (MemoryStream mem = new MemoryStream())
+                        {
+                            image.Save(mem, image.RawFormat);
+                            byte[] imageBytes = mem.ToArray();
+                            base64String = Convert.ToBase64String(imageBytes);
+                        }
+                    }
+                    pic_image.image_file = base64String;
+                    pic_image.ref_doc_type = "cidcard";
+                    pic_image.ref_doc_code = cid_card; //member_code;
+                    fileName = pic_image.image_code;
+                    _context.pic_image.Add(pic_image);
+                    _context.SaveChanges();
+
+                    System.IO.File.Delete(s);
+                    //clearImageUpload();
+
+                    cid_card_pic = pic_image.image_code;
+                }
+                _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_username,mem_password,mem_role_id,mem_photo,cid_card_pic) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','"+cid_card+"','" + passwordMD5 + "','17822a90-1029-454a-b4c7-f631c9ca6c7d','" + mem_photo + "','" + cid_card_pic + "')");
+
+                var mb = _context.member.SingleOrDefault(mm => mm.member_code == cid_card);
+                SecurityMemberRoles smr = new SecurityMemberRoles();
+                smr.MemberId = mb.id;
+                smr.CreatedDate = DateTime.Now;
+                smr.CreatedBy = mb.id;
+                smr.EditedDate = DateTime.Now;
+                smr.EditedBy = mb.id;
+                smr.x_status = "Y";
+                _scontext.Add(smr);
+                _scontext.SaveChanges();
+
+                SendEmail(email, cid_card, password);
+            }
+            catch (SqlException ex)
+            {
+                var errno = ex.Number; var msg = "";
+                if (errno == 2627) //Violation of primary key. Handle Exception
+                {
+                    msg = "duplicate";
+                }
+                return Json(new { result = "fail", error_code = errno, error_message = msg });
+            }
+            catch (Exception ex)
+            {
+                var errno = ex.HResult; var msg = "";
+                if (ex.InnerException.Message.IndexOf("PRIMARY KEY") != -1)
+                {
+                    msg = "duplicate";
+                }
+                return Json(new { result = "fail", error_code = errno, error_message = msg });
+            }
+
+            return Json(new { result = "success" });
+        }
+
         [HttpGet]
-        public IActionResult DetailsAsTableSecurity(string roleId)
+        public IActionResult SecurityDetailsAsTable(string roleId)
         {
             var ms = _context.member.Where(mss => mss.mem_role_id == new Guid(roleId)).OrderBy(mss => mss.mem_username).ToList();
             List<PPcore.ViewModels.member.SecurityMemberRolesViewModel> mvs = new List<ViewModels.member.SecurityMemberRolesViewModel>();
@@ -1423,6 +1549,41 @@ namespace PPcore.Controllers
                 mvs.Add(mv);
             }
             return View(mvs);
+        }
+
+        [HttpPost]
+        public IActionResult SecurityCreateUser(string roleId, string uname, string upwd)
+        {
+            var m = _context.member.SingleOrDefault(mm => mm.mem_username == uname.ToUpper());
+            if (m != null)
+            {
+                return Json(new { result = "dup" });
+            }
+            else
+            {
+                member nm = new member();
+                nm.member_code = "U" + DateTime.Now.ToString("yyMMddHHmmssfffffff");
+                nm.mem_username = uname.ToUpper();
+                nm.fname = uname.ToUpper();
+                nm.mem_password = Utils.EncodeMd5(upwd);
+                nm.mem_role_id = new Guid(roleId);
+                _context.Add(nm);
+                _context.SaveChanges();
+
+                var memberId = HttpContext.Session.GetString("memberId");
+                SecurityMemberRoles nmr = new SecurityMemberRoles();
+                nmr.MemberId = nm.id;
+                nmr.x_status = "Y";
+                nmr.CreatedBy = new Guid(memberId);
+                nmr.CreatedDate = DateTime.Now;
+                nmr.EditedBy = new Guid(memberId);
+                nmr.EditedDate = DateTime.Now;
+                _scontext.Add(nmr);
+                _scontext.SaveChanges();
+
+                return Json(new { result = "success" });
+            }
+
         }
 
         private class listTraining
