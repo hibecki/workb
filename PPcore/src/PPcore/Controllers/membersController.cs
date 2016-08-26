@@ -1390,132 +1390,6 @@ namespace PPcore.Controllers
             return Json(JsonConvert.SerializeObject(t));
         }
 
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        //public async Task<IActionResult> Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
-        public IActionResult Register(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
-        {
-            DateTime bd = Convert.ToDateTime(birthdate);
-            //birthdate = (bd.Year).ToString() + bd.Month.ToString() + bd.Day.ToString();
-            birthdate = (bd.Year).ToString() + bd.ToString("MMdd");
-            string password = cid_card.Substring(cid_card.Length - 4);
-            string passwordMD5 = Utils.EncodeMd5(password);
-            try
-            {
-                if ((!string.IsNullOrEmpty(mem_photo)) && (mem_photo.Substring(0, 1) != "M"))
-                {
-                    var fileName = mem_photo.Substring(9);
-                    var fileExt = Path.GetExtension(fileName);
-
-                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), mem_photo);
-                    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
-                    //System.IO.File.Copy(s, d, true);
-                    //System.IO.File.Delete(s);
-
-                    pic_image m = new pic_image();
-                    m.image_code = "M" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
-                    m.x_status = "Y";
-                    m.image_name = fileName;
-                    string base64String = "";
-                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
-                    {
-                        using (MemoryStream mem = new MemoryStream())
-                        {
-                            image.Save(mem, image.RawFormat);
-                            byte[] imageBytes = mem.ToArray();
-                            base64String = Convert.ToBase64String(imageBytes);
-                        }
-                    }
-                    m.image_file = base64String;
-
-                    m.ref_doc_type = "member";
-                    m.ref_doc_code = cid_card; //member_code;
-                    fileName = m.image_code;
-                    _context.pic_image.Add(m);
-                    _context.SaveChanges();
-
-                    System.IO.File.Delete(s);
-                    //clearImageUpload();
-
-                    mem_photo = m.image_code;
-                }
-                if ((!string.IsNullOrEmpty(cid_card_pic)) && (cid_card_pic.Substring(0, 1) != "C"))
-                {
-                    var fileName = cid_card_pic.Substring(9);
-                    var fileExt = Path.GetExtension(fileName);
-
-                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), cid_card_pic);
-                    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
-                    //System.IO.File.Copy(s, d, true);
-                    //System.IO.File.Delete(s);
-
-                    pic_image pic_image = new pic_image();
-                    pic_image.image_code = "C" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
-                    pic_image.x_status = "Y";
-                    pic_image.image_name = fileName;
-                    string base64String = "";
-                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
-                    {
-                        using (MemoryStream mem = new MemoryStream())
-                        {
-                            image.Save(mem, image.RawFormat);
-                            byte[] imageBytes = mem.ToArray();
-                            base64String = Convert.ToBase64String(imageBytes);
-                        }
-                    }
-                    pic_image.image_file = base64String;
-                    pic_image.ref_doc_type = "cidcard";
-                    pic_image.ref_doc_code = cid_card; //member_code;
-                    fileName = pic_image.image_code;
-                    _context.pic_image.Add(pic_image);
-                    _context.SaveChanges();
-
-                    System.IO.File.Delete(s);
-                    //clearImageUpload();
-
-                    cid_card_pic = pic_image.image_code;
-                }
-                _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_username,mem_password,mem_role_id,mem_photo,cid_card_pic) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','"+cid_card+"','" + passwordMD5 + "','17822a90-1029-454a-b4c7-f631c9ca6c7d','" + mem_photo + "','" + cid_card_pic + "')");
-
-                var mb = _context.member.SingleOrDefault(mm => mm.member_code == cid_card);
-                SecurityMemberRoles smr = new SecurityMemberRoles();
-                smr.MemberId = mb.id;
-                smr.CreatedDate = DateTime.Now;
-                smr.CreatedBy = mb.id;
-                smr.EditedDate = DateTime.Now;
-                smr.EditedBy = mb.id;
-                smr.x_status = "Y";
-                _scontext.Add(smr);
-                _scontext.SaveChanges();
-
-                SendEmail(email, cid_card, password);
-            }
-            catch (SqlException ex)
-            {
-                var errno = ex.Number; var msg = "";
-                if (errno == 2627) //Violation of primary key. Handle Exception
-                {
-                    msg = "duplicate";
-                }
-                return Json(new { result = "fail", error_code = errno, error_message = msg });
-            }
-            catch (Exception ex)
-            {
-                var errno = ex.HResult; var msg = "";
-                if (ex.InnerException.Message.IndexOf("PRIMARY KEY") != -1)
-                {
-                    msg = "duplicate";
-                }
-                return Json(new { result = "fail", error_code = errno, error_message = msg });
-            }
-
-            return Json(new { result = "success" });
-        }
-
         [HttpGet]
         public IActionResult SecurityDetailsAsTable(string roleId)
         {
@@ -1530,6 +1404,7 @@ namespace PPcore.Controllers
 
                 var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == mem.id);
 
+                mv.email = mem.email;
                 mv.LoggedInDate = smr.LoggedInDate;
                 mv.LoggedOutDate = smr.LoggedOutDate;
                 mv.CreatedDate = smr.CreatedDate;
@@ -1540,11 +1415,17 @@ namespace PPcore.Controllers
 
 
                 var mc = _context.member.SingleOrDefault(mcc => mcc.id == mv.CreatedBy);
-                if (mc != null) { mv.CreatedByUserName = (mc.fname + " " + mc.lname).Trim(); } else { mv.CreatedByUserName = ""; }
+                if (mc != null) {
+                    //mv.CreatedByUserName = (mc.fname + " " + mc.lname).Trim();
+                    mv.CreatedByUserName = mc.mem_username;
+                } else { mv.CreatedByUserName = ""; }
                 
 
                 var me = _context.member.SingleOrDefault(mee => mee.id == mv.EditedBy);
-                if (me != null) { mv.EditedByUserName = (me.fname + " " + me.lname).Trim(); } else { mv.EditedByUserName = ""; }
+                if (me != null) {
+                    //mv.EditedByUserName = (me.fname + " " + me.lname).Trim();
+                    mv.EditedByUserName = me.mem_username;
+                } else { mv.EditedByUserName = ""; }
 
                 mvs.Add(mv);
             }
@@ -1552,7 +1433,7 @@ namespace PPcore.Controllers
         }
 
         [HttpPost]
-        public IActionResult SecurityCreateUser(string roleId, string uname, string upwd)
+        public IActionResult SecurityCreateUser(string roleId, string uname, string email, string upwd)
         {
             var m = _context.member.SingleOrDefault(mm => mm.mem_username == uname.ToUpper());
             if (m != null)
@@ -1565,8 +1446,10 @@ namespace PPcore.Controllers
                 nm.member_code = "U" + DateTime.Now.ToString("yyMMddHHmmssfffffff");
                 nm.mem_username = uname.ToUpper();
                 nm.fname = uname.ToUpper();
+                upwd = Utils.GeneratePassword();
                 nm.mem_password = Utils.EncodeMd5(upwd);
                 nm.mem_role_id = new Guid(roleId);
+                nm.email = email;
                 _context.Add(nm);
                 _context.SaveChanges();
 
@@ -1580,6 +1463,8 @@ namespace PPcore.Controllers
                 nmr.EditedDate = DateTime.Now;
                 _scontext.Add(nmr);
                 _scontext.SaveChanges();
+
+                SendEmail(email,uname,upwd);
 
                 return Json(new { result = "success" });
             }

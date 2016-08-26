@@ -11,6 +11,7 @@ using PPcore.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using PPcore.Filters;
 
 namespace PPcore
 {
@@ -45,11 +46,15 @@ namespace PPcore
 
             services.AddSingleton(Configuration);
 
-            // Add framework services.
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizationPPFilter());
+            });
             services.AddMvc();
+
             //services.AddCaching();
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
                 options.CookieName = ".PalangPanya";
             });
 

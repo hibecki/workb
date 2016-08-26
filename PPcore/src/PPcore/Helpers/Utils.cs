@@ -50,5 +50,12 @@ namespace PPcore.Helpers
             }
             return Bytes;
         }
+
+        public static string GeneratePassword()
+        {
+            Random rd = new Random();
+            int ran = rd.Next(1234, 9876);
+            return ran.ToString();
+        }
     }
 }

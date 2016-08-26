@@ -76,18 +76,18 @@ namespace PPcore.Controllers
             return View(await _scontext.SecurityRoles.Where(sr => sr.x_status != "N").OrderBy(sr => sr.CreatedDate).ToListAsync());
         }
 
-        public async Task<IActionResult> DetailsAsSideMenu()
+        public async Task<IActionResult> Manage(string roleId)
         {
-            List<memberViewModel> ms = new List<memberViewModel>();
-            var srs = await _scontext.SecurityRoles.Where(srr => srr.x_status != "N").OrderBy(srr => srr.CreatedDate).ToListAsync();
-            foreach (SecurityRoles sr in srs)
+            var r = await _scontext.SecurityRoles.SingleOrDefaultAsync(rr => rr.RoleId == new Guid(roleId));
+            if (r != null)
             {
-                memberViewModel m = new memberViewModel();
-                m.SecurityRoles = sr;
-                m.memberCount = _context.member.Where(mm => mm.mem_role_id == sr.RoleId).Count();
-                ms.Add(m);
+                ViewBag.RoleName = r.RoleName;
+                if (roleId == "ViewBag.RoleName")
+                {
+
+                }
             }
-            return View(ms);
+            return View();
         }
     }
 }

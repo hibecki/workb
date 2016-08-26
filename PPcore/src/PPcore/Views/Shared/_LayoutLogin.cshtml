@@ -86,7 +86,7 @@
             $(document).ready(function () {
                 var con = '@ViewContext.RouteData.Values["controller"]';
                 var act = '@ViewContext.RouteData.Values["action"]';
-                if (act == "Register") {
+                if (act == "RegisterMember") {
                     $.datepicker.regional['th'] = {
                         dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
                         yearRange: "-100:+0", yearOffSet: 543, beforeShow: dateDefault
@@ -113,7 +113,7 @@
                 if ((cid_card != '') && (fname != '') && (lname != '') && (birthdate != '') && (mobile != '') && (email != '')) {
                     $.ajax({
                         type: 'post',
-                        url: '@Url.Action("Register", "members")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email + "&mem_photo=" + mem_photo + "&cid_card_pic=" + cid_card_pic,
+                        url: '@Url.Action("RegisterMember", "Home")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email + "&mem_photo=" + mem_photo + "&cid_card_pic=" + cid_card_pic,
                     }).done(function (resp) {
                         if (resp.result == "success") {
                             window.location.replace("@Url.Action("Index","Home")");
@@ -135,7 +135,7 @@
                 if ((uname != '') && (upwd != '')) {
                     $.ajax({
                         type: 'post',
-                        url: '@Url.Action("Login", "Security")' + "?uname=" + uname + "&upwd=" + upwd,
+                        url: '@Url.Action("Login", "Home")' + "?uname=" + uname + "&upwd=" + upwd,
                     }).done(function (resp) {
                         if (resp.result == "success") {
                             window.location.replace(resp.url);
@@ -158,7 +158,7 @@
                 if ((uname != '')) {
                     $.ajax({
                         type: 'post',
-                        url: '@Url.Action("ForgetPwd", "Account")' + "?uname=" + uname + "&upwd=" + upwd,
+                        url: '@Url.Action("ForgetPwd", "Home")' + "?uname=" + uname + "&upwd=" + upwd,
                     }).done(function (resp) {
                         if (resp.result == "success") {
                             $('#loginMsg').text('ระบบได้ทำการจัดส่งรหัสผ่านไปยังอีเมลที่กำหนดไว้เรียบร้อยแล้ว');
