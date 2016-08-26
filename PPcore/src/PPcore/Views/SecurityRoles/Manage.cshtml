@@ -5,42 +5,151 @@
     </div>
     <div class="panel panel-blue">
         <div class="panel-heading">
-            <div class="pull-left" style="margin-top:-18px;"><h3>@ViewBag.RoleName</h3></div>
+            <div class="pull-left" style="margin-top:3px;"><span>จัดการกลุ่มผู้ใช้</span></div>
             <div class="pull-right" style="margin-top:-2px;">
                 <button id="btnBack" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("ManageRoles", "Security")'">&nbsp;<i class="fa fa-reply" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;กลับ&nbsp;&nbsp;</button>
             </div>
-            <div id="colorbar" style="height:14px;margin-top:39px;margin-left:-15px;margin-right:-15px;z-index:3;">&nbsp;</div>
         </div>
-
         <div class="panel-body">
-            @*<div style="position:absolute;width:7px;height:230px;top:48px;left:250px;background-color:red;z-index:3;">&nbsp;</div>*@
-            @*<div id="colorbar" style="height:7px;top:48px;left:250px;background-color:red;z-index:3;">&nbsp;</div>*@
-            <h3 id="rolename"></h3><hr />
-            <div id="roleManageBody">
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel bg-color-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-7" style="font-size:24px;">Rolename</div>
-                                <div class="col-xs-5 text-right">
-                                    <div>จำนวนผู้ใช้</div>
-                                    <div style="font-size:38px;">memberCount</div>
-                                </div>
+            <div style="width:350px;">
+                <div class="panel @ViewBag.Color">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-7" style="font-size:24px;">@ViewBag.RoleName</div>
+                            <div class="col-xs-5 text-right">
+                                <div>จำนวนผู้ใช้</div>
+                                <div style="font-size:38px;">@ViewBag.CountMembers</div>
                             </div>
                         </div>
-                        <a href="#" onclick="details('RoleId');">
-                            <div class="panel-footer">
-                                <span class="pull-left">จัดการกลุ่มผู้ใช้</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
+                    <a href="#" onclick="details('RoleId');">
+                        <div class="panel-footer">
+                            <span class="pull-left"><i class="fa fa-arrow-circle-left"></i></span>
+                            <span class="pull-right">ไปหน้าจอ จัดการผู้ใช้</span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
                 </div>
-
             </div>
 
+            <div style="margin-left:370px;margin-top:-157px;margin-right:20px">
+
+
+                @*<div class="panel-group" id="acd">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#acd" href="#acollapse1">
+                                    Collapsible Group 1
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="acollapse1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                commodo consequat.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#acd" href="#acollapse2">
+                                    Collapsible Group 2
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="acollapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                commodo consequat.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#acd" href="#acollapse3">
+                                    Collapsible Group 3
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="acollapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                commodo consequat.
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+
+
+
+
+                <div class="panel-group" id="accordion">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">เปลี่ยนชื่อกลุ่มผู้ใช้</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form style="width:250px;margin-left:10px;margin-right:10px;">
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-sitemap">&nbsp;</i>
+                                        </span>
+                                        <input id="rolename" type="text" class="form-control" placeholder="ชื่อกลุ่มผู้ใช้ใหม่" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();" />
+                                    </div>
+                                    <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+                                    <button type="button" id="btnChangeRoleName" onclick="roleChangeName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                    <br />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">กำหนดสิทธิ</a>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">test
+aaaa
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse3" style="color:red">ลบกลุ่มผู้ใช้</a>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                กลุ่มผู้ใช้ สามารลบได้เมื่อไม่มีผู้ใช้อยู่ในกลุ่มเท่านั้น
+
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+
+                <br/><br/>
+
+            </div>
 
         </div>
 
@@ -106,46 +215,45 @@
     <script src="~/lib/bootstrap/js/modal.js"></script>
     <script>
         $(document).ready(function () {
-            aRoleMenu();
-            $('#usernameDropdown').off('click').on('click', function (e) {
-                e.stopPropagation();
-            });
+
         });
-        function aRoleMenu() {
-            $.ajax({
-                type: 'get', url: '@Url.Action("DetailsAsRoleMenu", "SecurityRoles")',
-            }).done(function (resp) {
-                $('#aRoleMenu').html(resp);
-                $("#menua_3").trigger("click");
+        function roleChangeName() {
+            if ($('#rolename').val().trim()) {
+
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "@Url.Action("SecurityCreateUser", "members")",
+                    data: {
+                    roleId: $('#uRoleId').val(),
+                    uname: $('#uname').val(),
+                    email: $('#email').val(),
+                        //upwd: $('#upwd').val(),
+                    },
+                success: function (data) {
+                    if (data.result == "dup") {
+                        $('#a_label').text('ตรวจพบชื่อผู้ใช้ซ้ำ');
+                        $('#a_body').text('ตรวจพบชื่อผู้ใช้ซ้ำ กรุณาลองใหม่');
+                        $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                    } else if (data.result == "success") {
+                        $('#uname').val(''); //$('#upwd').val(''); $('#upwdrepeat').val('');
+                        $('#email').val('');
+                        aUserTable($('#uRoleId').val());
+                    } else {
+                        $('#a_label').text('ตรวจพบความผิดพลาด');
+                        $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
+                        $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                    }
+                }
             });
+            } else {
+                $('#rolenameMsg').text('กรุณากรอกข้อมูล'); $('#rolenameMsg').show();
+                console.log('test');
+            }
+
+
         }
-        function aUsersByRole(roleId, utype, rname) {
-            aUserForm(utype, rname);
-            aUserTable(roleId);
-            $('#utype').val(utype);
-            $('#uRoleId').val(roleId);
-        }
-        function aUserTable(roleId) {
-            $.ajax({
-                type: 'get', url: '@Url.Action("SecurityDetailsAsTable", "members")' + '?roleId=' + roleId,
-            }).done(function (resp) {
-                $('#memberBody').html(resp);
-                var w = [
-                    { "targets": [0], "width": "180", "className": "dt-center" },
-                    { "targets": [1], "visible": false, "searchable": false },
-                    { "targets": [2], "className": "dt-center" },
-                    { "targets": [3], "width": "120", "className": "dt-center" },
-                    { "targets": [4], "width": "120", "className": "dt-center" },
-                    { "targets": [5], "width": "120", "className": "dt-center" },
-                    { "targets": [6], "width": "120", "className": "dt-center" },
-                    { "targets": [7], "width": "120", "className": "dt-center" },
-                    { "targets": [8], "width": "100", "className": "dt-center" },
-                    { "targets": [9], "width": "100", "className": "dt-center" },
-                ];
-                var table = setTable_default($('#a_table'), w);
-                table.$('tr:first').click();
-            });
-        }
+
         function aUserForm(utype, rname) {
             $('#rolename').text(rname);
             $('#userTitle').html('เพิ่มผู้ใช้ใหม่ กลุ่ม ' + rname);
