@@ -11,18 +11,19 @@
             </div>
         </div>
         <div class="panel-body">
-            <div style="width:350px;" class="clearfix">
+
+            <div style="float:left;width:350px;display:inline">
                 <div class="panel @ViewBag.Color">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-7" style="font-size:24px;">@ViewBag.RoleName</div>
+                            <div id="boxRoleName" class="col-xs-7" style="font-size:24px;">@ViewBag.RoleName</div>
                             <div class="col-xs-5 text-right">
                                 <div>จำนวนผู้ใช้</div>
                                 <div style="font-size:38px;">@ViewBag.CountMembers</div>
                             </div>
                         </div>
                     </div>
-                    <a href="#" onclick="details('RoleId');">
+                    <a href="#" onclick="details('@ViewBag.RoleId');">
                         <div class="panel-footer">
                             <span class="pull-left"><i class="fa fa-arrow-circle-left"></i></span>
                             <span class="pull-right">ไปหน้าจอ จัดการผู้ใช้</span>
@@ -32,82 +33,86 @@
                 </div>
             </div>
 
-            <div style="margin-left:370px;margin-top:-100px;margin-right:20px;">
 
-                    
+            <div style="float:left;display:inline;padding-left:20px;width:65%">
 
+                <div class="panel-group" id="accordion">
 
-                    <div class="panel-group" id="accordion">
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">เปลี่ยนชื่อกลุ่มผู้ใช้</a>
-                                </h4>
-                            </div>
-                            <div id="collapse1" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <form style="width:250px;margin-left:10px;margin-right:10px;">
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-sitemap">&nbsp;</i>
-                                            </span>
-                                            <input id="rolename" type="text" class="form-control" placeholder="ชื่อกลุ่มผู้ใช้ใหม่" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();" />
-                                        </div>
-                                        <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
-                                        <button type="button" id="btnChangeRoleName" onclick="roleChangeName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
-                                        <br />
-                                    </form>
-                                </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;เปลี่ยนชื่อกลุ่มผู้ใช้</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form style="width:250px;margin-left:10px;margin-right:10px;">
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-sitemap">&nbsp;</i>
+                                        </span>
+                                        <input id="rolename" type="text" class="form-control" placeholder="ชื่อกลุ่มผู้ใช้ใหม่" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();" />
+                                    </div>
+                                    <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+                                    <button type="button" id="btnChangeRoleName" onclick="roleChangeName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                    <br />
+                                </form>
                             </div>
                         </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">กำหนดสิทธิ</a>
-                                </h4>
-                            </div>
-                            <div id="collapse2" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    test
-                                    aaaa
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse3" style="color:red">ลบกลุ่มผู้ใช้</a>
-                                </h4>
-                            </div>
-                            <div id="collapse3" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    กลุ่มผู้ใช้ สามารลบได้เมื่อไม่มีผู้ใช้อยู่ในกลุ่มเท่านั้น
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapse3"></h4>
-                            </div>
-                            <div id="collapse4" class="panel-collapse collapse">
-                                <div class="panel-body"></div>
-                            </div>
-                        </div>
-
-                        <br />
                     </div>
 
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapse2" data-toggle="collapse" data-parent="#accordion"> <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;กำหนดสิทธิ</a>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div id="roleCheckBox" style="padding-left:20px;"></div>
+                                <br/><br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="btnUpdateMenu" onclick="menuUpdateClick();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" id="btnUpdateMenu" onclick="menuUpdateClick();" class="btn btn-default">&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เลือกทั้งหมด&nbsp;&nbsp;&nbsp;</button>
+                                <button type="button" id="btnUpdateMenu" onclick="menuUpdateClick();" class="btn btn-default">&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เอาที่เลือกออกทั้งหมด&nbsp;&nbsp;&nbsp;</button>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
 
-                    <br /><br />
-            </div>
-            @*<div style="margin-left:370px;margin-top:-158px;margin-right:20px;position:absolute;"></div>*@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3" style="color:red"> <i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;ลบกลุ่มผู้ใช้</a>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                กลุ่มผู้ใช้ สามารลบได้เมื่อไม่มีผู้ใช้อยู่ในกลุ่มเท่านั้น<br/><br/>
+                                <button type='button' id='btnDeleteRole' onclick='roleDeleteClick();' class='btn btn-default btn-panel-yellow disabled'>&nbsp;<i class='fa fa-eraser' aria-hidden='true' style='color:white;'></i>&nbsp;&nbsp;ลบกลุ่มผู้ใช้&nbsp;&nbsp;&nbsp;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+
+                <br /><br />
             </div>
+
+
+        </div>
+
+
+
+
+
+
+        <div>
+
+
+
+
+        </div>
     </div>
 
 
@@ -144,17 +149,15 @@
         <div class="modal-content">
             <div id="c_header" class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
-                <h4 class="modal-title" id="c_Label" style="vertical-align:middle;">ยืนยันการรีเซตรหัสผ่าน</h4>
+                <h4 class="modal-title" id="c_Label" style="vertical-align:middle;">ยืนยันการลบกลุ่มผู้ใช้</h4>
             </div>
             <div class="modal-body container-fluid">
-                <div id="c_memberId" style="display:none"></div>
-                <div>ยืนยันการรีเซตรหัสผ่าน?</div>
+                <div>ยืนยันการลบกลุ่มผู้ใช้?</div>
                 <br/>
-                <div>ชื่อผู้ใช้: <span id="c_uname" style="color:red"></span></div><br/>
-                <div>อีเมล: <span id="c_email" style="color:red"></span></div><br />
+                <div>กลุ่มผู้ใช้: <span id="c_rolename" style="color:red"></span></div><br/>
                 <hr/>
                 <div class="row">
-                    <div class="col-md-4"><button id="btnConfirm" class="btn btn-panel-yellow pull-right" onclick="resetPassword();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยืนยัน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+                    <div class="col-md-4"><button id="btnConfirm" class="btn btn-panel-yellow pull-right" onclick="roleDelete();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยืนยัน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
                     <div class="col-md-4 col-md-offset-4">
                         <button id="btnCancel" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยกเลิก&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </div>
@@ -169,30 +172,25 @@
     <script src="~/lib/bootstrap/js/modal.js"></script>
     <script>
         $(document).ready(function () {
-
+            if ('@ViewBag.CountMembers' == 0) {
+                $('#btnDeleteRole').removeClass('disabled');
+            }
+            $('#roleCheckBox').html("@Html.Raw(ViewBag.RoleCheckBox as string)");
         });
         function roleChangeName() {
             if ($('#rolename').val().trim()) {
-
                 $.ajax({
                     async: true,
                     type: "POST",
-                    url: "@Url.Action("SecurityCreateUser", "members")",
+                    url: "@Url.Action("ChangeRoleName", "SecurityRoles")",
                     data: {
-                    roleId: $('#uRoleId').val(),
-                    uname: $('#uname').val(),
-                    email: $('#email').val(),
-                        //upwd: $('#upwd').val(),
+                        roleId: '@ViewBag.RoleId',
+                        rolename: $('#rolename').val(),
                     },
                 success: function (data) {
-                    if (data.result == "dup") {
-                        $('#a_label').text('ตรวจพบชื่อผู้ใช้ซ้ำ');
-                        $('#a_body').text('ตรวจพบชื่อผู้ใช้ซ้ำ กรุณาลองใหม่');
-                        $('#a_modal').modal({ backdrop: 'static', keyboard: false });
-                    } else if (data.result == "success") {
-                        $('#uname').val(''); //$('#upwd').val(''); $('#upwdrepeat').val('');
-                        $('#email').val('');
-                        aUserTable($('#uRoleId').val());
+                    if (data.result == "success") {
+                        $('#boxRoleName').text(data.rolename);
+                        $('#rolename').val('');
                     } else {
                         $('#a_label').text('ตรวจพบความผิดพลาด');
                         $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
@@ -202,130 +200,44 @@
             });
             } else {
                 $('#rolenameMsg').text('กรุณากรอกข้อมูล'); $('#rolenameMsg').show();
-                console.log('test');
-            }
-
-
-        }
-
-        function aUserForm(utype, rname) {
-            $('#rolename').text(rname);
-            $('#userTitle').html('เพิ่มผู้ใช้ใหม่ กลุ่ม ' + rname);
-            $('#btnCreate').html('&nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่มผู้ใช้กลุ่ม ' + rname + '&nbsp;&nbsp;&nbsp;');
-            if (utype > 3) {
-                $('#btnCreate').show();
-                $('#colorbar').removeClass().addClass('bg-color-orange');
-                $('#formcolorbar').removeClass().addClass('bg-color-orange');
-                $('#bar_' + $('#utype').val()).removeClass();
-                $('#bar_'+utype).removeClass().addClass('bg-color-orange');
-            } else if (utype == 3) {
-                $('#btnCreate').hide();
-                $('#colorbar').removeClass().addClass('bg-color-green');
-                $('#formcolorbar').removeClass().addClass('bg-color-green');
-                $('#bar_' + $('#utype').val()).removeClass();
-                $('#bar_' + utype).removeClass().addClass('bg-color-green');
-            } else if (utype == 2) {
-                $('#btnCreate').show();
-                $('#colorbar').removeClass().addClass('bg-color-blue');
-                $('#formcolorbar').removeClass().addClass('bg-color-blue');
-                $('#bar_' + $('#utype').val()).removeClass();
-                $('#bar_' + utype).removeClass().addClass('bg-color-blue');
-            } else if (utype == 1) {
-                $('#btnCreate').show();
-                $('#colorbar').removeClass().addClass('bg-color-black');
-                $('#formcolorbar').removeClass().addClass('bg-color-black');
-                $('#bar_' + $('#utype').val()).removeClass();
-                $('#bar_' + utype).removeClass().addClass('bg-color-black');
             }
         }
-        function createUser() {
-            $('#uname').val($('#uname').val().trim()); $('#email').val($('#email').val().trim());
-            //$('#upwd').val($('#upwd').val().trim()); $('#upwdrepeat').val($('#upwdrepeat').val().trim());
-            //if ($('#uname').val() && $('#email').val() && $('#upwd').val() && $('#upwdrepeat').val()) {
-            if ($('#uname').val() && $('#email').val()) {
-                //if ($('#upwd').val() == $('#upwdrepeat').val()) {
-                    $.ajax({
-                        async: true,
-                        type: "POST",
-                        url: "@Url.Action("SecurityCreateUser", "members")",
-                        data: {
-                            roleId: $('#uRoleId').val(),
-                            uname: $('#uname').val(),
-                            email: $('#email').val(),
-                            //upwd: $('#upwd').val(),
-                        },
-                        success: function (data) {
-                            if (data.result == "dup") {
-                                $('#a_label').text('ตรวจพบชื่อผู้ใช้ซ้ำ');
-                                $('#a_body').text('ตรวจพบชื่อผู้ใช้ซ้ำ กรุณาลองใหม่');
-                                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
-                            } else if (data.result == "success") {
-                                $('#uname').val(''); //$('#upwd').val(''); $('#upwdrepeat').val('');
-                                $('#email').val('');
-                                aUserTable($('#uRoleId').val());
-                            } else {
-                                $('#a_label').text('ตรวจพบความผิดพลาด');
-                                $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
-                                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
-                            }
-                        }
-                    });
-                //} else {
-                //    $('#a_label').text('กรุณาป้อนรหัสผ่าน');
-                //    $('#a_body').text('รหัสผ่านไม่ตรงกัน กรุณาป้อนใหม่อีกครั้ง');
-                //    $('#a_modal').modal({ backdrop: 'static', keyboard: false });
-                //}
-
-            } else {
-                $('#a_label').text('กรุณากรอกข้อมูล');
-                $('#a_body').text('กรุณากรอกข้อมูลให้ครบถ้วน');
-                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
-            }
-        }
-
-        function suspendClick(id) {
-            if (!$('#status-' + id).hasClass("btn-panel-green-attended")) {
-                suspend(id,'Y');
-                $('#status-' + id).html("&nbsp;<i class='fa fa-check-square-o' aria-hidden='true'></i> ใช้งาน&nbsp;");
-                $('#status-' + id).removeClass('btn-panel-red').addClass('btn-panel-green-attended');
-            } else {
-                suspend(id, 'N');
-                $('#status-' + id).html("<i class='fa fa-square-o' aria-hidden='true'></i> ระงับการใช้งาน");
-                $('#status-' + id).removeClass('btn-panel-green-attended').addClass('btn-panel-red');
-            }
-
-        }
-        function suspend(id, status) {
-            $.ajax({
-                async: true,
-                type: "POST",
-                url: "@Url.Action("Suspend", "SecurityMemberRoles")",
-                data: {
-                    id: id, status: status
-                },
-                success: function (data) {
-                    aUserTable($('#uRoleId').val());
-                }
-            });
-        }
-        function resetPasswordClick(id,uname,email) {
-            $('#c_memberId').text(id);
-            $('#c_uname').text(uname); $('#c_email').text(email);
+        function roleDeleteClick() {
+            $('#c_rolename').text('@ViewBag.RoleName');
             $('#c_modal').modal({ backdrop: 'static', keyboard: false });
         }
-        function resetPassword(id) {
+        function roleDelete() {
             $.ajax({
                 async: true,
                 type: "POST",
-                url: "@Url.Action("ResetPwd", "Home")",
+                url: "@Url.Action("DeleteRole", "SecurityRoles")",
                 data: {
-                    id: $('#c_memberId').text()
+                    roleId: '@ViewBag.RoleId',
                 },
-                success: function (data) {
-                    aUserTable($('#uRoleId').val());
-                    $('#c_modal').modal('hide');
+            success: function (data) {
+                if (data.result == "success") {
+                    window.location.href = '@Url.Action("ManageRoles", "Security")';
+                } else {
+                    $('#a_label').text('ตรวจพบความผิดพลาด');
+                    $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
+                    $('#a_modal').modal({ backdrop: 'static', keyboard: false });
                 }
+            }
             });
         }
+        function checkMenu(menuId) {
+            if ($("#menu-" + menuId).hasClass('rolemanage-cb-check')) {
+                $("#menu-" + menuId).removeClass().addClass('rolemanage-cb-uncheck');
+                $("#menucb-" + menuId).removeClass().addClass('fa fa-square-o');
+            } else {
+                $("#menu-" + menuId).removeClass().addClass('rolemanage-cb-check');
+                $("#menucb-" + menuId).removeClass().addClass('fa fa-check-square-o');
+            }
+        }
+        function menuUpdateClick() {
+
+
+        }
+
     </script>
 }

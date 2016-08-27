@@ -65,19 +65,20 @@ namespace PPcore.Models
             modelBuilder.Entity<SecurityMenus>(entity =>
             {
                 entity.HasKey(e => new { e.MenuId }).HasName("PK_SecurityMenus");
-                entity.Property(e => e.MenuId).HasDefaultValueSql("newid()");
+                entity.Property(e => e.MenuId).HasColumnType("int");
+
+                entity.Property(e => e.Level).HasColumnType("int");
+                entity.Property(e => e.HaveChild).HasColumnType("int");
+                entity.Property(e => e.IsRightAlign).HasColumnType("int");
+
+
                 entity.Property(e => e.MenuName).HasColumnType("nvarchar(100)");
+                entity.Property(e => e.MenuDisplay).HasColumnType("nvarchar(100)");
+
                 entity.Property(e => e.MenuController).HasColumnType("varchar(100)");
                 entity.Property(e => e.MenuAction).HasColumnType("varchar(100)");
 
-                entity.Property(e => e.CreatedBy).HasColumnType("uniqueidentifier");
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");
-                entity.Property(e => e.EditedBy).HasColumnType("uniqueidentifier");
-                entity.Property(e => e.EditedDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");
-
-                entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
-                entity.Property(e => e.x_note).HasColumnType("nvarchar(50)");
-                entity.Property(e => e.x_status).HasColumnType("char(1)");
+                entity.Property(e => e.MenuUrl).HasColumnType("varchar(200)");
             });
         }
         public virtual DbSet<SecurityMemberRoles> SecurityMemberRoles { get; set; }

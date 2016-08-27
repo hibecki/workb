@@ -56,6 +56,47 @@ namespace PPcore.Controllers
             return Json(new { result = "fail" });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangeRoleName(string roleId, string rolename)
+        {
+            var r = await _scontext.SecurityRoles.SingleOrDefaultAsync(rr => rr.RoleId == new Guid(roleId));
+            if (r != null)
+            {
+                r.RoleName = rolename.Trim();
+                _scontext.Update(r);
+                await _scontext.SaveChangesAsync();
+                return Json(new { result = "success", rolename = r.RoleName });
+            }
+            else
+            {
+                return Json(new { result = "fail" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(string roleId)
+        {
+            var r = await _scontext.SecurityRoles.SingleOrDefaultAsync(rr => rr.RoleId == new Guid(roleId));
+            if (r != null)
+            {
+                var memberCount = _context.member.Where(mm => mm.mem_role_id == r.RoleId).Count();
+                if (memberCount != 0)
+                {
+                    return Json(new { result = "fail" });
+                }
+                else
+                {
+                    _scontext.Remove(r);
+                    await _scontext.SaveChangesAsync();
+                    return Json(new { result = "success" });
+                }
+            }
+            else
+            {
+                return Json(new { result = "fail" });
+            }
+        }
+
         public async Task<IActionResult> DetailsAsBlock()
         {
             List<memberViewModel> ms = new List<memberViewModel>();
@@ -82,7 +123,7 @@ namespace PPcore.Controllers
             if (r != null)
             {
                 ViewBag.RoleName = r.RoleName;
-
+                ViewBag.RoleId = r.RoleId.ToString();
                 if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Not Administrators
                 {
                     if (roleId != "9a1a4601-f5ee-4087-b97d-d69e7f9bfd7e") //Not Operators
@@ -94,8 +135,16 @@ namespace PPcore.Controllers
                     } else { ViewBag.Color = "panel-primary"; } //Operators
                 } else { ViewBag.Color = "panel-dashboard-black"; } //Administrators
 
-
                 ViewBag.CountMembers = _context.member.Where(mm => mm.mem_role_id == r.RoleId).Count();
+
+                string menuHtmlCB = ""; int leftgap = 30;
+                var menus = _scontext.SecurityMenus.OrderBy(me => me.MenuId).ToList();
+                foreach (SecurityMenus menu in menus)
+                {
+                    leftgap = menu.Level * 30;
+                    menuHtmlCB += "<div id='menu-"+menu.MenuId+"' class='rolemanage-cb-uncheck' style='margin-left:"+leftgap+"px;' onclick='checkMenu("+menu.MenuId+")'><i id='menucb-"+menu.MenuId+"' class='fa fa-square-o' style='font-size:18px;'></i>&nbsp;&nbsp;" + menu.MenuName+"</div>";
+                }
+                ViewBag.RoleCheckBox = menuHtmlCB;
             }
             return View();
         }
