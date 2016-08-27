@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <div style="width:350px;">
+            <div style="width:350px;" class="clearfix">
                 <div class="panel @ViewBag.Color">
                     <div class="panel-heading">
                         <div class="row">
@@ -32,128 +32,82 @@
                 </div>
             </div>
 
-            <div style="margin-left:370px;margin-top:-157px;margin-right:20px">
+            <div style="margin-left:370px;margin-top:-100px;margin-right:20px;">
+
+                    
 
 
-                @*<div class="panel-group" id="acd">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#acd" href="#acollapse1">
-                                    Collapsible Group 1
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="acollapse1" class="panel-collapse collapse in">
-                            <div class="panel-body">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat.
+                    <div class="panel-group" id="accordion">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">เปลี่ยนชื่อกลุ่มผู้ใช้</a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <form style="width:250px;margin-left:10px;margin-right:10px;">
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-sitemap">&nbsp;</i>
+                                            </span>
+                                            <input id="rolename" type="text" class="form-control" placeholder="ชื่อกลุ่มผู้ใช้ใหม่" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();" />
+                                        </div>
+                                        <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+                                        <button type="button" id="btnChangeRoleName" onclick="roleChangeName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                        <br />
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#acd" href="#acollapse2">
-                                    Collapsible Group 2
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="acollapse2" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat.
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">กำหนดสิทธิ</a>
+                                </h4>
+                            </div>
+                            <div id="collapse2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    test
+                                    aaaa
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#acd" href="#acollapse3">
-                                    Collapsible Group 3
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="acollapse3" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat.
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse3" style="color:red">ลบกลุ่มผู้ใช้</a>
+                                </h4>
+                            </div>
+                            <div id="collapse3" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    กลุ่มผู้ใช้ สามารลบได้เมื่อไม่มีผู้ใช้อยู่ในกลุ่มเท่านั้น
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>*@
 
-
-
-
-
-                <div class="panel-group" id="accordion">
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">เปลี่ยนชื่อกลุ่มผู้ใช้</a>
-                            </h4>
-                        </div>
-                        <div id="collapse1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <form style="width:250px;margin-left:10px;margin-right:10px;">
-                                    <div class="form-group input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-sitemap">&nbsp;</i>
-                                        </span>
-                                        <input id="rolename" type="text" class="form-control" placeholder="ชื่อกลุ่มผู้ใช้ใหม่" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();" />
-                                    </div>
-                                    <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
-                                    <button type="button" id="btnChangeRoleName" onclick="roleChangeName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
-                                    <br />
-                                </form>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapse3"></h4>
+                            </div>
+                            <div id="collapse4" class="panel-collapse collapse">
+                                <div class="panel-body"></div>
                             </div>
                         </div>
+
+                        <br />
                     </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">กำหนดสิทธิ</a>
-                            </h4>
-                        </div>
-                        <div id="collapse2" class="panel-collapse collapse">
-                            <div class="panel-body">test
-aaaa
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapse3" style="color:red">ลบกลุ่มผู้ใช้</a>
-                            </h4>
-                        </div>
-                        <div id="collapse3" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                กลุ่มผู้ใช้ สามารลบได้เมื่อไม่มีผู้ใช้อยู่ในกลุ่มเท่านั้น
-
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                </div>
-
-                <br/><br/>
+                    <br /><br />
+            </div>
+            @*<div style="margin-left:370px;margin-top:-158px;margin-right:20px;position:absolute;"></div>*@
 
             </div>
-
-        </div>
-
-
     </div>
 
 
