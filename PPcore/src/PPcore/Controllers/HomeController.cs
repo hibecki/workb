@@ -61,11 +61,101 @@ namespace PPcore.Controllers
                     var memberId = HttpContext.Session.GetString("memberId");
                     var roleId = HttpContext.Session.GetString("roleId");
 
+                    var rms = _scontext.SecurityRoleMenus.Where(rmss => rmss.RoleId == m.mem_role_id).OrderByDescending(rmss => rmss.MenuId).ToList();
+                    if (rms != null)
+                    {
+                        string menuHtml = "<ul class='nav navbar-top-links navbar-left'>_menuleft_</ul><ul class='nav navbar-top-links navbar-right'>_menuright_</ul>";
+                        string menuLeft = ""; string menuRight = "";
+                        string link = ""; string menuTemp = ""; int prevLevel = 0;
+                        foreach (SecurityRoleMenus rm in rms)
+                        {
+                            SecurityMenus menu = await _scontext.SecurityMenus.SingleOrDefaultAsync(me => me.MenuId == rm.MenuId);
+                            if (menu != null)
+                            {
+                                if (menu.HaveChild == 1)
+                                {
+                                    menuTemp = "<li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='#'>" + menu.MenuDisplay + "<ul class='dropdown-menu'>" + menuTemp + "</ul></li>";
+                                    if (menu.Level == 1)
+                                    {
+                                        if (menu.IsRightAlign != 1)
+                                        {
+                                            menuLeft = menuTemp + menuLeft;
+                                        }
+                                        else
+                                        {
+                                            menuRight = menuTemp + menuRight;
+                                        }
+                                        menuTemp = "";
+                                    }
+                                }
+                                else
+                                {
+                                    if (menu.Level < prevLevel)
+                                    {
+                                        if (menu.IsRightAlign != 1)
+                                        {
+                                            menuLeft = menuTemp + menuLeft;
+                                        }
+                                        else
+                                        {
+                                            menuRight = menuTemp + menuRight;
+                                        }
+                                        menuTemp = "";
+                                    }
+
+                                    if (menu.MenuUrl != null)
+                                    {
+                                        link = menu.MenuUrl;
+                                    }
+                                    else
+                                    {
+                                        link = Url.Action(menu.MenuAction, menu.MenuController);
+                                    }
+                                    if (menu.MenuName != "-")
+                                    {
+                                        menuTemp = "<li><a href='" + link + "'>" + menu.MenuDisplay.Replace('"'.ToString(),"'") + "</li>" + menuTemp;
+                                    }
+                                    else
+                                    {
+                                        menuTemp = "<li class='divider'></li>" + menuTemp;
+                                    }
+                                }
+                                prevLevel = menu.Level;
+                            }
+
+
+
+                            //if (menu.HaveChild == 1)
+                            //{
+                            //    menuHtmlCB = menuHtmlCB.Replace("_parentMenuId_", menu.MenuId.ToString());
+                            //}
+                            //if (menu.Level > prevLevel)
+                            //{
+                            //    menuHtmlCB = menuHtmlCB.Replace("_parentMenuId_", "0");
+                            //}
+                            //prevLevel = menu.Level;
+
+                            //leftgap = menu.Level * 30;
+
+                            //if (rmsstring.IndexOf(menu.MenuId.ToString()) != -1)
+                            //{
+                            //    menuHtml = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtml;
+                            //}
+                            //else
+                            //{
+                            //    menuHtml = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-uncheck' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtml;
+                            //}
+                        }
+                        menuHtml = menuHtml.Replace("_menuright_", menuRight);
+                        menuHtml = menuHtml.Replace("_menuleft_", menuLeft);
+                        HttpContext.Session.SetString("mainmenu", menuHtml);
+                    }
+
                     smr.LoggedInDate = DateTime.Now;
                     _scontext.Update(smr);
                     await _scontext.SaveChangesAsync();
 
-                    var returnUrl = Url.Action("Login", "Security");
+                    var returnUrl = "";
                     if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Administrators role
                     {
                         returnUrl = Url.Action("Index", "members");

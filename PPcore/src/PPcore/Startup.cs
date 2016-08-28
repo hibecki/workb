@@ -46,10 +46,10 @@ namespace PPcore
 
             services.AddSingleton(Configuration);
 
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new AuthorizationPPFilter());
-            });
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add(new AuthorizationPPFilter());
+            //});
             services.AddMvc();
 
             //services.AddCaching();

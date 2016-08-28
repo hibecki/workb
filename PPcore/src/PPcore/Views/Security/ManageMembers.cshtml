@@ -176,7 +176,11 @@
                 if (roleId != '') {
                     $("#menua_"+roleId).trigger("click");
                 }
-                $("#menua_3").trigger("click");
+                else
+                {
+                    $("#menua_c5a644a2-97b0-40e5-aa4d-e2afe4cdf428").trigger("click"); //Administrators;
+                }
+
             });
         }
         function aUsersByRole(roleId, utype, rname) {
