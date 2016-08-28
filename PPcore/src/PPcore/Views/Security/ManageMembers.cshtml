@@ -172,6 +172,10 @@
                 type: 'get', url: '@Url.Action("DetailsAsRoleMenu", "SecurityRoles")',
             }).done(function (resp) {
                 $('#aRoleMenu').html(resp);
+                var roleId = '@ViewBag.RoleId';
+                if (roleId != '') {
+                    $("#menua_"+roleId).trigger("click");
+                }
                 $("#menua_3").trigger("click");
             });
         }

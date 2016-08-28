@@ -7,8 +7,8 @@
 @foreach (var item in Model)
 {
     utype++;
-    <li id="menu_@utype" style="cursor:pointer;"> @*onMouseOver="this.style.backgroundColor = '@bcolor';" onmouseout="this.style.backgroundColor = 'tranparent';"*@
+    <li id="menu_@utype" style="cursor:pointer;">
         <div id="bar_@utype" style="position:absolute;height:40px;width:14px;">&nbsp;</div>
-        <a id="menua_@utype" onclick="aUsersByRole('@Html.DisplayFor(modelItem => item.RoleId)', @utype, '@Html.DisplayFor(modelItem => item.RoleName)')">&nbsp;&nbsp;&nbsp;@Html.DisplayFor(modelItem => item.RoleName)</a>
+        <a id="menua_@item.RoleId" onclick="aUsersByRole('@item.RoleId', @utype, '@item.RoleName')">&nbsp;&nbsp;&nbsp;@item.RoleName</a>
     </li>
 }

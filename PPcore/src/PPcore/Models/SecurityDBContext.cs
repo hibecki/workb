@@ -50,16 +50,10 @@ namespace PPcore.Models
             {
                 entity.HasKey(e => new { e.MenuId, e.RoleId }).HasName("PK_SecurityRoleMenus");
                 entity.Property(e => e.RoleId).HasColumnType("uniqueidentifier");
-                entity.Property(e => e.MenuId).HasColumnType("uniqueidentifier");
+                entity.Property(e => e.MenuId).HasColumnType("int");
 
-                entity.Property(e => e.CreatedBy).HasColumnType("uniqueidentifier");
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");
                 entity.Property(e => e.EditedBy).HasColumnType("uniqueidentifier");
                 entity.Property(e => e.EditedDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");
-
-                entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
-                entity.Property(e => e.x_note).HasColumnType("nvarchar(50)");
-                entity.Property(e => e.x_status).HasColumnType("char(1)");
             });
 
             modelBuilder.Entity<SecurityMenus>(entity =>

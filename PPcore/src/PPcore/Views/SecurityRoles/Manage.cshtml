@@ -23,7 +23,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#" onclick="details('@ViewBag.RoleId');">
+                    <a href="#" onclick="goManageMembers('@ViewBag.RoleId');">
                         <div class="panel-footer">
                             <span class="pull-left"><i class="fa fa-arrow-circle-left"></i></span>
                             <span class="pull-right">ไปหน้าจอ จัดการผู้ใช้</span>
@@ -71,10 +71,11 @@
                             <div class="panel-body">
                                 <div id="roleCheckBox" style="padding-left:20px;"></div>
                                 <br/><br/>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="btnUpdateMenu" onclick="menuUpdateClick();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" id="btnUpdateMenu" onclick="menuUpdateClick();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="button" id="btnUpdateMenu" onclick="menuUpdateClick();" class="btn btn-default">&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เลือกทั้งหมด&nbsp;&nbsp;&nbsp;</button>
-                                <button type="button" id="btnUpdateMenu" onclick="menuUpdateClick();" class="btn btn-default">&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เอาที่เลือกออกทั้งหมด&nbsp;&nbsp;&nbsp;</button>
+                                <button type="button" onclick="menuCheckAll();" class="btn btn-default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;&nbsp;เลือกทั้งหมด&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                <button type="button" onclick="menuUncheckAll();" class="btn btn-default"><i class="fa fa-square-o" aria-hidden="true"></i>&nbsp;&nbsp;เอาที่เลือกออกทั้งหมด</button>
                                 <br />
                             </div>
                         </div>
@@ -176,7 +177,11 @@
                 $('#btnDeleteRole').removeClass('disabled');
             }
             $('#roleCheckBox').html("@Html.Raw(ViewBag.RoleCheckBox as string)");
+
         });
+        function goManageMembers(roleId) {
+            window.location.href = '@Url.Action("ManageMembers", "Security")?roleId='+roleId;
+        }
         function roleChangeName() {
             if ($('#rolename').val().trim()) {
                 $.ajax({
@@ -225,17 +230,64 @@
             }
             });
         }
-        function checkMenu(menuId) {
+        function checkMenu(menuId,parentId) {
             if ($("#menu-" + menuId).hasClass('rolemanage-cb-check')) {
                 $("#menu-" + menuId).removeClass().addClass('rolemanage-cb-uncheck');
-                $("#menucb-" + menuId).removeClass().addClass('fa fa-square-o');
+                $("#menucb-" + menuId).removeClass().addClass('cb-size-18 fa fa-square-o');
             } else {
                 $("#menu-" + menuId).removeClass().addClass('rolemanage-cb-check');
-                $("#menucb-" + menuId).removeClass().addClass('fa fa-check-square-o');
+                $("#menucb-" + menuId).removeClass().addClass('cb-size-18 fa fa-check-square-o');
+                $("#menu-" + parentId).removeClass().addClass('rolemanage-cb-check');
+                $("#menucb-" + parentId).removeClass().addClass('cb-size-18 fa fa-check-square-o');
             }
         }
+        function menuCheckAll() {
+            $('i.cb-size-18').each(function () {
+                $(this).removeClass().addClass('cb-size-18 fa fa-check-square-o');
+                $(this).parent().removeClass().addClass('rolemanage-cb-check');
+            });
+        }
+        function menuUncheckAll() {
+            $('i.cb-size-18').each(function () {
+                $(this).removeClass().addClass('cb-size-18 fa fa-square-o');
+                $(this).parent().removeClass().addClass('rolemanage-cb-uncheck');
+            });
+        }
         function menuUpdateClick() {
-
+            $('#btnUpdateMenu').html('&nbsp;<i class="fa fa-refresh fa-spin" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+            $('i.cb-size-18').each(function () {
+                if ($(this).hasClass('fa-check-square-o')) {
+                    $(this).trigger('click');
+                }
+            });
+            setTimeout(menuUpdate, 2000);
+        }
+        function menuUpdate() {
+            var mids = "";
+            $('i.cb-size-18').each(function () {
+                if ($(this).hasClass('fa-check-square-o')) {
+                    var mid = $(this).attr('id').substring(7); //menucb-101002
+                    mids += "|" + mid;
+                }
+            });
+            mids = mids.substring(1);
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "@Url.Action("UpdateRoleMenus", "SecurityRoleMenus")",
+                data: {
+                    roleId: '@ViewBag.RoleId',
+                    menus: mids,
+                },
+                success: function (data) {
+                    if (data.result != "success") {
+                        $('#a_label').text('ตรวจพบความผิดพลาด');
+                        $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
+                        $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                    }
+                    $('#btnUpdateMenu').html('&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+                }
+            });
 
         }
 

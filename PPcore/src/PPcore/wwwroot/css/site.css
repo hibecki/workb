@@ -720,6 +720,10 @@ textarea[data-val-required] {
 }
 
 .rolemanage-cb-uncheck {
-    cursor:pointer;padding:4px;
-    color:#535353;
+    cursor:pointer;padding-top:4px;
+    color:#403d3d;
+}
+
+.cb-size-18 {
+    font-size:18px;
 }

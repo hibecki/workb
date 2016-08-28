@@ -55,8 +55,16 @@ namespace PPcore.Controllers
         }
 
         [HttpGet]
-        public IActionResult ManageMembers()
+        public IActionResult ManageMembers(string roleId)
         {
+            if (roleId != null && roleId != "")
+            {
+                ViewBag.RoleId = roleId;
+            }
+            else
+            {
+                ViewBag.RoleId = "";
+            }
             return View();
         }
 

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PPcore.Models;
 using System.Data.SqlClient;
 using PPcore.ViewModels.SecurityRoles;
+using Microsoft.AspNetCore.Http;
 
 namespace PPcore.Controllers
 {
@@ -28,9 +29,10 @@ namespace PPcore.Controllers
             if (ModelState.IsValid)
             {
                 securityRoles.RoleId = Guid.NewGuid();
-                securityRoles.CreatedBy = Guid.NewGuid();
+                securityRoles.CreatedBy = new Guid(HttpContext.Session.GetString("memberId"));
                 securityRoles.CreatedDate = DateTime.Now;
-                securityRoles.EditedBy = Guid.NewGuid();
+                securityRoles.EditedBy = new Guid(HttpContext.Session.GetString("memberId"));
+                securityRoles.EditedDate = DateTime.Now;
                 securityRoles.x_status = "Y";
                 securityRoles.RoleName = securityRoles.RoleName.Trim();
 
@@ -63,6 +65,8 @@ namespace PPcore.Controllers
             if (r != null)
             {
                 r.RoleName = rolename.Trim();
+                r.EditedBy = new Guid(HttpContext.Session.GetString("memberId"));
+                r.EditedDate = DateTime.Now;
                 _scontext.Update(r);
                 await _scontext.SaveChangesAsync();
                 return Json(new { result = "success", rolename = r.RoleName });
@@ -86,6 +90,9 @@ namespace PPcore.Controllers
                 }
                 else
                 {
+                    var rms = _scontext.SecurityRoleMenus.Where(rr => rr.RoleId == r.RoleId).ToList();
+                    _scontext.RemoveRange(rms);
+
                     _scontext.Remove(r);
                     await _scontext.SaveChangesAsync();
                     return Json(new { result = "success" });
@@ -137,14 +144,39 @@ namespace PPcore.Controllers
 
                 ViewBag.CountMembers = _context.member.Where(mm => mm.mem_role_id == r.RoleId).Count();
 
+                string rmsstring = "";
+                var rms = _scontext.SecurityRoleMenus.Where(rmss => rmss.RoleId == r.RoleId).OrderBy(rmss => rmss.MenuId).ToList();
+                foreach ( SecurityRoleMenus rm in rms)
+                {
+                    rmsstring += "|"+rm.MenuId;
+                }
+
                 string menuHtmlCB = ""; int leftgap = 30;
-                var menus = _scontext.SecurityMenus.OrderBy(me => me.MenuId).ToList();
+                int prevLevel = 0;
+                var menus = _scontext.SecurityMenus.OrderByDescending(me => me.MenuId).ToList();
                 foreach (SecurityMenus menu in menus)
                 {
+                    if (menu.HaveChild == 1)
+                    {
+                        menuHtmlCB = menuHtmlCB.Replace("_parentMenuId_", menu.MenuId.ToString());
+                    }
+                    if (menu.Level > prevLevel)
+                    {
+                        menuHtmlCB = menuHtmlCB.Replace("_parentMenuId_", "0");
+                    }
+                    prevLevel = menu.Level;
+
                     leftgap = menu.Level * 30;
-                    menuHtmlCB += "<div id='menu-"+menu.MenuId+"' class='rolemanage-cb-uncheck' style='margin-left:"+leftgap+"px;' onclick='checkMenu("+menu.MenuId+")'><i id='menucb-"+menu.MenuId+"' class='fa fa-square-o' style='font-size:18px;'></i>&nbsp;&nbsp;" + menu.MenuName+"</div>";
+                    if (rmsstring.IndexOf(menu.MenuId.ToString()) != -1)
+                    {
+                        menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                    }
+                    else
+                    {
+                        menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-uncheck' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                    }
                 }
-                ViewBag.RoleCheckBox = menuHtmlCB;
+                ViewBag.RoleCheckBox = menuHtmlCB.Replace("_parentMenuId_", "0"); ;
             }
             return View();
         }

@@ -54,14 +54,9 @@ GO
 /*==============================================================*/
 CREATE TABLE SecurityRoleMenus (
 	RoleId uniqueidentifier NOT NULL,
-    MenuId uniqueidentifier NOT NULL,
-	CreatedBy uniqueidentifier NOT NULL,
-	CreatedDate DATETIME NOT NULL,
+    MenuId int NOT NULL,
 	EditedBy uniqueidentifier NOT NULL,
-	EditedDate DATETIME not null default CURRENT_TIMESTAMP,
-	x_status char(1) null,
-	x_note nvarchar(50) null,
-	x_log nvarchar(500) null
+	EditedDate DATETIME not null default CURRENT_TIMESTAMP
 );
 GO
 
