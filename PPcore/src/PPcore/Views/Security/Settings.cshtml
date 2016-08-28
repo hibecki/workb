@@ -1,0 +1,321 @@
+﻿<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+        </div>
+    </div>
+    <div class="panel panel-blue">
+        <div class="panel-heading">
+            <div class="pull-left" style="margin-top:3px;"><span>การตั้งค่า</span></div>
+            @*<div class="pull-right" style="margin-top:-2px;">
+                <button id="btnBack" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("ManageRoles", "Security")'">&nbsp;<i class="fa fa-reply" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;กลับ&nbsp;&nbsp;</button>
+            </div>*@
+        </div>
+        <div class="panel-body">
+
+            <div style="float:left;width:350px;display:inline">
+                <div class="panel @ViewBag.Color">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-7" style="font-size:24px;">@ViewBag.UserName</div>
+                        </div>
+                    </div>
+                    <a href="#" onclick="">
+                        <div class="panel-footer">
+                            <span class="pull-left">ชื่อที่ใช้ล็อกอิน: @ViewBag.LoginName</span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div style="float:left;display:inline;padding-left:20px;width:65%">
+
+                <div class="panel-group" id="accordion">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;เปลี่ยนชื่อที่ใช้แสดง</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form style="width:250px;margin-left:10px;margin-right:10px;">
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                        <input id="uname" type="text" class="form-control" placeholder="ชื่อที่ใช้แสดงใหม่" autocomplete="off" maxlength="100" onkeyup="$('#unameMsg').text(''); $('#unameMsg').hide();" />
+                                    </div>
+                                    <span id="unameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+                                    <button type="button" id="btnChangeUName" onclick="changeUName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                    <br />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapse2" data-toggle="collapse" data-parent="#accordion"> <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;เปลี่ยนรหัสผ่าน</a>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form style="width:250px;margin-left:10px;margin-right:10px;">
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-key"></i>
+                                        </span>
+                                        <input id="rolename" type="text" class="form-control" placeholder="รหัสผ่านเก่า" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();" />
+                                    </div>
+                                    <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+                                    <hr/>
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-key"></i>
+                                        </span>
+                                        <input id="upwd" type="password" class="form-control" placeholder="กำหนดรหัสผ่านใหม่" autocomplete="off">
+                                    </div>
+
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-key"></i>
+                                        </span>
+                                        <input id="upwdrepeat" type="password" class="form-control" placeholder="รหัสผ่านอีกครั้ง" autocomplete="off">
+                                    </div>
+
+                                    <button type="button" id="btnChangeRoleName" onclick="roleChangeName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                    <br />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3"> <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;เปลี่ยนข้อมูลที่ใช้ในการติดต่อ</a>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form style="width:250px;margin-left:10px;margin-right:10px;">
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>
+                                        <input id="email" type="text" class="form-control" placeholder="อีเมล" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();" />
+                                    </div>
+                                    <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+
+
+
+
+                                    <button type="button" id="btnChangeRoleName" onclick="roleChangeName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                    <br />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br /><br />
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+        <div>
+
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade modalForm1" id="a_modal" tabindex="-1" role="dialog" aria-labelledby="a_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="a_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="a_label" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="a_body"></div>
+                <br /><br />
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /Modal -->
+
+<!-- Modal confirm -->
+<div id="c_modal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="confirm_Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="c_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="c_Label" style="vertical-align:middle;">ยืนยันการลบกลุ่มผู้ใช้</h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div>ยืนยันการลบกลุ่มผู้ใช้?</div>
+                <br/>
+                <div>กลุ่มผู้ใช้: <span id="c_rolename" style="color:red"></span></div><br/>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-4"><button id="btnConfirm" class="btn btn-panel-yellow pull-right" onclick="roleDelete();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยืนยัน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <button id="btnCancel" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยกเลิก&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal confirm -->
+
+@section Scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ('@ViewBag.CountMembers' == 0) {
+                $('#btnDeleteRole').removeClass('disabled');
+            }
+            $('#roleCheckBox').html("@Html.Raw(ViewBag.RoleCheckBox as string)");
+
+        });
+        function goManageMembers(roleId) {
+            window.location.href = '@Url.Action("ManageMembers", "Security")?roleId='+roleId;
+        }
+        function roleChangeName() {
+            if ($('#rolename').val().trim()) {
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "@Url.Action("ChangeRoleName", "SecurityRoles")",
+                    data: {
+                        roleId: '@ViewBag.RoleId',
+                        rolename: $('#rolename').val(),
+                    },
+                success: function (data) {
+                    if (data.result == "success") {
+                        $('#boxRoleName').text(data.rolename);
+                        $('#rolename').val('');
+                    } else {
+                        $('#a_label').text('ตรวจพบความผิดพลาด');
+                        $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
+                        $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                    }
+                }
+            });
+            } else {
+                $('#rolenameMsg').text('กรุณากรอกข้อมูล'); $('#rolenameMsg').show();
+            }
+        }
+        function roleDeleteClick() {
+            $('#c_rolename').text('@ViewBag.RoleName');
+            $('#c_modal').modal({ backdrop: 'static', keyboard: false });
+        }
+        function roleDelete() {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "@Url.Action("DeleteRole", "SecurityRoles")",
+                data: {
+                    roleId: '@ViewBag.RoleId',
+                },
+            success: function (data) {
+                if (data.result == "success") {
+                    window.location.href = '@Url.Action("ManageRoles", "Security")';
+                } else {
+                    $('#a_label').text('ตรวจพบความผิดพลาด');
+                    $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
+                    $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                }
+            }
+            });
+        }
+        function checkMenu(menuId,parentId) {
+            if ($("#menu-" + menuId).hasClass('rolemanage-cb-check')) {
+                $("#menu-" + menuId).removeClass().addClass('rolemanage-cb-uncheck');
+                $("#menucb-" + menuId).removeClass().addClass('cb-size-18 fa fa-square-o');
+            } else {
+                $("#menu-" + menuId).removeClass().addClass('rolemanage-cb-check');
+                $("#menucb-" + menuId).removeClass().addClass('cb-size-18 fa fa-check-square-o');
+                $("#menu-" + parentId).removeClass().addClass('rolemanage-cb-check');
+                $("#menucb-" + parentId).removeClass().addClass('cb-size-18 fa fa-check-square-o');
+            }
+        }
+        function menuCheckAll() {
+            $('i.cb-size-18').each(function () {
+                $(this).removeClass().addClass('cb-size-18 fa fa-check-square-o');
+                $(this).parent().removeClass().addClass('rolemanage-cb-check');
+            });
+        }
+        function menuUncheckAll() {
+            $('i.cb-size-18').each(function () {
+                $(this).removeClass().addClass('cb-size-18 fa fa-square-o');
+                $(this).parent().removeClass().addClass('rolemanage-cb-uncheck');
+            });
+        }
+        function menuUpdateClick() {
+            $('#btnUpdateMenu').html('&nbsp;<i class="fa fa-refresh fa-spin" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+            $('i.cb-size-18').each(function () {
+                if ($(this).hasClass('fa-check-square-o')) {
+                    $(this).trigger('click');
+                }
+            });
+            setTimeout(menuUpdate, 2000);
+        }
+        function menuUpdate() {
+            var mids = "";
+            $('i.cb-size-18').each(function () {
+                if ($(this).hasClass('fa-check-square-o')) {
+                    var mid = $(this).attr('id').substring(7); //menucb-101002
+                    mids += "|" + mid;
+                }
+            });
+            mids = mids.substring(1);
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "@Url.Action("UpdateRoleMenus", "SecurityRoleMenus")",
+                data: {
+                    roleId: '@ViewBag.RoleId',
+                    menus: mids,
+                },
+                success: function (data) {
+                    if (data.result != "success") {
+                        $('#a_label').text('ตรวจพบความผิดพลาด');
+                        $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
+                        $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                    }
+                    $('#btnUpdateMenu').html('&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+                }
+            });
+
+        }
+
+    </script>
+}

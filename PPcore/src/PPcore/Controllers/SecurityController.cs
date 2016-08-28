@@ -73,5 +73,32 @@ namespace PPcore.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Settings()
+        {
+            var memberId = HttpContext.Session.GetString("memberId");
+            var roleId = HttpContext.Session.GetString("roleId");
+            ViewBag.UserName = HttpContext.Session.GetString("displayname");
+
+            if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Not Administrators
+            {
+                if (roleId != "9a1a4601-f5ee-4087-b97d-d69e7f9bfd7e") //Not Operators
+                {
+                    if (roleId != "17822a90-1029-454a-b4c7-f631c9ca6c7d") //Not Members
+                    {
+                        ViewBag.Color = "panel-dashboard-yellow";
+                    }
+                    else { ViewBag.Color = "panel-dashboard-green"; } //Members
+                }
+                else { ViewBag.Color = "panel-primary"; } //Operators
+            }
+            else { ViewBag.Color = "panel-dashboard-black"; } //Administrators
+
+            var m = _context.member.SingleOrDefault(mm => mm.id == new Guid(memberId));
+            ViewBag.LoginName = m.mem_username;
+
+            return View();
+        }
     }
 }

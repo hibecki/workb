@@ -1158,7 +1158,7 @@ namespace PPcore.Controllers
         // POST: members/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("income,title,occupation,mail_address,facebook,line,mem_password,member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,id,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone")] member member)
+        public IActionResult Edit(string id, [Bind("income,title,occupation,mail_address,facebook,line,mem_username,mem_password,mem_role_id,member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,id,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone")] member member)
         {
             if (ModelState.IsValid)
             {
@@ -1265,6 +1265,9 @@ namespace PPcore.Controllers
                     member.cid_card_pic = pic_image.image_code;
                 }
 
+                //member.mem_username = "";
+                //member.mem_password = Utils.EncodeMd5(password);
+                //member.mem_role_id = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d"); //Role member
 
                 _context.Update(member);
                 _context.SaveChanges();

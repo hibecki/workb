@@ -60,6 +60,7 @@ namespace PPcore.Controllers
 
                     var memberId = HttpContext.Session.GetString("memberId");
                     var roleId = HttpContext.Session.GetString("roleId");
+                    var displayName = HttpContext.Session.GetString("displayname");
 
                     var rms = _scontext.SecurityRoleMenus.Where(rmss => rmss.RoleId == m.mem_role_id).OrderByDescending(rmss => rmss.MenuId).ToList();
                     if (rms != null)
@@ -74,7 +75,7 @@ namespace PPcore.Controllers
                             {
                                 if (menu.HaveChild == 1)
                                 {
-                                    menuTemp = "<li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='#'>" + menu.MenuDisplay + "<ul class='dropdown-menu'>" + menuTemp + "</ul></li>";
+                                    menuTemp = "<li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='#'>" + menu.MenuDisplay + "</a><ul class='dropdown-menu'>" + menuTemp + "</ul></li>";
                                     if (menu.Level == 1)
                                     {
                                         if (menu.IsRightAlign != 1)
@@ -90,7 +91,7 @@ namespace PPcore.Controllers
                                 }
                                 else
                                 {
-                                    if (menu.Level < prevLevel)
+                                    if (menu.Level != prevLevel)
                                     {
                                         if (menu.IsRightAlign != 1)
                                         {
@@ -113,7 +114,15 @@ namespace PPcore.Controllers
                                     }
                                     if (menu.MenuName != "-")
                                     {
-                                        menuTemp = "<li><a href='" + link + "'>" + menu.MenuDisplay.Replace('"'.ToString(),"'") + "</li>" + menuTemp;
+                                        if (menu.Level != 1)
+                                        {
+                                            menuTemp = "<li><a href='" + link + "'>" + menu.MenuDisplay.Replace(@"""", @"\""") + "</a></li>" + menuTemp;
+                                        }
+                                        else
+                                        {
+                                            menuTemp = "<li><a class='dropdown-toggle' href='" + link + "'>" + menu.MenuDisplay.Replace(@"""", @"\""") + "</a></li>" + menuTemp;
+                                        }
+                                        
                                     }
                                     else
                                     {
@@ -122,30 +131,8 @@ namespace PPcore.Controllers
                                 }
                                 prevLevel = menu.Level;
                             }
-
-
-
-                            //if (menu.HaveChild == 1)
-                            //{
-                            //    menuHtmlCB = menuHtmlCB.Replace("_parentMenuId_", menu.MenuId.ToString());
-                            //}
-                            //if (menu.Level > prevLevel)
-                            //{
-                            //    menuHtmlCB = menuHtmlCB.Replace("_parentMenuId_", "0");
-                            //}
-                            //prevLevel = menu.Level;
-
-                            //leftgap = menu.Level * 30;
-
-                            //if (rmsstring.IndexOf(menu.MenuId.ToString()) != -1)
-                            //{
-                            //    menuHtml = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtml;
-                            //}
-                            //else
-                            //{
-                            //    menuHtml = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-uncheck' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtml;
-                            //}
                         }
+                        menuRight = menuRight.Replace("_displayname_", displayName);
                         menuHtml = menuHtml.Replace("_menuright_", menuRight);
                         menuHtml = menuHtml.Replace("_menuleft_", menuLeft);
                         HttpContext.Session.SetString("mainmenu", menuHtml);

@@ -72,7 +72,7 @@ CREATE TABLE SecurityMenus (
 	HaveChild int NOT NULL,
 	IsRightAlign int NOT NULL,
     MenuName NVARCHAR(100) NULL,
-	MenuDisplay NVARCHAR(100) NULL,
+	MenuDisplay NVARCHAR(200) NULL,
 	MenuController VARCHAR(100) NULL,
 	MenuAction VARCHAR(100) NULL,
 	MenuUrl VARCHAR(200) NULL
