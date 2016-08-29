@@ -132,7 +132,7 @@ namespace PPcore.Controllers
                                 prevLevel = menu.Level;
                             }
                         }
-                        menuRight = menuRight.Replace("_displayname_", displayName);
+                        menuRight = menuRight.Replace("_displayname_", "<span id='_displayname_'>" + displayName + "</span>");
                         menuHtml = menuHtml.Replace("_menuright_", menuRight);
                         menuHtml = menuHtml.Replace("_menuleft_", menuLeft);
                         HttpContext.Session.SetString("mainmenu", menuHtml);

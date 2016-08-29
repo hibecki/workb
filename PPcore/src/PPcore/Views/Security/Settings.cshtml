@@ -16,12 +16,13 @@
                 <div class="panel @ViewBag.Color">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-7" style="font-size:24px;">@ViewBag.UserName</div>
+                            <div id="unameBox" class="col-xs-7" style="font-size:24px;">@ViewBag.UserName</div>
                         </div>
                     </div>
                     <a href="#" onclick="">
                         <div class="panel-footer">
-                            <span class="pull-left">ชื่อที่ใช้ล็อกอิน: @ViewBag.LoginName</span>
+                            <span class="pull-left">ชื่อที่ใช้ล็อกอิน: @ViewBag.LoginName</span><br/>
+                            <span class="pull-left" id="emailBox">อีเมล: @ViewBag.EMail</span>
                             <div class="clearfix"></div>
                         </div>
                     </a>
@@ -33,28 +34,31 @@
 
                 <div class="panel-group" id="accordion">
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;เปลี่ยนชื่อที่ใช้แสดง</a>
-                            </h4>
-                        </div>
-                        <div id="collapse1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <form style="width:250px;margin-left:10px;margin-right:10px;">
-                                    <div class="form-group input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-user"></i>
-                                        </span>
-                                        <input id="uname" type="text" class="form-control" placeholder="ชื่อที่ใช้แสดงใหม่" autocomplete="off" maxlength="100" onkeyup="$('#unameMsg').text(''); $('#unameMsg').hide();" />
-                                    </div>
-                                    <span id="unameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
-                                    <button type="button" id="btnChangeUName" onclick="changeUName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
-                                    <br />
-                                </form>
+                    @if (@ViewBag.IsMember != 1)
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;เปลี่ยนชื่อที่ใช้แสดง</a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <form style="width:250px;margin-left:10px;margin-right:10px;">
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </span>
+                                            <input id="uname" type="text" class="form-control" placeholder="ชื่อที่ใช้แสดงใหม่" autocomplete="off" maxlength="100" data-val-required="" onkeyup="$('#unameMsg').text(''); $('#unameMsg').hide();" />
+                                        </div>
+                                        <span id="unameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+                                        <button type="button" id="btnChangeUName" onclick="changeUName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                        <br />
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -69,9 +73,9 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-key"></i>
                                         </span>
-                                        <input id="rolename" type="text" class="form-control" placeholder="รหัสผ่านเก่า" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();" />
+                                        <input id="upwdold" type="password" class="form-control" placeholder="รหัสผ่านเก่า" autocomplete="off" maxlength="100" onkeyup="$('#upwdoldMsg').text(''); $('#upwdoldMsg').hide();" />
                                     </div>
-                                    <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+                                    <span id="upwdoldMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
                                     <hr/>
                                     <div class="form-group input-group">
                                         <span class="input-group-addon">
@@ -79,15 +83,15 @@
                                         </span>
                                         <input id="upwd" type="password" class="form-control" placeholder="กำหนดรหัสผ่านใหม่" autocomplete="off">
                                     </div>
-
+                                    <span id="upwdMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
                                     <div class="form-group input-group">
                                         <span class="input-group-addon">
                                             <i class="fa fa-key"></i>
                                         </span>
                                         <input id="upwdrepeat" type="password" class="form-control" placeholder="รหัสผ่านอีกครั้ง" autocomplete="off">
                                     </div>
-
-                                    <button type="button" id="btnChangeRoleName" onclick="roleChangeName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                    <span id="upwdrepeatMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+                                    <button type="button" id="btnChangePwd" onclick="changePwd();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
                                     <br />
                                 </form>
                             </div>
@@ -107,14 +111,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-envelope"></i>
                                         </span>
-                                        <input id="email" type="text" class="form-control" placeholder="อีเมล" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();" />
+                                        <input id="email" type="text" class="form-control" placeholder="อีเมล" autocomplete="off" maxlength="100" onkeyup="$('#emailMsg').text(''); $('#emailMsg').hide();" />
                                     </div>
-                                    <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
+                                    <span id="emailMsg" class="text-danger" style="display:none;margin-top:-45px;margin-left:270px;position:absolute"></span>
 
 
 
 
-                                    <button type="button" id="btnChangeRoleName" onclick="roleChangeName();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
+                                    <button type="button" id="btnChangeContact" onclick="changeContact();" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-save " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</button>
                                     <br />
                                 </form>
                             </div>
@@ -199,123 +203,115 @@
     <script src="~/lib/bootstrap/js/modal.js"></script>
     <script>
         $(document).ready(function () {
-            if ('@ViewBag.CountMembers' == 0) {
-                $('#btnDeleteRole').removeClass('disabled');
-            }
-            $('#roleCheckBox').html("@Html.Raw(ViewBag.RoleCheckBox as string)");
+
 
         });
-        function goManageMembers(roleId) {
-            window.location.href = '@Url.Action("ManageMembers", "Security")?roleId='+roleId;
-        }
-        function roleChangeName() {
-            if ($('#rolename').val().trim()) {
+        function changeUName() {
+            $('#btnChangeUName').html('&nbsp;<i class="fa fa-refresh fa-spin" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+            if ($('#uname').val().trim()) {
                 $.ajax({
                     async: true,
                     type: "POST",
-                    url: "@Url.Action("ChangeRoleName", "SecurityRoles")",
+                    url: "@Url.Action("SettingsDisplayName", "Security")",
                     data: {
-                        roleId: '@ViewBag.RoleId',
-                        rolename: $('#rolename').val(),
+                        uname: $('#uname').val().trim(),
                     },
-                success: function (data) {
-                    if (data.result == "success") {
-                        $('#boxRoleName').text(data.rolename);
-                        $('#rolename').val('');
-                    } else {
-                        $('#a_label').text('ตรวจพบความผิดพลาด');
-                        $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
-                        $('#a_modal').modal({ backdrop: 'static', keyboard: false });
-                    }
-                }
-            });
-            } else {
-                $('#rolenameMsg').text('กรุณากรอกข้อมูล'); $('#rolenameMsg').show();
-            }
-        }
-        function roleDeleteClick() {
-            $('#c_rolename').text('@ViewBag.RoleName');
-            $('#c_modal').modal({ backdrop: 'static', keyboard: false });
-        }
-        function roleDelete() {
-            $.ajax({
-                async: true,
-                type: "POST",
-                url: "@Url.Action("DeleteRole", "SecurityRoles")",
-                data: {
-                    roleId: '@ViewBag.RoleId',
-                },
-            success: function (data) {
-                if (data.result == "success") {
-                    window.location.href = '@Url.Action("ManageRoles", "Security")';
-                } else {
-                    $('#a_label').text('ตรวจพบความผิดพลาด');
-                    $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
-                    $('#a_modal').modal({ backdrop: 'static', keyboard: false });
-                }
-            }
-            });
-        }
-        function checkMenu(menuId,parentId) {
-            if ($("#menu-" + menuId).hasClass('rolemanage-cb-check')) {
-                $("#menu-" + menuId).removeClass().addClass('rolemanage-cb-uncheck');
-                $("#menucb-" + menuId).removeClass().addClass('cb-size-18 fa fa-square-o');
-            } else {
-                $("#menu-" + menuId).removeClass().addClass('rolemanage-cb-check');
-                $("#menucb-" + menuId).removeClass().addClass('cb-size-18 fa fa-check-square-o');
-                $("#menu-" + parentId).removeClass().addClass('rolemanage-cb-check');
-                $("#menucb-" + parentId).removeClass().addClass('cb-size-18 fa fa-check-square-o');
-            }
-        }
-        function menuCheckAll() {
-            $('i.cb-size-18').each(function () {
-                $(this).removeClass().addClass('cb-size-18 fa fa-check-square-o');
-                $(this).parent().removeClass().addClass('rolemanage-cb-check');
-            });
-        }
-        function menuUncheckAll() {
-            $('i.cb-size-18').each(function () {
-                $(this).removeClass().addClass('cb-size-18 fa fa-square-o');
-                $(this).parent().removeClass().addClass('rolemanage-cb-uncheck');
-            });
-        }
-        function menuUpdateClick() {
-            $('#btnUpdateMenu').html('&nbsp;<i class="fa fa-refresh fa-spin" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
-            $('i.cb-size-18').each(function () {
-                if ($(this).hasClass('fa-check-square-o')) {
-                    $(this).trigger('click');
-                }
-            });
-            setTimeout(menuUpdate, 2000);
-        }
-        function menuUpdate() {
-            var mids = "";
-            $('i.cb-size-18').each(function () {
-                if ($(this).hasClass('fa-check-square-o')) {
-                    var mid = $(this).attr('id').substring(7); //menucb-101002
-                    mids += "|" + mid;
-                }
-            });
-            mids = mids.substring(1);
-            $.ajax({
-                async: true,
-                type: "POST",
-                url: "@Url.Action("UpdateRoleMenus", "SecurityRoleMenus")",
-                data: {
-                    roleId: '@ViewBag.RoleId',
-                    menus: mids,
-                },
                 success: function (data) {
                     if (data.result != "success") {
                         $('#a_label').text('ตรวจพบความผิดพลาด');
                         $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
                         $('#a_modal').modal({ backdrop: 'static', keyboard: false });
                     }
-                    $('#btnUpdateMenu').html('&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+                    else
+                    {
+                        $('#unameBox').text(data.uname);
+                        $('#_displayname_').text(data.uname);
+                    }
+                    $('#uname').val('');
+                    $('#btnChangeUName').html('&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
                 }
             });
-
+            } else {
+                $('#unameMsg').text('กรุณากรอกข้อมูล'); $('#unameMsg').show();
+            }
         }
-
+        function changePwd() {
+            $('#btnChangePwd').html('&nbsp;<i class="fa fa-refresh fa-spin" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+            var upwdold = $('#upwdold').val().trim(); var upwd = $('#upwd').val().trim(); var upwdrepeat = $('#upwdrepeat').val().trim();
+            if (!upwdold) { $('#upwdoldMsg').text('กรุณากรอกข้อมูล'); $('#upwdoldMsg').show(); }
+            if (!upwd) { $('#upwdMsg').text('กรุณากรอกข้อมูล'); $('#upwdMsg').show(); }
+            if (!upwdrepeat) { $('#upwdrepeatMsg').text('กรุณากรอกข้อมูล'); $('#upwdrepeatMsg').show(); }
+            if (upwdold && upwd && upwdrepeat) {
+                if (upwd != upwdrepeat) {
+                    $('#upwdMsg').text('กรุณาตรวจสอบรหัสผ่านอีกครั้ง'); $('#upwdMsg').show();
+                    $('#upwdrepeatMsg').text('กรุณาตรวจสอบรหัสผ่านอีกครั้ง'); $('#upwdrepeatMsg').show();
+                }
+                else
+                {
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        url: "@Url.Action("SettingsChangePassword", "Security")",
+                        data: {
+                        upwdold: upwdold,
+                        upwdnew: upwd,
+                        },
+                        success: function (data) {
+                            if (data.result == "success") 
+                            {
+                                $('#upwdold').val('');$('#upwd').val('');$('#upwdrepeat').val('');
+                                $('#a_label').text('ระบบได้ทำการเปลี่ยนรหัสผ่านเรียบร้อย');
+                                $('#a_body').html('<span style="color:green">ระบบได้ทำการเปลี่ยนรหัสผ่านเรียบร้อย</span>');
+                                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                            }
+                            else if (data.result == "wrong")
+                            {
+                                $('#a_label').text('รหัสผ่านของท่านไม่ถูกต้อง');
+                                $('#a_body').html('<span style="color:red">รหัสผ่านของท่านไม่ถูกต้อง</span>');
+                                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                            }
+                            else
+                            {
+                                $('#a_label').text('ตรวจพบความผิดพลาด');
+                                $('#a_body').html('<span style="color:red">ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ</span>');
+                                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                            }
+                        }
+                    });
+                }
+            }
+            $('#btnChangePwd').html('&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+        }
+        function changeContact() {
+            $('#btnChangeContact').html('&nbsp;<i class="fa fa-refresh fa-spin" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+            var email = $('#email').val().trim();
+            if (!email) { $('#emailMsg').text('กรุณากรอกข้อมูล'); $('#emailMsg').show(); }
+            if (email) {
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "@Url.Action("SettingsChangeContact", "Security")",
+                    data: {
+                        email: email,
+                    },
+                    success: function (data) {
+                        if (data.result == "success") 
+                        {
+                            $('#email').val(''); $('#emailBox').text('อีเมล: '+data.email);
+                            $('#a_label').text('ระบบได้ทำการเปลี่ยนข้อมูลการติดต่อเรียบร้อย');
+                            $('#a_body').html('<span style="color:green">ระบบได้ทำการเปลี่ยนข้อมูลการติดต่อเรียบร้อย</span>');
+                            $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                        }
+                        else
+                        {
+                            $('#a_label').text('ตรวจพบความผิดพลาด');
+                            $('#a_body').html('<span style="color:red">ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ</span>');
+                            $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                        }
+                    }
+                });
+            }
+            $('#btnChangeContact').html('&nbsp;<i class="fa fa-save" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;');
+        }
     </script>
 }
