@@ -1142,6 +1142,10 @@ INSERT INTO [dbo].[SecurityMenus] ([MenuId], [Level], [HaveChild], [IsRightAlign
 INSERT INTO [dbo].[SecurityMenus] ([MenuId], [Level], [HaveChild], [IsRightAlign], [MenuName], [MenuController], [MenuAction], [MenuUrl], [MenuDisplay]) VALUES (951004, 2, 0, 1, N'-', NULL, NULL, NULL, N'-')
 INSERT INTO [dbo].[SecurityMenus] ([MenuId], [Level], [HaveChild], [IsRightAlign], [MenuName], [MenuController], [MenuAction], [MenuUrl], [MenuDisplay]) VALUES (951006, 2, 0, 1, N'ออกจากระบบ', N'Security', N'LogOff', NULL, N'<i class=''fa fa-sign-out fa-fw''></i> ออกจากระบบ')
 
+GO
+
+SET DATEFORMAT ymd;
+GO
 
 INSERT INTO [dbo].[SecurityRoles] ([RoleId], [RoleName], [CreatedBy], [CreatedDate], [EditedBy], [EditedDate], [x_status], [x_note], [x_log]) VALUES (N'9a1a4601-f5ee-4087-b97d-d69e7f9bfd7e', N'Operators', N'f5e3130e-aa2e-4e82-8cf6-af887a955eb8', N'2016-08-18 09:43:38', N'a6e221e4-6f2b-413c-97c2-1b282cfca657', N'2016-08-18 09:43:38', N'Y', NULL, NULL)
 INSERT INTO [dbo].[SecurityRoles] ([RoleId], [RoleName], [CreatedBy], [CreatedDate], [EditedBy], [EditedDate], [x_status], [x_note], [x_log]) VALUES (N'c5a644a2-97b0-40e5-aa4d-e2afe4cdf428', N'Administrators', N'9f514d3a-2344-424b-9735-b58e828fa9f0', N'2016-08-18 09:43:29', N'd003ce81-285b-40d3-95dd-7d6309fc2555', N'2016-08-18 09:43:29', N'Y', NULL, NULL)
