@@ -152,10 +152,11 @@ namespace PPcore.Controllers
                 }
 
                 string menuHtmlCB = ""; int leftgap = 30;
-                int prevLevel = 0;
+                int prevLevel = 0; var countMenu = 0;
                 var menus = _scontext.SecurityMenus.OrderByDescending(me => me.MenuId).ToList();
                 foreach (SecurityMenus menu in menus)
                 {
+                    countMenu++;
                     if (menu.HaveChild == 1)
                     {
                         menuHtmlCB = menuHtmlCB.Replace("_parentMenuId_", menu.MenuId.ToString());
@@ -167,14 +168,22 @@ namespace PPcore.Controllers
                     prevLevel = menu.Level;
 
                     leftgap = menu.Level * 30;
-                    if (rmsstring.IndexOf(menu.MenuId.ToString()) != -1)
+                    if (countMenu < 4)
                     {
-                        menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                        menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;color:gray'><i id='menucb-" + menu.MenuId + "' class='cb-size-18d fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
                     }
                     else
                     {
-                        menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-uncheck' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                        if (rmsstring.IndexOf(menu.MenuId.ToString()) != -1)
+                        {
+                            menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                        }
+                        else
+                        {
+                            menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-uncheck' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                        }
                     }
+
                 }
                 ViewBag.RoleCheckBox = menuHtmlCB.Replace("_parentMenuId_", "0"); ;
             }

@@ -167,6 +167,11 @@ namespace PPcore.Controllers
         // GET: members/DetailsPdf/5
         public FileStreamResult DetailsPdf(String id)
         {
+            // Find who executes this
+            var userId = HttpContext.Session.GetString("memberId");
+            member muser = _context.member.SingleOrDefault(mb => mb.id == new Guid(userId));
+
+            // Who will be printed
             member m = _context.member.SingleOrDefault(mb => mb.id == new Guid(id));
 
             var fname = m.title + " " + m.fname; var lname = m.lname;
@@ -945,7 +950,8 @@ namespace PPcore.Controllers
                         ptable.DefaultCell.Border = Rectangle.NO_BORDER;
                         ptable.DefaultCell.VerticalAlignment = 1;
                         ptable.SetWidths(new float[] { 300f, 230f });
-                        ptable.AddCell(new PdfPCell(new Phrase("Printed by: (Admin) Somsak Saelim Printed date: ", cng)) { Border = Rectangle.NO_BORDER });
+                        var printdate = String.Format("{0:d MMMM yyyy}", DateTime.Now);
+                        ptable.AddCell(new PdfPCell(new Phrase("Printed by: "+ muser.fname + " " + muser.lname + " ("+muser.mem_username+") Printed date: " + printdate, cng)) { Border = Rectangle.NO_BORDER });
                         ptable.AddCell(new PdfPCell(new Phrase(string.Format("Page {0} of {1}", i, n), cng)) { Border = Rectangle.NO_BORDER, HorizontalAlignment = 2 });
                         cb = stamper.GetOverContent(i);
                         ptable.WriteSelectedRows(0, -1, 34, 33, cb);
