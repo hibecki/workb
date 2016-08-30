@@ -68,6 +68,8 @@ namespace PPcore.Controllers
             var ip = _context.ini_province.OrderBy(p => p.province_code).Select(p => new { Value = p.province_code, Text = p.pro_desc }).ToList();
             ip.Insert(0, (new { Value = "0", Text = "" }));
             ViewBag.ini_province = new SelectList(ip.AsEnumerable(), "Value", "Text", "0");
+
+            ViewBag.IsPersonal = 0;
         }
 
         public membersController(PalangPanyaDBContext context, SecurityDBContext scontext, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
@@ -94,7 +96,6 @@ namespace PPcore.Controllers
             return View(pp.OrderByDescending(m => m.rowversion).ToList());
         }
 
-        // GET: members/Details/5
         public IActionResult Details(string id)
         {
             if (id == null)
@@ -1478,6 +1479,48 @@ namespace PPcore.Controllers
                 return Json(new { result = "success" });
             }
 
+        }
+
+        public IActionResult DetailsPersonal()
+        {
+            var id = HttpContext.Session.GetString("memberId");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            member member = _context.member.Single(m => m.id == new Guid(id));
+            if (member == null)
+            {
+                return NotFound();
+            }
+
+            if (!String.IsNullOrEmpty(member.mem_photo))
+            {
+                //pic_image m = _context.pic_image.Single(i => i.image_code == member.mem_photo);
+                //ViewBag.memPhoto = m.image_name;
+                ViewBag.memPhoto = member.mem_photo;
+            }
+
+            if (!String.IsNullOrEmpty(member.cid_card_pic))
+            {
+                //pic_image c = _context.pic_image.Single(i => i.image_code == member.cid_card_pic);
+                //ViewBag.cidCardPhoto =c.image_name;
+                ViewBag.cidCardPhoto = member.cid_card_pic;
+            }
+            ViewBag.memberId = id;
+            ViewBag.TabNoData = "";
+
+            //For dropdown province; we need to manually assign it, then prepare viewbag for javascript
+            ViewBag.zipCode = member.zip_code;
+            ViewBag.subdistrictCode = member.subdistrict_code;
+            ViewBag.districtCode = member.district_code;
+            //ViewBag.provinceCode = member.province_code;
+            ViewBag.incomeCode = member.income;
+
+            prepareViewBag();
+            ViewBag.IsPersonal = 1;
+            return View(member);
         }
 
         private class listTraining

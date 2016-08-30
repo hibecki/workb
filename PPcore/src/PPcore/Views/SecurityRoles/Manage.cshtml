@@ -241,6 +241,10 @@
                 $("#menucb-" + parentId).removeClass().addClass('cb-size-18 fa fa-check-square-o');
             }
         }
+        function checkMenuFreeze(parentId) {
+            $("#menu-" + parentId).removeClass().addClass('rolemanage-cb-check');
+            $("#menucb-" + parentId).removeClass().addClass('cb-size-18 fa fa-check-square-o');
+        }
         function menuCheckAll() {
             $('i.cb-size-18').each(function () {
                 $(this).removeClass().addClass('cb-size-18 fa fa-check-square-o');
@@ -260,11 +264,22 @@
                     $(this).trigger('click');
                 }
             });
+            $('i.cb-size-18d').each(function () {
+                if ($(this).hasClass('fa-check-square-o')) {
+                    $(this).trigger('click');
+                }
+            });
             setTimeout(menuUpdate, 2000);
         }
         function menuUpdate() {
             var mids = "";
             $('i.cb-size-18').each(function () {
+                if ($(this).hasClass('fa-check-square-o')) {
+                    var mid = $(this).attr('id').substring(7); //menucb-101002
+                    mids += "|" + mid;
+                }
+            });
+            $('i.cb-size-18d').each(function () {
                 if ($(this).hasClass('fa-check-square-o')) {
                     var mid = $(this).attr('id').substring(7); //menucb-101002
                     mids += "|" + mid;

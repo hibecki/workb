@@ -131,7 +131,7 @@
                         $("#mail_addressCheckOther").prop("checked", true);
                         $('#mail_address').prop('readonly', false);
                     }
-                } else if (act == "Details") {
+                } else if ((act == "Details") || (act == "DetailsPersonal")) {
                     setTabColor();
                     setProvinceData();
                     setTimeout(function () {
