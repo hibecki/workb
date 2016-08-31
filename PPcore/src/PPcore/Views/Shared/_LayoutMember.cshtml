@@ -50,7 +50,7 @@
                                 <a id="mem_worklist" onclick="location.href='@Url.Action("Index", "mem_worklist", new {memberId=ViewBag.memberId, v = 1})'">ข้อมูลสถานที่ทำงาน<br />และประวัติการทำงาน</a>
                             </li>
                             <li>
-                                <a id="mem_product" onclick="mem_productIndex('@ViewBag.memberId');" style="width:140px;" data-toggle="tab">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ผลิตผลในครัวเรือน</div></a>
+                                <a id="mem_product" onclick="mem_productIndex('@ViewBag.memberId', 1);" style="width:140px;" data-toggle="tab">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ผลิตผลในครัวเรือน</div></a>
                             </li>
                         </ul>
                     }
@@ -83,7 +83,7 @@
                                 <a id="mem_worklist" onclick="location.href='@Url.Action("Index", "mem_worklist", new {memberId=ViewBag.memberId})'" >ข้อมูลสถานที่ทำงาน<br />และประวัติการทำงาน</a>
                             </li>
                             <li>
-                                <a id="mem_product" onclick="mem_productIndex('@ViewBag.memberId');" style="width:140px;" data-toggle="tab">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ผลิตผลในครัวเรือน</div></a>
+                                <a id="mem_product" onclick="mem_productIndex('@ViewBag.memberId', 0);" style="width:140px;" data-toggle="tab">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ผลิตผลในครัวเรือน</div></a>
                             </li>
                         </ul>
                     }
@@ -349,11 +349,14 @@
             }
         }
 
-        function mem_productIndex(memberId) {
+        function mem_productIndex(memberId, v) {
             $.ajax({
                 type: 'get', url: '@Url.Action("Index", "mem_product")' + '?memberId=' + memberId,
             }).done(function (resp) {
                 $('#renderBody').html(resp);
+                if (v == 1) {
+                    $('#btnBar').hide();
+                }
                 var tableMemProduct = setDataTablesSimple();
                 tableMemProduct.$('tr:first').click();
                 $('#btnEdit').off('click').on('click', function () {
