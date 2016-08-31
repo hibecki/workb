@@ -5,6 +5,16 @@
 <form asp-action="@ViewBag.FormAction">
     <div class="form-horizontal">
         <div style="position:relative;top:-150px;margin-right:.5em;float:right">
+            @if (ViewBag.IsViewMember)
+            {
+                <button id="btnSave" type="@ViewBag.ButtonUpperRightType" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</button>
+                <div id="btnGoEdit" class="btn btn-default btn-panel-yellow" style="display:none;" onclick="location.href='@Url.Action("Edit", "members", new {id=ViewBag.memberId})'">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;</div>
+            }
+            else
+            {
+
+
+            }
             <div id="btnGoEdit" class="btn btn-default btn-panel-yellow" style="display:none;" onclick="location.href='@Url.Action("Edit", "members", new {id=ViewBag.memberId})'">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;</div>
             <button id="btnSave" type="@ViewBag.ButtonUpperRightType" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</button>
             <div id="btnPrint" class="btn btn-default btn-panel-yellow" style="display:none;" onclick="memberPrint();">&nbsp;<i class="fa fa-print" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;พิมพ์&nbsp;&nbsp;</div>
