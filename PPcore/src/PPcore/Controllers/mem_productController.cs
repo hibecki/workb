@@ -19,7 +19,7 @@ namespace PPcore.Controllers
         }
 
         // GET: mem_product
-        public IActionResult Index(string memberId)
+        public IActionResult Index(string memberId, string v)
         {
             List<ViewModels.mem_product.mem_productViewModel> mem_productViewModels = new List<ViewModels.mem_product.mem_productViewModel>();
             var member = _context.member.Single(m => m.id == new Guid(memberId));
@@ -36,6 +36,7 @@ namespace PPcore.Controllers
             }
             ViewBag.memberId = memberId;
             //ViewBag.course_grade = new SelectList(_context.course_grade, "cgrade_code", "cgrade_desc");(x.Body.Scopes.Count > 5) && (x.Foo == "test")
+            if (!String.IsNullOrEmpty(v)) { ViewBag.isViewOnly = 1; } else { ViewBag.isViewOnly = 0; }
             return View(mem_productViewModels);
         }
 
