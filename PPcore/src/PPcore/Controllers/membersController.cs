@@ -69,7 +69,8 @@ namespace PPcore.Controllers
             ip.Insert(0, (new { Value = "0", Text = "" }));
             ViewBag.ini_province = new SelectList(ip.AsEnumerable(), "Value", "Text", "0");
 
-            ViewBag.IsPersonal = 0;
+            ViewBag.IsCreate = 0; ViewBag.IsEdit = 0; ViewBag.IsDetails = 0; ViewBag.IsDetailsPersonal = 0;
+            ViewBag.IsDisabled = false;
         }
 
         public membersController(PalangPanyaDBContext context, SecurityDBContext scontext, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
@@ -133,6 +134,8 @@ namespace PPcore.Controllers
             ViewBag.incomeCode = member.income;
 
             prepareViewBag();
+            ViewBag.IsDetails = 1;
+            ViewBag.IsDisabled = true;
             return View(member);
         }
 
@@ -979,6 +982,7 @@ namespace PPcore.Controllers
         public IActionResult Create()
         {
             prepareViewBag();
+            ViewBag.IsCreate = 1;
             return View();
         }
 
@@ -1157,7 +1161,7 @@ namespace PPcore.Controllers
             ViewBag.incomeCode = member.income;
 
 
-            prepareViewBag();
+            prepareViewBag();ViewBag.IsEdit = 1;
             clearImageUpload();
             return View(member);
         }
@@ -1519,7 +1523,8 @@ namespace PPcore.Controllers
             ViewBag.incomeCode = member.income;
 
             prepareViewBag();
-            ViewBag.IsPersonal = 1;
+            ViewBag.IsDetailsPersonal = 1;
+            ViewBag.IsDisabled = true;
             return View(member);
         }
 

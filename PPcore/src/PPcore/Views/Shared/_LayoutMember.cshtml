@@ -134,22 +134,22 @@
                 } else if ((act == "Details") || (act == "DetailsPersonal")) {
                     setTabColor();
                     setProvinceData();
-                    setTimeout(function () {
-                        $('input').each(function () {
-                            if (!($(this).attr('disabled'))) {
-                                $(this).attr({ 'disabled': 'disabled' });
-                            }
-                        });
-                        $('select').each(function () {
-                            if (!($(this).attr('disabled'))) {
-                                $(this).attr({ 'disabled': 'disabled' });
-                            }
-                        });
-                        if (!($('#birthdateButton').attr('disabled'))) {
-                            $('#birthdateButton').attr({ 'disabled': 'disabled' });
-                        }
-                        $('#btnGoEdit').show(); $('#btnSave').hide();
-                    }, 800);
+                    //setTimeout(function () {
+                    //    $('input').each(function () {
+                    //        if (!($(this).attr('disabled'))) {
+                    //            $(this).attr({ 'disabled': 'disabled' });
+                    //        }
+                    //    });
+                    //    $('select').each(function () {
+                    //        if (!($(this).attr('disabled'))) {
+                    //            $(this).attr({ 'disabled': 'disabled' });
+                    //        }
+                    //    });
+                    //    if (!($('#birthdateButton').attr('disabled'))) {
+                    //        $('#birthdateButton').attr({ 'disabled': 'disabled' });
+                    //    }
+                    //    $('#btnGoEdit').show(); $('#btnSave').hide();
+                    //}, 800);
                 }
 
             } else {
@@ -171,7 +171,7 @@
                     //$('#picCidCardPhotoSrc').attr('src', '/@ViewBag.images_member/@ViewBag.cidCardPhoto'); $('#picCidCardPhoto').show();
                     $('#picCidCardPhotoSrc').attr('src', '@Url.Action("image","pic_image")/@ViewBag.cidCardPhoto'); $('#picCidCardPhoto').show();
                 }
-                $('#btnPrint').show();
+                //$('#btnPrint').show();
                 $('#income').val('@ViewBag.incomeCode');
             }
 
