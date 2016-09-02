@@ -37,6 +37,35 @@ namespace PPcore.Controllers
                 securityRoles.RoleName = securityRoles.RoleName.Trim();
 
                 _scontext.Add(securityRoles);
+
+                SecurityRoleMenus rm1 = new SecurityRoleMenus();
+                rm1.RoleId = securityRoles.RoleId;
+                rm1.MenuId = 951000;
+                rm1.EditedBy = securityRoles.EditedBy;
+                rm1.EditedDate = securityRoles.EditedDate;
+                _scontext.Add(rm1);
+
+                SecurityRoleMenus rm2 = new SecurityRoleMenus();
+                rm2.RoleId = securityRoles.RoleId;
+                rm2.MenuId = 951030;
+                rm2.EditedBy = securityRoles.EditedBy;
+                rm2.EditedDate = securityRoles.EditedDate;
+                _scontext.Add(rm2);
+
+                SecurityRoleMenus rm3 = new SecurityRoleMenus();
+                rm3.RoleId = securityRoles.RoleId;
+                rm3.MenuId = 951040;
+                rm3.EditedBy = securityRoles.EditedBy;
+                rm3.EditedDate = securityRoles.EditedDate;
+                _scontext.Add(rm3);
+
+                SecurityRoleMenus rm4 = new SecurityRoleMenus();
+                rm4.RoleId = securityRoles.RoleId;
+                rm4.MenuId = 951050;
+                rm4.EditedBy = securityRoles.EditedBy;
+                rm4.EditedDate = securityRoles.EditedDate;
+                _scontext.Add(rm4);
+
                 try
                 {
                     await _scontext.SaveChangesAsync();
@@ -114,6 +143,22 @@ namespace PPcore.Controllers
                 m.SecurityRoles = sr;
                 
                 m.memberCount = _context.member.Where(mm => mm.mem_role_id == sr.RoleId).Count();
+
+                var roleId = sr.RoleId.ToString();
+                if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Not Administrators
+                {
+                    if (roleId != "9a1a4601-f5ee-4087-b97d-d69e7f9bfd7e") //Not Operators
+                    {
+                        if (roleId != "17822a90-1029-454a-b4c7-f631c9ca6c7d") //Not Members
+                        {
+                            m.panelColorCSS = "panel-dashboard-yellow";
+                        }
+                        else { m.panelColorCSS = "panel-dashboard-green"; } //Members
+                    }
+                    else { m.panelColorCSS = "panel-primary"; } //Operators
+                }
+                else { m.panelColorCSS = "panel-dashboard-black"; } //Administrators
+
                 ms.Add(m);
             }
             return View(ms);
@@ -138,10 +183,10 @@ namespace PPcore.Controllers
                     {
                         if (roleId != "17822a90-1029-454a-b4c7-f631c9ca6c7d") //Not Members
                         {
-                            ViewBag.Color = "panel-dashboard-yellow";
-                        } else { ViewBag.Color = "panel-dashboard-green"; } //Members
-                    } else { ViewBag.Color = "panel-primary"; } //Operators
-                } else { ViewBag.Color = "panel-dashboard-black"; } //Administrators
+                            ViewBag.Color = "panel-dashboard-yellow"; ViewBag.IsDeleteLocked = false;
+                        } else { ViewBag.Color = "panel-dashboard-green"; ViewBag.IsDeleteLocked = true; } //Members
+                    } else { ViewBag.Color = "panel-primary"; ViewBag.IsDeleteLocked = true; } //Operators
+                } else { ViewBag.Color = "panel-dashboard-black"; ViewBag.IsDeleteLocked = true; } //Administrators
 
                 ViewBag.CountMembers = _context.member.Where(mm => mm.mem_role_id == r.RoleId).Count();
 
@@ -175,7 +220,7 @@ namespace PPcore.Controllers
                     }
                     else
                     {
-                        if ((roleId == "17822a90-1029-454a-b4c7-f631c9ca6c7d") && (menu.MenuId == 101003)) //Members
+                        if ((roleId == "17822a90-1029-454a-b4c7-f631c9ca6c7d") && ((menu.MenuId == 101003) || (menu.MenuId == 401007))) //Members
                         {
                             menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;color:gray' onclick='checkMenuFreeze(_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18d fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
                         }
