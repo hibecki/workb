@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="col-md-2 text-right"><label asp-for="parent_code" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <input asp-for="parent_code" class="form-control " onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="13" asp-is-disabled="@ViewBag.IsDisabled" />
+                                    <input asp-for="parent_code" class="form-control " onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="13" asp-is-disabled="@ViewBag.IsDisabled" asp-is-member="@ViewBag.IsMember" />
                                     <span asp-validation-for="parent_code" class="text-danger" />
                                 </div>
                             </div>
@@ -60,11 +60,11 @@
                                 </div>*@
                                 <div class="col-md-2 text-right"><label asp-for="mem_group_code" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <select asp-for="mem_group_code" class="form-control" asp-items="@ViewBag.mem_group" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                    <select asp-for="mem_group_code" class="form-control" asp-items="@ViewBag.mem_group" asp-is-disabled="@ViewBag.IsDisabled" asp-is-member="@ViewBag.IsMember"></select>
                                 </div>
                                 <div class="col-md-2 text-right"><label asp-for="mlevel_code" class="control-label"></label></div>
                                 <div class="col-md-4">
-                                    <select asp-for="mlevel_code" class="form-control" asp-items="@ViewBag.mem_level" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                    <select asp-for="mlevel_code" class="form-control" asp-items="@ViewBag.mem_level" asp-is-disabled="@ViewBag.IsDisabled" asp-is-member="@ViewBag.IsMember"></select>
                                 </div>
                             </div>
                         </div>

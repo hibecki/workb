@@ -139,8 +139,6 @@
                     }).done(function (resp) {
                         if (resp.result == "success") {
                             window.location.replace(resp.url);
-                            //window.location.replace("@Url.Action("Index","members")");
-                            //window.location.replace("@Url.Action("Index","Home")");
                         } else if (resp.result == "fail") {
                             $('#waitBtnConfirm').hide();
                             $('#loginMsg').text('ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');

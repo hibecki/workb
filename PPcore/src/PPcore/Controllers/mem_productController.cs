@@ -89,9 +89,16 @@ namespace PPcore.Controllers
                 _context.Add(mp);
 
                 var mpro = _context.mem_product.SingleOrDefault(mpr => (mpr.member_code == m.member_code) && (mpr.id == new Guid(mem_productId)));
+                var recno = mpro.rec_no;
                 _context.Remove(mpro);
 
                 _context.SaveChanges();
+
+                var mpro2 = _context.mem_product.SingleOrDefault(mpr => (mpr.member_code == m.member_code) && (mpr.product_code == pd.product_code));
+                mpro2.rec_no = recno;
+                _context.Update(mpro2);
+                _context.SaveChanges();
+
                 return Json(new { result = "success" });
             }
             else

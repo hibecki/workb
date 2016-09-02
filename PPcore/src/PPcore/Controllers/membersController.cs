@@ -70,7 +70,7 @@ namespace PPcore.Controllers
             ViewBag.ini_province = new SelectList(ip.AsEnumerable(), "Value", "Text", "0");
 
             ViewBag.IsCreate = 0; ViewBag.IsEdit = 0; ViewBag.IsDetails = 0; ViewBag.IsDetailsPersonal = 0;
-            ViewBag.IsDisabled = false;
+            ViewBag.IsDisabled = false; ViewBag.IsMember = false;
         }
 
         public membersController(PalangPanyaDBContext context, SecurityDBContext scontext, IEmailSender emailSender, IConfiguration configuration, IHostingEnvironment env)
@@ -1162,6 +1162,15 @@ namespace PPcore.Controllers
 
 
             prepareViewBag();ViewBag.IsEdit = 1;
+            var roleId = HttpContext.Session.GetString("roleId");
+            if (roleId != "17822a90-1029-454a-b4c7-f631c9ca6c7d") //Not member
+            {
+                ViewBag.IsMember = false;
+            }
+            else //Is member
+            {
+                ViewBag.IsMember = true;
+            }
             clearImageUpload();
             return View(member);
         }
@@ -1282,7 +1291,16 @@ namespace PPcore.Controllers
 
                 _context.Update(member);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                var roleId = HttpContext.Session.GetString("roleId");
+                if (roleId != "17822a90-1029-454a-b4c7-f631c9ca6c7d") //Not member
+                {
+                    return RedirectToAction("Index");
+                }
+                else //Is member
+                {
+                    return RedirectToAction("DetailsPersonal","members");
+                }
+
             }
             prepareViewBag();
             return View(member);

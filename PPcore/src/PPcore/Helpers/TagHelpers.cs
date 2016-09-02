@@ -18,13 +18,16 @@ namespace PPcore.Helpers
         [HtmlAttributeName("asp-is-disabled")]
         public bool IsDisabled { set; get; }
 
+        [HtmlAttributeName("asp-is-member")]
+        public bool IsMember { set; get; }
+
         public PPInputTagHelpers(IHtmlGenerator generator) : base(generator)
         {
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (IsDisabled)
+            if ((IsDisabled) || (IsMember))
             {
                 output.Attributes.SetAttribute("disabled", "disabled");
             }
@@ -40,13 +43,16 @@ namespace PPcore.Helpers
         [HtmlAttributeName("asp-is-disabled")]
         public bool IsDisabled { set; get; }
 
+        [HtmlAttributeName("asp-is-member")]
+        public bool IsMember { set; get; }
+
         public PPSelectTagHelpers(IHtmlGenerator generator) : base(generator)
         {
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (IsDisabled)
+            if ((IsDisabled) || (IsMember))
             {
                 output.Attributes.SetAttribute("disabled", "disabled");
             }

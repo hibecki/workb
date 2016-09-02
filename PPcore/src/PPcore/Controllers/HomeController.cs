@@ -143,11 +143,18 @@ namespace PPcore.Controllers
                     await _scontext.SaveChangesAsync();
 
                     var returnUrl = "";
-                    if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Administrators role
+                    if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Not Administrators role
                     {
-                        returnUrl = Url.Action("Index", "members");
+                        if (roleId != "17822a90-1029-454a-b4c7-f631c9ca6c7d") //Not Member
+                        {
+                            returnUrl = Url.Action("Index", "members");
+                        }
+                        else //Is Member
+                        {
+                            returnUrl = Url.Action("DetailsPersonal", "members");
+                        }
                     }
-                    else
+                    else //Have Administrators role
                     {
                         returnUrl = Url.Action("ManageMembers", "Security");
                     }

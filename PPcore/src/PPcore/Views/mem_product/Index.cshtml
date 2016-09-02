@@ -187,7 +187,7 @@
             }
         });
     });
-    function mem_productIndex(memberId, v) {
+    @*function mem_productIndex(memberId, v) {
         $.ajax({
             type: 'get', url: '@Url.Action("Index", "mem_product")' + '?memberId=' + memberId,
         }).done(function (resp) {
@@ -252,7 +252,7 @@
 
             });
         });
-    }
+    }*@
 
     function mem_productProductDetailsAsTableList(memberId) {
         $.ajax({
@@ -410,9 +410,6 @@
             if (resp.result == "success") {
                 $('#mem_productProductDetailsAsTableListModal').modal('hide');
                 window.location.href = "@Url.Action("Index", "mem_product", new {memberId = ViewBag.memberId})";
-                @*setTimeout(function () {
-                    mem_productIndex('@ViewBag.memberId');
-                }, 200);*@
             } else {
 
             }
