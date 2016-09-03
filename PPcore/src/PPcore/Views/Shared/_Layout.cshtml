@@ -47,7 +47,7 @@
         <nav class="navbar navbar-default navbar-static-top navbar-white" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 @*<a class="navbar-brand" href="@Url.Action("Index", "members")"><img src="~/images/logo.jpg" style="height:inherit;margin-top:-15px;" /></a>*@
-                <a class="navbar-brand" href="@Url.Action("Index", "members")"><img class="center-block" src="~/images/logonew.jpg" style="margin-top:-10px;height:40px" /></a>
+                <a class="navbar-brand" href="@Url.Action("Home", "Security")"><img class="center-block" src="~/images/logonew.jpg" style="margin-top:-10px;height:40px" /></a>
             </div>
 
             @{var mainMenuByte = new Byte[8192]; if (Context.Session.TryGetValue("mainmenu", out mainMenuByte))

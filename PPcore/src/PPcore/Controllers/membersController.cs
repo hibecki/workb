@@ -992,8 +992,8 @@ namespace PPcore.Controllers
         //public IActionResult Create([Bind("member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,social_app_data,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone")] member member)
         public IActionResult Create(member member)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 member.x_status = "Y";
                 if (member.title == "0") { member.title = null; }
                 if (member.marry_status == "0") { member.marry_status = null; }
@@ -1117,10 +1117,10 @@ namespace PPcore.Controllers
                 _scontext.SaveChanges();
 
                 return RedirectToAction("Index");
-            }
+            //}
 
-            prepareViewBag();
-            return View(member);
+            //prepareViewBag();
+            //return View(member);
         }
 
         // GET: members/Edit/5

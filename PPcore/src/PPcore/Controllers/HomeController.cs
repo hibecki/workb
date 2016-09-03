@@ -155,21 +155,23 @@ namespace PPcore.Controllers
                     await _scontext.SaveChangesAsync();
 
                     var returnUrl = "";
-                    if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Not Administrators role
-                    {
-                        if (roleId != "17822a90-1029-454a-b4c7-f631c9ca6c7d") //Not Member
-                        {
-                            returnUrl = Url.Action("Index", "members");
-                        }
-                        else //Is Member
-                        {
-                            returnUrl = Url.Action("DetailsPersonal", "members");
-                        }
-                    }
-                    else //Have Administrators role
-                    {
-                        returnUrl = Url.Action("ManageMembers", "Security");
-                    }
+                    //if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Not Administrators role
+                    //{
+                    //    if (roleId != "17822a90-1029-454a-b4c7-f631c9ca6c7d") //Not Member
+                    //    {
+                    //        //returnUrl = Url.Action("Index", "members");
+                    //        returnUrl = Url.Action("DetailsPersonal", "members");
+                    //    }
+                    //    else //Is Member
+                    //    {
+                    //        returnUrl = Url.Action("DetailsPersonal", "members");
+                    //    }
+                    //}
+                    //else //Have Administrators role
+                    //{
+                    //    returnUrl = Url.Action("ManageMembers", "Security");
+                    //}
+                    returnUrl = Url.Action("Home", "Security");
                     return Json(new { result = "success", url = returnUrl });
                 }
                 else

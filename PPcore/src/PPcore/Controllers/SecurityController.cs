@@ -36,6 +36,12 @@ namespace PPcore.Controllers
         }
 
         [HttpGet]
+        public IActionResult Home()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> LogOff()
         {
             var memberId = HttpContext.Session.GetString("memberId");

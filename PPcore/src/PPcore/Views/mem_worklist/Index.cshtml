@@ -99,7 +99,7 @@
                 //$('#btnDetails').hide();
                 $('#btnBar').hide();
             }
-            $('#btnCreate').on('click', function () {
+            $('#btnCreate').off('click').on('click', function () {
                 $('#mem_worklistModalLabel').text('เพิ่มข้อมูลสถานที่ทำงานและประวัติการทำงาน');
                 $('#mem_worklistSubmit').html('บันทึก');
                 $("#rec_no").prop('disabled', false);
