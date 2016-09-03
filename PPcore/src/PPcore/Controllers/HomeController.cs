@@ -128,6 +128,18 @@ namespace PPcore.Controllers
                                     {
                                         menuTemp = "<li class='divider'></li>" + menuTemp;
                                     }
+                                    if (menu.Level == 1)
+                                    {
+                                        if (menu.IsRightAlign != 1)
+                                        {
+                                            menuLeft = menuTemp + menuLeft;
+                                        }
+                                        else
+                                        {
+                                            menuRight = menuTemp + menuRight;
+                                        }
+                                        menuTemp = "";
+                                    }
                                 }
                                 prevLevel = menu.Level;
                             }

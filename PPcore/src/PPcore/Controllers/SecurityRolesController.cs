@@ -220,7 +220,7 @@ namespace PPcore.Controllers
                     }
                     else
                     {
-                        if ((roleId == "17822a90-1029-454a-b4c7-f631c9ca6c7d") && ((menu.MenuId == 101003) || (menu.MenuId == 401007))) //Members
+                        if ((roleId == "17822a90-1029-454a-b4c7-f631c9ca6c7d") && ((menu.MenuId == 101021) || (menu.MenuId == 401071))) //Members
                         {
                             menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;color:gray' onclick='checkMenuFreeze(_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18d fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
                         }

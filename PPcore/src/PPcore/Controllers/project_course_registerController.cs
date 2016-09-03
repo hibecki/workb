@@ -96,7 +96,7 @@ namespace PPcore.Controllers
         }
 
         [HttpGet]
-        public IActionResult DetailsAsTableMember(string course_code)
+        public IActionResult DetailsAsTableMember(string course_code, string v)
         {
             var ps = _context.project_course_register.Where(pp => pp.course_code == course_code).OrderBy(pp => pp.member_code).ToList();
 
@@ -109,6 +109,7 @@ namespace PPcore.Controllers
                 r.course_grade = p.course_grade;
                 rs.Add(r);
             }
+            if (!String.IsNullOrEmpty(v)) { ViewBag.IsDetails = true; } else { ViewBag.IsDetails = false; }
             return View(rs);
         }
 

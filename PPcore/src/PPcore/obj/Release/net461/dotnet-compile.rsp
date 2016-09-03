@@ -255,6 +255,7 @@ D:\workb\PPcore\src\PPcore\Controllers\train_placeController.cs
 D:\workb\PPcore\src\PPcore\Controllers\videosController.cs
 D:\workb\PPcore\src\PPcore\Filters\AuthorizationPPFilter.cs
 D:\workb\PPcore\src\PPcore\Helpers\HtmlHelpers.cs
+D:\workb\PPcore\src\PPcore\Helpers\TagHelpers.cs
 D:\workb\PPcore\src\PPcore\Helpers\Utils.cs
 D:\workb\PPcore\src\PPcore\Models\album.cs
 D:\workb\PPcore\src\PPcore\Models\course_grade.cs
@@ -309,6 +310,7 @@ D:\workb\PPcore\src\PPcore\ViewModels\mem_product\mem_productViewModel.cs
 D:\workb\PPcore\src\PPcore\ViewModels\mem_site_visit\mem_site_visitViewModel.cs
 D:\workb\PPcore\src\PPcore\ViewModels\mem_train_record\mem_train_recordViewModel.cs
 D:\workb\PPcore\src\PPcore\ViewModels\project\project_supporterViewModel.cs
+D:\workb\PPcore\src\PPcore\ViewModels\project_course_register\memberRegisterViewModel.cs
 D:\workb\PPcore\src\PPcore\ViewModels\project_course_register\memberViewModel.cs
 D:\workb\PPcore\src\PPcore\ViewModels\project_daily_checklist\memberViewModel.cs
 D:\workb\PPcore\src\PPcore\ViewModels\project_supporter\project_sponsorViewModel.cs
