@@ -1425,9 +1425,48 @@ namespace PPcore.Controllers
         [HttpGet]
         public IActionResult SecurityDetailsAsTable(string roleId)
         {
-            var ms = _context.member.Where(mss => mss.mem_role_id == new Guid(roleId)).OrderBy(mss => mss.mem_username).ToList();
+            //var ms = _context.member.Where(mss => mss.mem_role_id == new Guid(roleId)).OrderBy(mss => mss.mem_username).ToList();
+            //List<PPcore.ViewModels.member.SecurityMemberRolesViewModel> mvs = new List<ViewModels.member.SecurityMemberRolesViewModel>();
+            //foreach (member mem in ms)
+            //{
+            //    PPcore.ViewModels.member.SecurityMemberRolesViewModel mv = new PPcore.ViewModels.member.SecurityMemberRolesViewModel();
+            //    mv.memberId = mem.id;
+            //    mv.mem_username = mem.mem_username;
+            //    mv.displayname = (mem.fname + " " + mem.lname).Trim();
+
+            //    var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == mem.id);
+
+            //    mv.email = mem.email;
+            //    mv.LoggedInDate = smr.LoggedInDate;
+            //    mv.LoggedOutDate = smr.LoggedOutDate;
+            //    mv.CreatedDate = smr.CreatedDate;
+            //    mv.CreatedBy = smr.CreatedBy;
+            //    mv.EditedDate = smr.EditedDate;
+            //    mv.EditedBy = smr.EditedBy;
+            //    mv.Status = smr.x_status;
+
+
+            //    var mc = _context.member.SingleOrDefault(mcc => mcc.id == mv.CreatedBy);
+            //    if (mc != null) {
+            //        //mv.CreatedByUserName = (mc.fname + " " + mc.lname).Trim();
+            //        mv.CreatedByUserName = mc.mem_username;
+            //    } else { mv.CreatedByUserName = ""; }
+                
+
+            //    var me = _context.member.SingleOrDefault(mee => mee.id == mv.EditedBy);
+            //    if (me != null) {
+            //        //mv.EditedByUserName = (me.fname + " " + me.lname).Trim();
+            //        mv.EditedByUserName = me.mem_username;
+            //    } else { mv.EditedByUserName = ""; }
+
+            //    mvs.Add(mv);
+            //}
+
+            var ms = _context.member.Where(mss => mss.mem_role_id == new Guid(roleId))
+                .Select(mss => new { mss.id, mss.mem_username, mss.fname, mss.lname, mss.email })
+                .OrderBy(mss => mss.mem_username).ToArray();
             List<PPcore.ViewModels.member.SecurityMemberRolesViewModel> mvs = new List<ViewModels.member.SecurityMemberRolesViewModel>();
-            foreach (member mem in ms)
+            foreach (var mem in ms)
             {
                 PPcore.ViewModels.member.SecurityMemberRolesViewModel mv = new PPcore.ViewModels.member.SecurityMemberRolesViewModel();
                 mv.memberId = mem.id;
@@ -1447,17 +1486,21 @@ namespace PPcore.Controllers
 
 
                 var mc = _context.member.SingleOrDefault(mcc => mcc.id == mv.CreatedBy);
-                if (mc != null) {
+                if (mc != null)
+                {
                     //mv.CreatedByUserName = (mc.fname + " " + mc.lname).Trim();
                     mv.CreatedByUserName = mc.mem_username;
-                } else { mv.CreatedByUserName = ""; }
-                
+                }
+                else { mv.CreatedByUserName = ""; }
+
 
                 var me = _context.member.SingleOrDefault(mee => mee.id == mv.EditedBy);
-                if (me != null) {
+                if (me != null)
+                {
                     //mv.EditedByUserName = (me.fname + " " + me.lname).Trim();
                     mv.EditedByUserName = me.mem_username;
-                } else { mv.EditedByUserName = ""; }
+                }
+                else { mv.EditedByUserName = ""; }
 
                 mvs.Add(mv);
             }

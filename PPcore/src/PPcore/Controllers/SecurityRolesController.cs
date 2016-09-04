@@ -226,13 +226,20 @@ namespace PPcore.Controllers
                         }
                         else
                         {
-                            if (rmsstring.IndexOf(menu.MenuId.ToString()) != -1)
+                            if ((menu.MenuId != 101021) && (menu.MenuId != 401071))
                             {
-                                menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                                if (rmsstring.IndexOf(menu.MenuId.ToString()) != -1)
+                                {
+                                    menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-check' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-check-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                                }
+                                else
+                                {
+                                    menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-uncheck' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                                }
                             }
                             else
                             {
-                                menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-uncheck' style='margin-left:" + leftgap + "px;' onclick='checkMenu(" + menu.MenuId + ",_parentMenuId_)'><i id='menucb-" + menu.MenuId + "' class='cb-size-18 fa fa-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
+                                menuHtmlCB = "<div id='menu-" + menu.MenuId + "' class='rolemanage-cb-uncheck' style='margin-left:" + leftgap + "px;color:gray' ><i id='menucb-" + menu.MenuId + "' class='cb-size-18d fa fa-square-o'></i>&nbsp;&nbsp;" + menu.MenuName + "</div>" + menuHtmlCB;
                             }
                         }
                     }
