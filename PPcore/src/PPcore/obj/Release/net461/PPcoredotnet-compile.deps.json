@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETFramework,Version=v4.6.1/",
-    "signature": "be09f4192ef0ddd3b71825e86985e2106909aedd"
+    "signature": "57e5d61abfc91ef2513b5203d5cfdc1346d27aa1"
   },
   "compilationOptions": {
     "defines": [
@@ -37,14 +37,14 @@
           "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
           "Microsoft.AspNet.WebApi.Client": "5.2.3",
           "Microsoft.AspNetCore.Session": "1.0.0",
-          "BundlerMinifier.Core": "2.2.281",
+          "BundlerMinifier.Core": "2.1.258",
           "Microsoft.Extensions.Caching.Memory": "1.0.0"
         },
         "compile": {
           "PPcore.exe": {}
         }
       },
-      "BundlerMinifier.Core/2.2.281": {
+      "BundlerMinifier.Core/2.1.258": {
         "dependencies": {
           "NUglify": "1.5.1",
           "Newtonsoft.Json": "9.0.1"
@@ -1524,14 +1524,14 @@
           "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
           "Microsoft.AspNet.WebApi.Client": "5.2.3",
           "Microsoft.AspNetCore.Session": "1.0.0",
-          "BundlerMinifier.Core": "2.2.281",
+          "BundlerMinifier.Core": "2.1.258",
           "Microsoft.Extensions.Caching.Memory": "1.0.0"
         },
         "runtime": {
           "PPcore.exe": {}
         }
       },
-      "BundlerMinifier.Core/2.2.281": {
+      "BundlerMinifier.Core/2.1.258": {
         "dependencies": {
           "NUglify": "1.5.1",
           "Newtonsoft.Json": "9.0.1"
@@ -2817,10 +2817,10 @@
       "serviceable": false,
       "sha512": ""
     },
-    "BundlerMinifier.Core/2.2.281": {
+    "BundlerMinifier.Core/2.1.258": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-cUiOJT4rjubD9tOsLo0ruPqfLEy5GUByj9JZ2fVlU5uR4QYTIN//BpeQfsmBwIU/GWrpVJqYsyX474Bm0U3XHQ=="
+      "sha512": "sha512-dHTcSnKRM2Dvk1s2eCLU8U1WCxLlfk4y0GQlBUFaHaLt1NN1JhxJeDhhVo6jqKhHZsBaY7Cz04UYuKrKSwItZQ=="
     },
     "iTextSharp/5.5.9": {
       "type": "package",
