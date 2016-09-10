@@ -131,7 +131,7 @@
         });
         function aDetailsAsBlock() {
             $.ajax({
-                type: 'get', url: '@Url.Action("DetailsAsBlock", "SecurityRoles")',
+                type: 'get', url: '@Url.Action("DetailsAsBlock", "SecurityRoles")?_=' + new Date().getTime(),
             }).done(function (resp) {
                 $('#a_row').html(resp);
             });
