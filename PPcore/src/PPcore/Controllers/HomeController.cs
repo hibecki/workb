@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Net.Http.Headers;
 
 namespace PPcore.Controllers
 {
@@ -311,6 +313,70 @@ namespace PPcore.Controllers
 
             return Json(new { result = "success" });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> uploadMemPhoto(ICollection<IFormFile> fileMemPhoto)
+        {
+            var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);
+            var filePrefix = DateTime.Now.ToString("ddhhmmss") + "_";
+            var fileName = ""; var fileExt = "";
+            foreach (var file in fileMemPhoto)
+            {
+                if (file.Length > 0)
+                {
+                    fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    fileExt = Path.GetExtension(fileName);
+
+                    //fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length))) + fileExt;
+                    //fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length)));
+
+                    fileName = fileName.Substring(0, fileName.Length - fileExt.Length);
+                    fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length))) + fileExt;
+
+                    using (var SourceStream = file.OpenReadStream())
+                    {
+                        using (var fileStream = new FileStream(Path.Combine(uploads, filePrefix + fileName), FileMode.Create))
+                        {
+                            await SourceStream.CopyToAsync(fileStream);
+                        }
+                    }
+                }
+            }
+            return Json(new { result = "success", uploads = uploads, fileName = filePrefix + fileName });
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> uploadCidCardPhoto(ICollection<IFormFile> fileCidCardPhoto)
+        {
+            var uploads = Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value);
+            var filePrefix = DateTime.Now.ToString("ddhhmmss") + "_";
+            var fileName = ""; var fileExt = "";
+
+            foreach (var file in fileCidCardPhoto)
+            {
+                if (file.Length > 0)
+                {
+                    fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    fileExt = Path.GetExtension(fileName);
+                    //fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length))) + fileExt;
+                    //fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length)));
+
+                    fileName = fileName.Substring(0, fileName.Length - fileExt.Length);
+                    fileName = fileName.Substring(0, (fileName.Length <= (50 - fileExt.Length) ? fileName.Length : (50 - fileExt.Length))) + fileExt;
+
+                    using (var SourceStream = file.OpenReadStream())
+                    {
+                        using (var fileStream = new FileStream(Path.Combine(uploads, filePrefix + fileName), FileMode.Create))
+                        {
+                            await SourceStream.CopyToAsync(fileStream);
+                        }
+                    }
+                }
+            }
+            return Json(new { result = "success", uploads = uploads, fileName = filePrefix + fileName });
+        }
+
 
         [HttpPost]
         public IActionResult ForgetPwd(string uname, string upwd)

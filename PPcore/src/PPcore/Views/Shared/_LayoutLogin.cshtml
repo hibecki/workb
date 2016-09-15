@@ -177,7 +177,7 @@
                     var formData = new FormData();
                     formData.append("fileMemPhoto", $('#fileMemPhoto')[0].files[0]);
                     $.ajax({
-                        type: 'post', url: '@Url.Action("uploadMemPhoto", "members")',
+                        type: 'post', url: '@Url.Action("uploadMemPhoto", "Home")',
                         data: formData, processData: false, contentType: false,
                     }).done(function (resp) {
                         var result = resp.result; var fileName = resp.fileName;
@@ -194,7 +194,7 @@
                     var formData = new FormData();
                     formData.append("fileCidCardPhoto", $('#fileCidCardPhoto')[0].files[0]);
                     $.ajax({
-                        type: 'post', url: '@Url.Action("uploadCidCardPhoto", "members")',
+                        type: 'post', url: '@Url.Action("uploadCidCardPhoto", "Home")',
                         data: formData, processData: false, contentType: false,
                     }).done(function (resp) {
                         var result = resp.result; var fileName = resp.fileName;
