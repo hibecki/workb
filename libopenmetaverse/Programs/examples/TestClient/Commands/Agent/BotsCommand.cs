@@ -4,20 +4,20 @@ using System.Text;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
 
-namespace OpenMetaverse.TestClient
+namespace SnowWhite.Huntsman
 {
     public class BotsCommand : Command
     {
         private Dictionary<UUID, bool> m_AgentList = new Dictionary<UUID, bool>();
 
-        public BotsCommand(TestClient testClient)
+        public BotsCommand(Huntsman huntsman)
         {
             Name = "bots";
             Description = "detects avatars that appear to be bots.";
-            Category = CommandCategory.Other;        
-            testClient.Avatars.ViewerEffect += new EventHandler<ViewerEffectEventArgs>(Avatars_ViewerEffect);
-            testClient.Avatars.ViewerEffectLookAt += new EventHandler<ViewerEffectLookAtEventArgs>(Avatars_ViewerEffectLookAt);
-            testClient.Avatars.ViewerEffectPointAt += new EventHandler<ViewerEffectPointAtEventArgs>(Avatars_ViewerEffectPointAt);
+            Category = CommandCategory.Other;
+            huntsman.Avatars.ViewerEffect += new EventHandler<ViewerEffectEventArgs>(Avatars_ViewerEffect);
+            huntsman.Avatars.ViewerEffectLookAt += new EventHandler<ViewerEffectLookAtEventArgs>(Avatars_ViewerEffectLookAt);
+            huntsman.Avatars.ViewerEffectPointAt += new EventHandler<ViewerEffectPointAtEventArgs>(Avatars_ViewerEffectPointAt);
         }
         
         private void Avatars_ViewerEffectPointAt(object sender, ViewerEffectPointAtEventArgs e)

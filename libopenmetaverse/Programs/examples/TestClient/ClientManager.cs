@@ -6,7 +6,7 @@ using System.Threading;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
 
-namespace OpenMetaverse.TestClient
+namespace SnowWhite.Huntsman
 {
     public class LoginDetails
     {
@@ -43,7 +43,7 @@ namespace OpenMetaverse.TestClient
         class Singleton { internal static readonly ClientManager Instance = new ClientManager(); }
         public static ClientManager Instance { get { return Singleton.Instance; } }
 
-        public Dictionary<UUID, TestClient> Clients = new Dictionary<UUID, TestClient>();
+        public Dictionary<UUID, Huntsman> Clients = new Dictionary<UUID, Huntsman>();
         public Dictionary<Simulator, Dictionary<uint, Primitive>> SimPrims = new Dictionary<Simulator, Dictionary<uint, Primitive>>();
 
         public bool Running = true;
@@ -63,7 +63,7 @@ namespace OpenMetaverse.TestClient
                 Login(account);
         }
 
-        public TestClient Login(string[] args)
+        public Huntsman Login(string[] args)
         {
             if (args.Length < 3)
             {
@@ -113,10 +113,10 @@ namespace OpenMetaverse.TestClient
             return Login(account);
         }
 
-        public TestClient Login(LoginDetails account)
+        public Huntsman Login(LoginDetails account)
         {
             // Check if this client is already logged in
-            foreach (TestClient c in Clients.Values)
+            foreach (Huntsman c in Clients.Values)
             {
                 if (c.Self.FirstName == account.FirstName && c.Self.LastName == account.LastName)
                 {
@@ -127,7 +127,7 @@ namespace OpenMetaverse.TestClient
 
             ++PendingLogins;
 
-            TestClient client = new TestClient(this);
+            Huntsman client = new Huntsman(this);
             client.Network.LoginProgress +=
                 delegate(object sender, LoginProgressEventArgs e)
                 {
@@ -184,7 +184,7 @@ namespace OpenMetaverse.TestClient
             client.AllowObjectMaster = client.MasterKey != UUID.Zero; // Require UUID for object master.
 
             LoginParams loginParams = client.Network.DefaultLoginParams(
-                    account.FirstName, account.LastName, account.Password, "TestClient", VERSION);
+                    account.FirstName, account.LastName, account.Password, "Huntsman", VERSION);
 
             if (!String.IsNullOrEmpty(account.StartLocation))
                 loginParams.Start = account.StartLocation;
@@ -263,7 +263,7 @@ namespace OpenMetaverse.TestClient
                 if (tokens.Length == 3) {
                     bool found = false;
                     onlyAvatar = tokens[1]+" "+tokens[2];
-                    foreach (TestClient client in Clients.Values) {
+                    foreach (Huntsman client in Clients.Values) {
                         if ((client.ToString() == onlyAvatar) && (client.Network.Connected)) {
                             found = true;
                             break;
@@ -297,7 +297,7 @@ namespace OpenMetaverse.TestClient
             {
                 if (Clients.Count > 0)
                 {
-                    foreach (TestClient client in Clients.Values)
+                    foreach (Huntsman client in Clients.Values)
                     {
                         Console.WriteLine(client.Commands["help"].Execute(args, UUID.Zero));
                         break;
@@ -330,26 +330,26 @@ namespace OpenMetaverse.TestClient
             else
             {
                 // Make an immutable copy of the Clients dictionary to safely iterate over
-                Dictionary<UUID, TestClient> clientsCopy = new Dictionary<UUID, TestClient>(Clients);
+                Dictionary<UUID, Huntsman> clientsCopy = new Dictionary<UUID, Huntsman>(Clients);
 
                 int completed = 0;
 
-                foreach (TestClient client in clientsCopy.Values)
+                foreach (Huntsman client in clientsCopy.Values)
                 {
                     ThreadPool.QueueUserWorkItem((WaitCallback)
                         delegate(object state)
                         {
-                            TestClient testClient = (TestClient)state;
-                            if ((String.Empty == onlyAvatar) || (testClient.ToString() == onlyAvatar)) {
-                                if (testClient.Commands.ContainsKey(firstToken)) {
+                            Huntsman Huntsman = (Huntsman)state;
+                            if ((String.Empty == onlyAvatar) || (Huntsman.ToString() == onlyAvatar)) {
+                                if (Huntsman.Commands.ContainsKey(firstToken)) {
                                     string result;
                                     try {
-                                        result = testClient.Commands[firstToken].Execute(args, fromAgentID);
-                                        Logger.Log(result, Helpers.LogLevel.Info, testClient);
+                                        result = Huntsman.Commands[firstToken].Execute(args, fromAgentID);
+                                        Logger.Log(result, Helpers.LogLevel.Info, Huntsman);
                                     } catch(Exception e) {
                                         Logger.Log(String.Format("{0} raised exception {1}", firstToken, e),
                                                    Helpers.LogLevel.Error,
-                                                   testClient);
+                                                   Huntsman);
                                     }
                                 } else
                                     Logger.Log("Unknown command " + firstToken, Helpers.LogLevel.Warning);
@@ -369,7 +369,7 @@ namespace OpenMetaverse.TestClient
         /// 
         /// </summary>
         /// <param name="client"></param>
-        public void Logout(TestClient client)
+        public void Logout(Huntsman client)
         {
             Clients.Remove(client.Self.AgentID);
             client.Network.Logout();
