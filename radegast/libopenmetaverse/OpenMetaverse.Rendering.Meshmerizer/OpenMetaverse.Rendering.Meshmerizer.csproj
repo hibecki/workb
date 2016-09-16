@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4878932C-B431-FED6-3D91-18B1A949B446}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenMetaverse.Rendering</RootNamespace>
+    <AssemblyName>OpenMetaverse.Rendering.Meshmerizer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <BaseIntermediateOutputPath>obj\x86\Debug\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;SMARTHREADPOOL_REF</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <BaseIntermediateOutputPath>obj\x86\Release\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <DefineConstants>TRACE;SMARTHREADPOOL_REF</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="PrimMesher">
+      <HintPath>..\bin\PrimMesher.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenMetaverse\OpenMetaverse.csproj">
+      <Project>{A38585BB-0F46-01F2-D880-4A6F440046CE}</Project>
+      <Name>OpenMetaverse</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenMetaverseTypes\OpenMetaverseTypes.csproj">
+      <Project>{98D12D77-84B5-EECC-ED15-E91FD918D94E}</Project>
+      <Name>OpenMetaverseTypes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
