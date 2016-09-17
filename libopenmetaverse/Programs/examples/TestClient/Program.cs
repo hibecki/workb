@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using CommandLine.Utility;
 
-namespace SnowWhite.Huntsman
+namespace OpenMetaverse.TestClient
 {
     public class CommandLineArgumentsException : Exception
     {

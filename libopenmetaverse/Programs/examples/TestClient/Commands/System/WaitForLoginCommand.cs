@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using OpenMetaverse;
 
-namespace SnowWhite.Huntsman
+namespace OpenMetaverse.TestClient
 {
     public class WaitForLoginCommand : Command
     {
-        public WaitForLoginCommand(Huntsman testClient)
+        public WaitForLoginCommand(TestClient testClient)
         {
             Name = "waitforlogin";
             Description = "Waits until all bots that are currently attempting to login have succeeded or failed";

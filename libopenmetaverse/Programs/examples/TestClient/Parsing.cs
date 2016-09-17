@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SnowWhite.Huntsman
+namespace OpenMetaverse.TestClient
 {
     class Parsing
     {

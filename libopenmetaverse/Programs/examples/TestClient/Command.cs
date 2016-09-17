@@ -4,7 +4,7 @@ using System.Text;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
 
-namespace SnowWhite.Huntsman
+namespace OpenMetaverse.TestClient
 {
     public enum CommandCategory : int
     {
@@ -30,7 +30,7 @@ namespace SnowWhite.Huntsman
 		public string Description;
         public CommandCategory Category;
 
-		public Huntsman Client;
+		public TestClient Client;
 
 		public abstract string Execute(string[] args, UUID fromAgentID);
 

@@ -2,11 +2,11 @@ using System;
 using System.IO;
 using OpenMetaverse;
 
-namespace SnowWhite.Huntsman
+namespace OpenMetaverse.TestClient
 {
     public class ScriptCommand : Command
     {
-        public ScriptCommand(Huntsman testClient)
+        public ScriptCommand(TestClient testClient)
         {
             Name = "script";
             Description = "Reads TestClient commands from a file. One command per line, arguments separated by spaces. Usage: script [filename]";
